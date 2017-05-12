@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+	
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">系统管理</a></li>
+				<li><a href="#">授权管理</a></li>
+			</ul>
+		</div>
+		
+		<div class="rightinfo">
+			<h:form id="search">
+				<ul class="seachform">
+					<li><h:outputLabel value="授权用户ID：" /> <h:inputText
+							styleClass="scinput" value="#{grantUserManageBean.searchGrantUserVO.grantUserId}" /></li>
+					<li><h:outputLabel value="被授权用户ID：" /> <h:inputText
+							styleClass="scinput" value="#{grantUserManageBean.searchGrantUserVO.grantedUserId}" /></li>
+					<li><label>&nbsp;<p:commandButton id="refresh" styleClass="refresh" style="display: none;"
+								action="#{grantUserManageBean.refresh}" update="dataTable"></p:commandButton></label> <p:commandButton value="搜索"
+							action="#{grantUserManageBean.searchGrantUser}" styleClass="scbtn"
+							image="ui-icon ui-icon-search" update="dataTable"></p:commandButton></li>
+				</ul>
+				
+				<p:growl globalOnly="true" autoUpdate="true"></p:growl>
+				<div class="tools">
+					<ul class="toolbar">
+						<li><p:commandLink id="addInfo" oncomplete="showWindow('#{request.contextPath}/pages/common/grantUserAdd.jsf?operateFlag=add','授权新增');" action="#{grantUserManageBean.operate}">
+						<f:param name="operateFlag" value="add" /><span><img src="#{request.contextPath}/images/t01.png" /></span>添加</p:commandLink></li>
+						<li><p:commandLink id="editInfo" oncomplete="showWindow('#{request.contextPath}/pages/common/grantUserAdd.jsf?operateFlag=edit','授权修改');" action="#{grantUserManageBean.operate}" onclick="if(!$('.ui-state-highlight').text()){alert('请选择一条记录');return false;}">
+						<f:param name="operateFlag" value="edit" /><span><img src="#{request.contextPath}/images/t02.png" /></span>修改</p:commandLink></li>
+						<li><p:commandLink id="delInfo" update="dataTable" action="#{grantUserManageBean.operate}" onclick="if(!$('.ui-state-highlight').text()){alert('请选择一条记录');return false;}else{if(!confirm('是否确定删除？')){return false;}}">
+						<f:param name="operateFlag" value="delete" /><span><img src="#{request.contextPath}/images/t03.png" /></span>删除</p:commandLink></li>
+					</ul>
+				</div>
+				
+				<p:dataTable value="#{grantUserManageBean.grantUserList}" var="grant"
+					rows="10" paginatorAlwaysVisible="false" id="dataTable"
+					paginatorPosition="bottom" lazy="true" emptyMessage="暂无数据"
+					paginator="true" rowsPerPageTemplate="5,10,15,20"  binding="#{grantUserManageBean.dataTable}" 
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					selection="#{grantUserManageBean.selectGrantUser}">
+					<p:column selectionMode="single" />
+					<p:column headerText="授权用户ID">
+						<h:outputText value="#{grant.grantUserId}" />
+					</p:column>
+					<p:column headerText="被授权用户ID">
+						<h:outputText value="#{grant.grantedUserId}" />
+					</p:column>
+					<p:column headerText="流程名称">
+						<h:outputText value="#{grant.flowKey}" />
+					</p:column>
+					<p:column headerText="开始时间">
+						<h:outputText value="#{grant.startDate}" />
+					</p:column>
+					<p:column headerText="结束时间">
+						<h:outputText value="#{grant.endDate}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+		
+		<p:dialog widgetVar="mainDialog" width="650" height="430" modal="true">
+			<f:facet name="header">
+				<h:outputText id="mainDialogTitle" value="授权管理" />
+			</f:facet>
+			<iframe id="mainFrameHidden" width="100%" height="100%"
+				name="mainFrameHidden" scrolling="no" src="" frameborder="0">
+			</iframe>
+		</p:dialog>
+		
+	</ui:define>
+</ui:composition>
+
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<script type="text/javascript">
+			$(document).ready(function(e) {
+				$(".select1").uedSelect({
+					width : 152
+				});
+			});
+		</script>
+		<div class="formbody">
+			<h:form id="form">
+				<p:growl globalOnly="true"></p:growl>
+				<ul class="forminfo" style="width:900px">
+					<li><label>所属部门</label> <h:inputText id="deptStrs"
+							style="width:300px;" readonly="true" required="true"
+							requiredMessage="部门不能为空" value="#{userAddBean.deptStrs}"
+							styleClass="dfinput"></h:inputText> <h:inputHidden
+							id="deptIdStrs" value="#{userAddBean.deptIdStrs}"></h:inputHidden>
+						<h:commandButton style="margin-left: 10px;" type="button"
+							class="scbtn" rendered="#{userAddBean.operateFlag != 'view'}"
+							value="选择部门" onclick="deptTree.show()" /></li>
+					<li><label>角色</label> <h:inputText id="roleStrs"
+							style="width:300px;" readonly="true" required="true"
+							requiredMessage="角色不能为空" value="#{userAddBean.roleStrs}"
+							styleClass="dfinput"></h:inputText> <h:inputHidden
+							id="roleIdStrs" value="#{userAddBean.roleIdStrs}"></h:inputHidden>
+						<h:commandButton style="margin-left: 10px;" type="button"
+							class="scbtn" rendered="#{userAddBean.operateFlag != 'view'}"
+							value="选择角色" onclick="roleDialog.show()" /></li>
+					<li style="clear: both;float: left;"><label>用户名</label> 
+							<h:inputText id="userName" value="#{userAddBean.user.userName}" maxlength="32" validatorMessage="用户名不能有特殊字符"
+								styleClass="scinput" required="true" requiredMessage="用户名不能为空" label="用户名">
+								<f:validateLength minimum="2"/>
+								<f:validateRegex pattern="^[a-zA-Z0-9_\u4e00-\u9fa5]+$" />
+								<p:ajax event="blur" update="userNameMsg" />
+							</h:inputText>
+						</li>
+					<li style="clear: right;"><label>登陆名</label> <h:panelGrid columns="2">
+							<h:inputText id="userCode" value="#{userAddBean.user.userCode}"
+								styleClass="scinput"  maxlength="32" validatorMessage="登陆名必需是字母或数字或下划线等组成！"
+								disabled="#{userAddBean.operateFlag != 'add'}" required="true"
+								validator="#{userAddBean.checkUserCode}"  requiredMessage="登陆名不能为空" label="登录名"
+								readonly="#{userAddBean.operateFlag != 'add'}">
+								<f:validateRegex pattern="^[a-zA-Z0-9_]+$" />
+								<p:ajax event="blur" update="userCodeMsg" />
+							</h:inputText>
+							<p:message for="userCode" display="icon" id="userCodeMsg"></p:message>
+						</h:panelGrid></li>
+					<li style="clear: none;float: left"><label>出生日期</label> <h:inputText
+							value="#{userAddBean.user.birthDate}" onclick="WdatePicker();"
+							styleClass="scinput">
+							<f:convertDateTime pattern="yyyy-MM-dd"></f:convertDateTime>
+						</h:inputText></li>
+					<li style="clear: none;"><label>身份证</label> <h:inputText
+							styleClass="scinput" value="#{userAddBean.user.cardid}" maxlength="20" required="true"
+							requiredMessage="身份证不能为空" validatorMessage="身份证不能有特殊字符">
+							<f:validateRegex pattern="^[a-zA-Z0-9]+$" /></h:inputText></li>
+					<li style="clear: none; float: left"><label>联系电话</label> <h:inputText
+							styleClass="scinput" value="#{userAddBean.user.tel}" validatorMessage="联系电话必须为纯数字">
+							<f:validateRegex pattern="^[a-zA-Z0-9]+$" /></h:inputText></li>
+					<li style="clear: right"><label>电子邮箱</label> <h:panelGrid columns="2">
+							<h:inputText id="email" value="#{userAddBean.user.email}" required="true"
+								styleClass="scinput" requiredMessage="邮箱不能为空" validatorMessage="邮箱校验失败"> 
+								<f:validateRegex pattern="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" for="email"></f:validateRegex>
+								<p:ajax event="blur" update="emailMsg" />
+							</h:inputText>
+							<p:message id="emailMsg" for="email" display="icon"></p:message>
+						</h:panelGrid></li>
+					<li style="clear: none; margin-right: 20px;"><label>性别</label>
+						<div class="vocation">
+							<h:selectOneMenu value="#{userAddBean.user.sex}"
+								styleClass="select1">
+								<f:selectItem itemLabel="请选择" itemValue="" />
+								<f:selectItems value="#{fn:getSelectItems('sex')}"></f:selectItems>
+							</h:selectOneMenu>
+						</div></li>
+					<li><label>&nbsp;</label> <p:commandButton styleClass="btn"
+							value="保存" action="#{userAddBean.save}" oncomplete="refreshParent();"
+							rendered="#{userAddBean.operateFlag != 'view'}"></p:commandButton>&nbsp;&nbsp;
+						<p:commandButton styleClass="btn" value="关闭" type="button"
+							onclick="closeParMainDialog();"></p:commandButton></li>
+
+				</ul>
+			</h:form>
+
+			<p:dialog widgetVar="deptTree" width="300" height="300" modal="true">
+				<f:facet name="header">
+					<h:outputText value="部门信息" />
+				</f:facet>
+				<h:form>
+					<div style="width: 100%; text-align: center;">
+						<p:commandButton action="#{userAddBean.clearAll}" value="清除选择"
+							styleClass="scbtn"
+							update=":form:deptStrs :form:deptIdStrs :form:roleStrs :form:roleIdStrs deptTree :roleForm:roleList"></p:commandButton>
+					</div>
+					<p:growl autoUpdate="true"></p:growl>
+					<p:tree value="#{userAddBean.allDept}" var="node" id="deptTree"
+						style="width:170px;border:0px;" selectionMode="single"
+						selection="#{userAddBean.selectedDept}">
+						<p:ajax event="select"
+							update=":form:deptStrs :form:deptIdStrs deptTree :roleForm:roleList"
+							listener="#{userAddBean.onDeptSelect}"
+							oncomplete="deptTree.hide()" />
+						<p:treeNode>
+							<h:outputLabel value="#{node.deptName}"></h:outputLabel>
+						</p:treeNode>
+					</p:tree>
+				</h:form>
+			</p:dialog>
+
+			<p:dialog widgetVar="roleDialog" width="500" height="300" modal="true">
+				<f:facet name="header">
+					<h:outputText value="角色信息" />
+				</f:facet>
+				<h:form id="roleForm">
+					<p:growl autoUpdate="true"></p:growl>
+					<p:pickList id="roleList" value="#{userAddBean.roleListModel}"
+						var="role" itemLabel="#{role.roleName}" converter="roleConverter"
+						itemValue="#{role.roleId}_$_#{role.roleCode}_$_#{role.roleName}"
+						addLabel="添加" addAllLabel="全部添加" removeLabel="移除"
+						removeAllLabel="全部移除" />
+
+					<div style="width: 100%; text-align: center;margin-top: 10px;">
+						<p:commandButton styleClass="scbtn"
+							onclick="roleDialog.hide();"  value="关闭"></p:commandButton>
+						<p:commandButton styleClass="scbtn"
+							oncomplete="roleDialog.hide();"
+							update=":form:roleIdStrs :form:roleStrs"
+							action="#{userAddBean.selectRole}" value="确认"></p:commandButton>
+					</div>
+				</h:form>
+			</p:dialog>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

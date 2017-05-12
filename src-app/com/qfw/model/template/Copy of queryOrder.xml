@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"  ?>
+<root>
+	<merCode></merCode>
+	<beginDate></beginDate>
+	<endDate></endDate>
+	<resultCount></resultCount>
+	<pageIndex></pageIndex>
+	<pageSize></pageSize>
+	<resultCode></resultCode>
+	<list>
+		<orderNumber>122221331</orderNumber>
+		<orderDate>2012-12-18 15:36:08</orderDate>
+		<orderAmount>10000.0</orderAmount>
+		<orderStatus>1</orderStatus>
+		<gouduiStatus>1</gouduiStatus>
+	</list>
+	<list>
+		<orderNumber>122221331</orderNumber>
+		<orderDate>2012-12-18 15:36:08</orderDate>
+		<orderAmount>10000.0</orderAmount>
+		<orderStatus>1</orderStatus>
+		<gouduiStatus>1</gouduiStatus>
+	</list>
+</root>

@@ -1,0 +1,44 @@
+@charset "utf-8";
+/* CSS Document */
+
+*{ margin:0; padding:0; border:0}
+body{ font-size:14px; font-family:"微软雅黑"; line-height:24px;color:#333;}
+a{ text-decoration:none; color:#000; }
+span,i,a,input{ display:inline-block}
+ul{ list-style-type:none}
+input:focus { outline:none;}
+.table{float:left;width:100%;}
+nav{float:left;height:75px;line-height:75px;font-size:24px;width:100%;}
+nav span{float:left;height:75px;line-height:75px;font-size:24px;width:50%;text-align:center;border-bottom:2px solid #ccc;}
+nav .span{border-bottom:2px solid #18b3fc;color:#18b3fc;}
+.input{margin-top:15px;background:#fff;border:1px solid #cecece;border-radius:5px;line-height:55px;height:55px;float:left;width:94%;margin-left:3%;}
+.input button{float:right;width:30%;color:#fff;height:35px;background:#00a9fb;border-radius:5px;  margin-top: 10px;margin-right:3%;}
+.input span{float:left;width:20%;height:25px;margin-top:15px;line-height:25px;text-align:center;border-right:1px solid #ccc;}
+.input input{float:left;width:60%;margin-left:3%;line-hieght:25px;height:25px;margin-top:15px;}
+.input input::-webkit-input-placeholder { 
+color: #999; 
+-webkit-transition: color.5s; 
+} 
+.input input:focus::-webkit-input-placeholder, input:hover::-webkit-input-placeholder { 
+color: #c1c1c1; 
+-webkit-transition: color.5s; 
+}
+.agreement{float:left;width:94%;margin-left:3%;margin-top:15px;}
+.agreement input{float:left;margin-top:5px;}
+.agreement a{float:left;color:#0a81b2;margin-left:5px;}
+.agreement span{float:left;margin-left:5px;}
+
+.submit{width:94%;margin-top:15px;height:50px;line-height:45px;background:#ffb23f;color:#fff;border-radius:5px;margin-left:3%;}
+.submit1{width:94%;margin-top:15px;height:45px;line-height:45px;background:#ffbd0b;color:#fff;border-radius:5px;margin-left:3%;}
+.submit2{width:90%;margin-top:116px;font-size:18px;height:45px;line-height:45px;background:#ffb23f;color:#fff;border-radius:5px;margin-left:5%;}
+
+
+.red_input{margin-top:15px;background:#fff;border:1px solid #cecece;border-radius:5px;line-height:55px;height:55px;float:left;width:91%;margin-left:5%;}
+.red_input button{float:right;width:30%;color:#fff;height:35px;background:#FA9600;border-radius:5px;  margin-top: 10px;margin-right:3%;}
+.red_input input{float:left;width:60%;margin-left:3%;font-size:18px;line-hieght:25px;height:25px;margin-top:10px;}
+.red_text{float:left;width:90%;margin-left:5%;height:75px;line-height:95px;font-size:18px;text-indent:5px;color:#a2a2a2;}
+.red_text1{float:left;width:100%;height:75px;line-height:75px;text-align:center;}
+.red_text1 a{color:#ff8c02;}
+
+.im{float:left;width:100%;}
+

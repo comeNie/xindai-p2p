@@ -1,0 +1,528 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:q="http://www.qfw.com/jsf/ui" 
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://www.qfw.com/jsf/fn">
+<f:view>
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link href="#{request.contextPath}/css/style.css" rel="stylesheet" type="text/css" />
+<link href="#{request.contextPath}/css/select.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="#{request.contextPath}/js/jquery.idTabs.min.js"></script>
+<script type="text/javascript" src="#{request.contextPath}/js/select-ui.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(e) {
+    $(".select1").uedSelect({
+		width : 120
+	});
+
+    $(".select6").uedSelect({
+		width : 140
+	});
+});
+</script>
+
+<style type="text/css">
+.inputType{width:200px; height:25px; line-height:25px; border-top:solid 1px #a7b5bc; border-left:solid 1px #a7b5bc; 
+	border-right:solid 1px #ced9df; border-bottom:solid 1px #ced9df;
+ 	background:url(../images/inputbg.gif) repeat-x; text-indent:10px;}
+.divType {padding:10px 18px;}
+.divpanelGrid {width:100%}
+.divpanelGrid label {margin-left:12px;float:left; line-height:40px; padding-left:7px; padding-right:12px; }
+
+.panelGrid {width:80%;line-height:40px;float:left; margin-left:12px;}
+.outputLabel {margin-left:12px;float:left; line-height:40px; padding-left:7px; padding-right:12px; }
+</style>
+<style type="text/css"> 	
+		 .outputLabel1{font-size:15pt;}
+		 .outputText1{color:red;font-size:20pt;}
+		</style>
+</h:head>
+
+<h:body>
+	<ui:param name="queryProvince"
+		value="SELECT NAME AS LABEL,ID AS VALUE FROM XX_AREA WHERE PARENT IS NULL"></ui:param>
+	<ui:param name="queryCity"
+		value="SELECT NAME AS LABEL,ID AS VALUE FROM XX_AREA WHERE PARENT = '#{loanInfoManageBean.creditLimitApplyVO.cust.provinceCd}'"></ui:param>
+	<ui:param name="queryArea"
+		value="SELECT NAME AS LABEL,ID AS VALUE FROM XX_AREA WHERE PARENT = '#{loanInfoManageBean.creditLimitApplyVO.cust.cityCd}'"></ui:param>
+	<ui:param name="queryLiveCity"
+		value="SELECT NAME AS LABEL,ID AS VALUE FROM XX_AREA WHERE PARENT = '#{loanInfoManageBean.creditLimitApplyVO.cust.liveProvinceCd}'"></ui:param>
+	<ui:param name="queryLiveArea"
+		value="SELECT NAME AS LABEL,ID AS VALUE FROM XX_AREA WHERE PARENT = '#{loanInfoManageBean.creditLimitApplyVO.cust.liveCityCd}'"></ui:param>
+	<div class="place">
+		<span>位置：</span>
+		<ul class="placeul">
+			<li><a href="#">借款管理</a></li>
+			<li><a href="#">借款查看</a></li>
+		</ul>
+	</div>
+	
+    <div class="formbody">
+    <h:form id="loanForm">
+    	<div class="rightinfo">
+    		<h:messages id="errorinfo" />
+    		<h:inputHidden value="#{loanInfoManageBean.loanApplyVO.custId}" />
+			<table>
+				<tr>
+					<td> <h:outputLabel value="标题：" styleClass="outputLabel" /></td>
+					<td><h:inputText styleClass="inputType" disabled="true" readonly="true" value="#{loanInfoManageBean.loanApplyVO.loanName}"></h:inputText></td>
+					<td> <h:outputLabel value="产品：" styleClass="outputLabel" /> </td>
+					<td><h:inputText styleClass="inputType" disabled="true" readonly="true"  value="#{loanInfoManageBean.productInfoVO.productName}"></h:inputText></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel value="每份金额：" class ="outputLabel" /></td>
+					<td><h:inputText styleClass="inputType" converter="amtConverter"
+						 disabled="true" readonly="true" value="#{loanInfoManageBean.loanApplyVO.temderCountAmt}" ></h:inputText></td>
+					<td><h:outputLabel value="标的总额：" class ="outputLabel" /></td>
+					<td><h:inputText  styleClass="inputType" 
+						disabled="true" readonly="true" value="#{loanInfoManageBean.loanApplyVO.applyAmt}" converter="amtConverter"></h:inputText></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel value="筹标期限(天)：" class ="outputLabel" /></td>
+					<td><h:inputText  styleClass="inputType" disabled="true" readonly="true" value="#{loanInfoManageBean.loanApplyVO.tenderTerm}" /></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel value="标的类型：" class ="outputLabel"  /></td>
+					<td>
+					<h:selectOneRadio value="#{loanInfoManageBean.loanApplyVO.loanTypeCd}" disabled="true" readonly="true" >
+						<f:selectItems value="#{fn:getSelectItems('tenderTypeCd')}"></f:selectItems>
+					</h:selectOneRadio>
+					</td>
+					<td><h:outputLabel value="年利率(%)：" class ="outputLabel"/></td>
+					<td><h:inputText styleClass="inputType" disabled="true" readonly="true"
+						converter="percentConverter" value="#{loanInfoManageBean.loanApplyVO.expectLoanRate}"></h:inputText></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel value="产品最小年化利率(%)：" class ="outputLabel"  /></td>
+					<td><h:inputText styleClass="inputType" disabled="true" readonly="true" 
+						converter="percentConverter" value="#{loanInfoManageBean.productInfoVO.leastRateYear}" ></h:inputText></td>
+					<td><h:outputLabel value="产品最大年化利率(%)：" class ="outputLabel"/></td>
+					<td><h:inputText styleClass="inputType" disabled="true" readonly="true" 
+						converter="percentConverter" value="#{loanInfoManageBean.productInfoVO.mostRateYear}" ></h:inputText></td>
+				</tr>
+				<tr >
+					<td ><h:outputLabel value="还款方式：" class ="outputLabel" /></td>
+					<td style="padding-top: 7px;"><h:selectOneMenu styleClass="select1" disabled="true" readonly="true" 
+							value="#{loanInfoManageBean.loanApplyVO.repayTypeCd}">
+							<f:selectItems value="#{fn:getSelectItems('repayTypeCd')}"></f:selectItems>
+						</h:selectOneMenu></td>
+					<td><h:outputLabel value="还款期限 ：" class ="outputLabel" /></td>
+					<td><h:inputText styleClass="inputType" disabled="true" readonly="true" value="#{loanInfoManageBean.loanApplyVO.loanTerm}"></h:inputText></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel value="提前还款违约利率(%)：" class ="outputLabel" /></td>
+					<td><h:inputText styleClass="inputType" disabled="true" readonly="true" 
+						converter="percentConverter" value="#{loanInfoManageBean.loanApplyVO.advanceRate}"></h:inputText></td>
+					<td><h:outputLabel value="展期加罚率 (%)：" class ="outputLabel" /></td>
+					<td><h:inputText styleClass="inputType" disabled="true" readonly="true" 
+						converter="percentConverter" value="#{loanInfoManageBean.loanApplyVO.delayRate}"></h:inputText></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel value="逾期加罚率(%)：" class ="outputLabel" /></td>
+					<td><h:inputText styleClass="inputType" disabled="true" readonly="true" 
+						converter="percentConverter" value="#{loanInfoManageBean.loanApplyVO.overdueRate}" ></h:inputText></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel value="支付方式："  class ="outputLabel"  /></td>
+					<td style="padding-top: 7px;"><div class="vocation">
+						<h:selectOneMenu styleClass="select1" disabled="true" readonly="true"
+							value="#{loanInfoManageBean.loanApplyVO.paymentWayCd}">
+							<f:selectItems value="#{fn:getSelectItems('paymentWayCd')}"></f:selectItems>
+						</h:selectOneMenu>
+						</div></td>
+					<td><h:outputLabel value="第三方用户："  class ="outputLabel"  /></td>
+					<td><h:inputText styleClass="inputType" disabled="true"
+						value="#{loanInfoManageBean.selectPartyUser.userName}" readonly="true"
+						></h:inputText></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel value="份数：" class ="outputLabel" /></td>
+					<td><h:inputText styleClass="inputType" readonly="true" value="#{loanInfoManageBean.loanApplyVO.tenderTtlCount}"></h:inputText></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel value="用途：" class ="outputLabel" /></td>
+					<td><h:inputTextarea styleClass="inputType" disabled="true" readonly="true" value="#{loanInfoManageBean.loanApplyVO.loanPurpose}"></h:inputTextarea></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel value="备注：" class ="outputLabel" /></td>
+					<td><h:inputTextarea styleClass="inputType" disabled="true" readonly="true" value="#{loanInfoManageBean.loanApplyVO.remark}"></h:inputTextarea></td>
+				</tr>
+			</table>
+		</div>
+    	<br/>
+    	<div id="usual1" class="usual">
+	    	<div style="clear: both" id="usual1" class="usual">
+				<div class="itab">
+					<ul>
+						<li><a href="#tab1" class="selected">个人资料</a></li>
+						<li><a href="#tab2">单位及收入情况</a></li>
+						<li><a href="#tab3">担保信息</a></li>
+						<li><a href="#tab4">资料收集</a></li>
+					</ul>
+				</div>
+			</div>
+		    <div id="tab1" class="tabson" title="个人资料">
+					<div class="formtitle">
+						<span>个人基本信息</span>
+					</div>
+					<ul class="forminfo">
+						<li style="clear: both; float: left;height:30px;"><h:outputLabel
+								value="真实姓名：" /> <h:inputText styleClass="inputType" disabled="true" readonly="true" 
+								value="#{loanInfoManageBean.creditLimitApplyVO.cust.custName}"></h:inputText></li>
+						<li style="clear: right;height:30px;"><h:outputLabel value="身份证：" /> <h:inputText
+								class="inputType" disabled="true" readonly="true" 
+								value="#{loanInfoManageBean.creditLimitApplyVO.cust.certificateNum}"></h:inputText></li>
+						<li style="clear: both; float: left;height:30px;"><h:outputLabel
+								value="固定电话：" /> <h:inputText styleClass="inputType" disabled="true" readonly="true" 
+								value="#{loanInfoManageBean.creditLimitApplyVO.cust.telephone}"></h:inputText></li>
+						<li style="clear: right;"><h:outputLabel value="移动电话：" /> <h:inputText
+								class="inputType" disabled="true" readonly="true" 
+								value="#{loanInfoManageBean.creditLimitApplyVO.cust.mobileTelephone}"></h:inputText></li>
+						<li style="clear: both; float: left;"><h:outputLabel
+								value="年龄：" /> <h:inputText styleClass="inputType" disabled="true" readonly="true" 
+								value="#{loanInfoManageBean.creditLimitApplyVO.cust.age}"></h:inputText></li>
+						<li style="clear: right;"><h:outputLabel value="性别：" />
+							<div class="vocation">
+								<h:selectOneMenu styleClass="select1" disabled="true" readonly="true" 
+									value="#{loanInfoManageBean.creditLimitApplyVO.cust.sex}">
+									<f:selectItems value="#{fn:getSelectItems('sex')}"></f:selectItems>
+								</h:selectOneMenu>
+							</div></li>
+						<li style="clear: both; float: left; height:27px;"><h:outputLabel
+								value="婚姻状况：" />
+							<div class="vocation" style="width: 202px;">
+								<h:selectOneMenu styleClass="select1" disabled="true" readonly="true" 
+									value="#{loanInfoManageBean.creditLimitApplyVO.cust.maritalStatusCd}">
+									<f:selectItems value="#{fn:getSelectItems('maritalStatusCd')}"></f:selectItems>
+								</h:selectOneMenu>
+							</div></li>
+						<li style="clear: right;"><h:outputLabel value="学历：" />
+							<div class="vocation" style="width: 200px;">
+								<h:selectOneMenu styleClass="select1" disabled="true" readonly="true" 
+									value="#{loanInfoManageBean.creditLimitApplyVO.cust.educationCd}">
+									<f:selectItems value="#{fn:getSelectItems('educationCd')}"></f:selectItems>
+								</h:selectOneMenu>
+							</div></li>
+						<li ><h:outputLabel value="户籍地址：" /> <h:panelGroup
+								style="margin-right: 10px; " styleClass="vocation">
+								<h:selectOneMenu styleClass="select6" disabled="true" readonly="true" 
+									value="#{loanInfoManageBean.creditLimitApplyVO.cust.provinceCd}">
+									<f:selectItem itemLabel="请选择" itemValue=""></f:selectItem>
+									<f:selectItems
+										value="#{fn:findSelectItemsNotCache(queryProvince)}"></f:selectItems>
+									<p:ajax event="change" update="selectCity,selectArea"
+										oncomplete="$('#loanForm\\:selectCity1').uedSelect({width : 140});$('#loanForm\\:selectArea1').uedSelect({width : 140});"></p:ajax>
+								</h:selectOneMenu>
+							</h:panelGroup> <h:panelGroup styleClass="vocation" id="selectCity" style="margin-right: 10px; ">
+								<h:selectOneMenu styleClass="select6" id="selectCity1" disabled="true" readonly="true" 
+									value="#{loanInfoManageBean.creditLimitApplyVO.cust.cityCd}">
+									<f:selectItem itemLabel="请选择" itemValue=""></f:selectItem>
+									<f:selectItems value="#{fn:findSelectItemsNotCache(queryCity)}"></f:selectItems>
+									<p:ajax event="change" update="selectArea"
+										oncomplete="$('#loanForm\\:selectArea1').uedSelect({width : 140});"></p:ajax>
+								</h:selectOneMenu>
+							</h:panelGroup> <h:panelGroup styleClass="vocation" id="selectArea">
+								<h:selectOneMenu styleClass="select6" id="selectArea1" disabled="true" readonly="true" 
+									value="#{loanInfoManageBean.creditLimitApplyVO.cust.nationalityCd}">
+									<f:selectItem itemLabel="请选择" itemValue=""></f:selectItem>
+									<f:selectItems value="#{fn:findSelectItemsNotCache(queryArea)}"></f:selectItems>
+								</h:selectOneMenu>
+							</h:panelGroup></li>
+						<li style="height:30px;"><h:outputLabel value="街道地址："></h:outputLabel > <h:inputText
+								class="inputType" style="width:520px" disabled="true" readonly="true" 
+								value="#{loanInfoManageBean.creditLimitApplyVO.cust.streetAddress}"></h:inputText>
+						</li>
+						<li ><h:outputLabel value="现居住地址：" /> <h:panelGroup
+								styleClass="vocation" style="margin-right: 10px; ">
+								<h:selectOneMenu styleClass="select6" disabled="true" readonly="true" 
+									value="#{loanInfoManageBean.creditLimitApplyVO.cust.liveProvinceCd}">
+									<f:selectItem itemLabel="请选择" itemValue=""></f:selectItem>
+									<f:selectItems
+										value="#{fn:findSelectItemsNotCache(queryProvince)}"></f:selectItems>
+									<p:ajax event="change" update="selectLiveCity,selectLiveArea"
+										oncomplete="$('#loanForm\\:selectLiveCity1').uedSelect({width : 140});$('#loanForm\\:selectLiveArea1').uedSelect({width : 140});"></p:ajax>
+								</h:selectOneMenu>
+							</h:panelGroup> <h:panelGroup styleClass="vocation" id="selectLiveCity" style="margin-right: 10px; ">
+								<h:selectOneMenu styleClass="select6" id="selectLiveCity1" disabled="true" readonly="true" 
+									value="#{loanInfoManageBean.creditLimitApplyVO.cust.liveCityCd}">
+									<f:selectItem itemLabel="请选择" itemValue=""></f:selectItem>
+									<f:selectItems
+										value="#{fn:findSelectItemsNotCache(queryLiveCity)}"></f:selectItems>
+									<p:ajax event="change" update="selectLiveArea"
+										oncomplete="$('#loanForm\\:selectLiveArea1').uedSelect({width : 140});"></p:ajax>
+								</h:selectOneMenu>
+							</h:panelGroup> <h:panelGroup styleClass="vocation" id="selectLiveArea">
+								<h:selectOneMenu styleClass="select6" id="selectLiveArea1" disabled="true" readonly="true" 
+									value="#{loanInfoManageBean.creditLimitApplyVO.cust.liveNationalityCd}">
+									<f:selectItem itemLabel="请选择" itemValue=""></f:selectItem>
+									<f:selectItems
+										value="#{fn:findSelectItemsNotCache(queryLiveArea)}"></f:selectItems>
+								</h:selectOneMenu>
+							</h:panelGroup></li>
+						<li><h:outputLabel value="居住街道地址："></h:outputLabel> <h:inputText
+								class="inputType" style="width:520px" disabled="true" readonly="true" 
+								value="#{loanInfoManageBean.creditLimitApplyVO.cust.liveStreetAddress}"></h:inputText>
+						</li>
+					</ul>
+					<div style="clear: both" class="formtitle">
+						<span>联系人信息</span>
+					</div>
+					<h:panelGroup id="contactTable">
+						<p:dataTable var="data" emptyMessage="暂无信息" rowIndexVar="index"
+							value="#{loanInfoManageBean.creditLimitApplyVO.contacts}"
+							style="width:100%" cellpadding="0" cellspacing="0">
+							<p:column headerText="联系人姓名">
+								<h:outputText value="#{data.contactsName}" />
+							</p:column>
+							<p:column headerText="联系人类型">
+								<h:outputText value="#{data.contactsTypeCd}" />
+							</p:column>
+							<p:column headerText="联系人手机">
+								<h:outputText value="#{data.mobileTelephone}" />
+							</p:column>
+							<p:column headerText="联系人电话">
+								<h:outputText value="#{data.telephone}" />
+							</p:column>
+							<p:column headerText="证件类型">
+								<h:outputText value="#{data.certificateTypeCd}" converter="#{fn:getSelectItemConverter('certificateTypeCd')}"  />
+							</p:column>
+							<p:column headerText="证件号码">
+								<h:outputText value="#{data.certificateNum}" />
+							</p:column>
+						</p:dataTable>
+					</h:panelGroup>
+					<div class="formtitle">
+						<span>信用报告</span>
+					</div>
+					<div>
+				    	<table  style="border:solid 1px #cbcbcb; width:100%; height:170px;clear:both;">
+							<tr>
+<!-- 								<td><h:outputLabel styleClass="outputLabel1" value="信用额度" /></td> -->
+<!-- 								<td><h:outputLabel styleClass="outputLabel1" value="剩余额度" /></td> -->
+								<td><h:outputLabel styleClass="outputLabel1" value="申请借款笔数" /></td>
+								<td><h:outputLabel styleClass="outputLabel1" value="成功借款笔数" /></td>
+								<td><h:outputLabel styleClass="outputLabel1" value="还清笔数" /></td>
+								<td><h:outputLabel styleClass="outputLabel1" value="借款总金额" /></td>
+								<td><h:outputLabel styleClass="outputLabel1" value="待还本息" /></td>
+							</tr>
+							<tr>
+<!-- 								<td><h:outputLabel styleClass="outputText1" value="#{loanInfoManageBean.creditReportVO.creditAmt}" /></td> -->
+<!-- 								<td><h:outputLabel styleClass="outputText1" value="#{loanInfoManageBean.creditReportVO.remainAmt}" /></td> -->
+								<td><h:outputLabel styleClass="outputText1" value="#{loanInfoManageBean.creditReportVO.applyLoanNum}" /></td>
+								<td><h:outputLabel styleClass="outputText1" value="#{loanInfoManageBean.creditReportVO.approveNum}" /></td>
+								<td><h:outputLabel styleClass="outputText1" value="#{loanInfoManageBean.creditReportVO.payOffNum}" /></td>
+								<td><h:outputLabel styleClass="outputText1" value="#{loanInfoManageBean.creditReportVO.loanTolAmt}" /></td>
+								<td><h:outputLabel styleClass="outputText1" value="#{loanInfoManageBean.creditReportVO.principaInterestAmt}" /></td>
+							</tr>
+							<tr>
+								
+								<td><h:outputLabel styleClass="outputLabel1" value="逾期总额" /></td>
+								<td><h:outputLabel styleClass="outputLabel1" value="逾期次数" /></td>
+								<td><h:outputLabel styleClass="outputLabel1" value="严重逾期" /></td>
+							</tr>
+							<tr>
+								
+								<td><h:outputLabel styleClass="outputText1" value="#{loanInfoManageBean.creditReportVO.overdueAmt}" /></td>
+								<td><h:outputLabel styleClass="outputText1" value="#{loanInfoManageBean.creditReportVO.overdueNum}" /></td>
+								<td><h:outputLabel styleClass="outputText1" value="#{loanInfoManageBean.creditReportVO.serOverdueNum}" /></td>
+							</tr>
+						</table>
+				    </div> 
+				</div>
+
+			<!-- tab2 -->
+			<div id="tab2" class="tabson">
+				<ul class="forminfo">
+					<li style="clear: both; float: left;height:30px;"><h:outputLabel
+							value="单位名称" /> <h:inputText styleClass="inputType" disabled="true" readonly="true" 
+							value="#{loanInfoManageBean.creditLimitApplyVO.job.jobCompanyName}" /></li>
+					<li style="clear: right;float: left;height:30px;"><h:outputLabel value="单位性质" />
+						<div class="vocation">
+							<h:selectOneMenu styleClass="select1" disabled="true" readonly="true" 
+								value="#{loanInfoManageBean.creditLimitApplyVO.job.companyIndustryCd}">
+								<f:selectItems value="#{fn:getSelectItems('companyTypeCd')}"></f:selectItems>
+							</h:selectOneMenu>
+						</div></li>
+					<li style="clear: both; float: left;height:30px;"><h:outputLabel
+							value="单位电话" /> <h:inputText styleClass="inputType" disabled="true" readonly="true" 
+							value="#{loanInfoManageBean.creditLimitApplyVO.job.companyPhone}" /></li>
+					<li style="clear: right;float: left;height:30px;"><h:outputLabel value="月收入" />
+						<div class="vocation">
+							<h:selectOneMenu styleClass="select1" disabled="true" readonly="true" 
+								value="#{loanInfoManageBean.creditLimitApplyVO.job.jobIncomeCd}">
+								<f:selectItems value="#{fn:getSelectItems('jobIncomeCd')}"></f:selectItems>
+							</h:selectOneMenu>
+						</div></li>
+					<li style="clear: both; float: left;height:30px;"><h:outputLabel
+							value="职务" />
+						<div class="vocation" style="width:201px;">
+							<h:selectOneMenu styleClass="select1" disabled="true" readonly="true" 
+								value="#{loanInfoManageBean.creditLimitApplyVO.job.jobPosition}">
+								<f:selectItems value="#{fn:getSelectItems('jobPositionCd')}"></f:selectItems>
+							</h:selectOneMenu>
+						</div></li>
+					<li style="clear: right;float: left;height:30px;"><h:outputLabel value="工作年限" />
+						<div class="vocation" style="width:200px;">
+							<h:selectOneMenu styleClass="select1" disabled="true" readonly="true" 
+								value="#{loanInfoManageBean.creditLimitApplyVO.job.jobYearCd}">
+								<f:selectItems value="#{fn:getSelectItems('jobYearCd')}"></f:selectItems>
+							</h:selectOneMenu>
+						</div></li>
+					<li style="clear: both; float: left;height:30px;"><h:outputLabel
+							value="所在部门" /> <h:inputText styleClass="inputType" disabled="true" readonly="true" 
+							value="#{loanInfoManageBean.creditLimitApplyVO.job.jobDeptName}" /></li>
+					<li style="clear: right;float: left;height:30px;"><h:outputLabel value="车辆价值" /> <h:inputText disabled="true" readonly="true" 
+							styleClass="inputType" /></li>
+					<li style="clear: both; float: left;height:30px;"><h:outputLabel
+							value="房产价值" /> <h:inputText styleClass="inputType"  disabled="true" readonly="true" /></li>
+					<li style="clear: right;float: left;height:30px;"><h:outputLabel value="单位地址" /> <h:inputText
+							styleClass="inputType" disabled="true" readonly="true" 
+							value="#{loanInfoManageBean.creditLimitApplyVO.job.companyAddress}"></h:inputText>
+					</li>
+				</ul>
+			</div>
+
+			<!-- tab3 -->
+
+			<div id="tab3" class="tabson">
+				<div class="formtitle">
+					<span>担保品信息</span>
+				</div>
+				<h:panelGroup id="collateralTable">
+					<p:dataTable var="data" emptyMessage="暂无信息" rowIndexVar="index"
+						value="#{loanInfoManageBean.creditLimitApplyVO.collateralInfos}"
+						style="width:100%" cellpadding="0" cellspacing="0">
+						<p:column headerText="担保品名称">
+								<h:outputText value="#{data.collateralName}" />
+							</p:column>
+							<p:column headerText="担保品类型">
+								<h:outputText value="#{data.collateralType}"
+									converter="#{fn:getSelectItemConverter('collateralTypeCd')}" />
+							</p:column>
+							<p:column headerText="担保品价值">
+								<h:outputText value="#{data.collateralWorth}" />
+							</p:column>
+							<p:column headerText="担保品说明">
+								<h:outputText value="#{data.collateralExplain}" />
+							</p:column>
+					</p:dataTable>
+				</h:panelGroup>
+				<br></br>
+				<div class="formtitle">
+					<span>保证人信息</span>
+				</div>
+				<h:panelGroup id="guarantorTable">
+					<p:dataTable var="data" emptyMessage="暂无信息" rowIndexVar="index"
+						value="#{loanInfoManageBean.creditLimitApplyVO.guarantorInfos}"
+						style="width:100%" cellpadding="0" cellspacing="0">
+						<p:column headerText="保证人">
+							<h:outputText value="#{data.guarantorName}" />
+						</p:column>
+						<p:column headerText="保证人类型">
+							<h:outputText value="#{data.guarantTypeCd}"
+								converter="#{fn:getSelectItemConverter('guarantorTypeCd')}" />
+						</p:column>
+						<p:column headerText="担保金额">
+							<h:outputText value="#{data.guarantorAmt}" />
+						</p:column>
+						<p:column headerText="担保说明">
+							<h:outputText value="#{data.guarantorExplain}" />
+						</p:column>
+					</p:dataTable>
+				</h:panelGroup>
+			</div>
+
+			<!-- tab4 -->
+
+			<div id="tab4" class="tabson">
+				<div class="formtitle">
+					<span>基本信息</span>
+				</div>
+				<ul class="forminfo">
+					<li><h:outputLabel value="身份证件" />
+						<div onclick="changeValue(this)"
+							class="#{loanInfoManageBean.loanApplyVO.authMap['0'].authStatusCd == '2' ? 'checkon' : 'checkoff'}"></div>
+						<h:inputHidden id="id1"
+							value="#{loanInfoManageBean.loanApplyVO.authMap['0'].authStatusCd}"></h:inputHidden>
+					</li>
+					<li><h:outputLabel value="户口本" />
+						<div onclick="changeValue(this)"
+							class="#{loanInfoManageBean.loanApplyVO.authMap['15'].authStatusCd == '2' ? 'checkon' : 'checkoff'}"></div>
+						<h:inputHidden
+							value="#{loanInfoManageBean.loanApplyVO.authMap['15'].authStatusCd}"></h:inputHidden></li>
+					<li><h:outputLabel value="学历证明" />
+						<div onclick="changeValue(this)"
+							class="#{loanInfoManageBean.loanApplyVO.authMap['8'].authStatusCd == '2' ? 'checkon' : 'checkoff'}"></div>
+						<h:inputHidden
+							value="#{loanInfoManageBean.loanApplyVO.authMap['8'].authStatusCd}"></h:inputHidden></li>
+				</ul>
+				<div class="formtitle" style="clear: both;">
+					<span>收入证明</span>
+				</div>
+				<ul class="forminfo">
+					<li><h:outputLabel value="收入证明" />
+						<div onclick="changeValue(this)"
+							class="#{loanInfoManageBean.loanApplyVO.authMap['4'].authStatusCd == '2' ? 'checkon' : 'checkoff'}"></div>
+						<h:inputHidden
+							value="#{loanInfoManageBean.loanApplyVO.authMap['4'].authStatusCd}"></h:inputHidden></li>
+					<li><h:outputLabel value="社保缴费账单" />
+						<div onclick="changeValue(this)"
+							class="#{loanInfoManageBean.loanApplyVO.authMap['16'].authStatusCd == '2' ? 'checkon' : 'checkoff'}"></div>
+						<h:inputHidden
+							value="#{loanInfoManageBean.loanApplyVO.authMap['16'].authStatusCd}"></h:inputHidden></li>
+					<li><h:outputLabel value="银行信用报告" />
+						<div onclick="changeValue(this)"
+							class="#{loanInfoManageBean.loanApplyVO.authMap['17'].authStatusCd == '2' ? 'checkon' : 'checkoff'}"></div>
+						<h:inputHidden
+							value="#{loanInfoManageBean.loanApplyVO.authMap['17'].authStatusCd}"></h:inputHidden></li>
+					<li><h:outputLabel value="个人所得税" />
+						<div onclick="changeValue(this)"
+							class="#{loanInfoManageBean.loanApplyVO.authMap['18'].authStatusCd == '2' ? 'checkon' : 'checkoff'}"></div>
+						<h:inputHidden
+							value="#{loanInfoManageBean.loanApplyVO.authMap['18'].authStatusCd}"></h:inputHidden></li>
+				</ul>
+
+				<div class="formtitle" style="clear: both;">
+					<span>资产证明</span>
+				</div>
+				<ul class="forminfo">
+					<li><h:outputLabel value="购房合同" />
+						<div onclick="changeValue(this)"
+							class="#{loanInfoManageBean.loanApplyVO.authMap['19'].authStatusCd == '2' ? 'checkon' : 'checkoff'}"></div>
+						<h:inputHidden
+							value="#{loanInfoManageBean.loanApplyVO.authMap['19'].authStatusCd}"></h:inputHidden></li>
+					<li><h:outputLabel value="汽车行驶证" />
+						<div onclick="changeValue(this)"
+							class="#{loanInfoManageBean.loanApplyVO.authMap['20'].authStatusCd == '2' ? 'checkon' : 'checkoff'}"></div>
+						<h:inputHidden
+							value="#{loanInfoManageBean.loanApplyVO.authMap['20'].authStatusCd}"></h:inputHidden></li>
+					<li><h:outputLabel value="房屋产权证" />
+						<div onclick="changeValue(this)"
+							class="#{loanInfoManageBean.loanApplyVO.authMap['21'].authStatusCd == '2' ? 'checkon' : 'checkoff'}"></div>
+						<h:inputHidden
+							value="#{loanInfoManageBean.loanApplyVO.authMap['21'].authStatusCd}"></h:inputHidden></li>
+					<li><h:outputLabel value="车位产权证" />
+						<div onclick="changeValue(this)"
+							class="#{loanInfoManageBean.loanApplyVO.authMap['22'].authStatusCd == '2' ? 'checkon' : 'checkoff'}"></div>
+						<h:inputHidden
+							value="#{loanInfoManageBean.loanApplyVO.authMap['22'].authStatusCd}"></h:inputHidden></li>
+				</ul>
+			</div>
+		
+		</div>      
+    	</h:form>
+    </div>        
+    
+	<script type="text/javascript"> 
+      	$("#usual1 ul").idTabs(); 
+		$('.tablelist tbody tr:odd').addClass('odd');
+	</script>
+</h:body>
+</f:view>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<script type="text/javascript">
+			$(document).ready(function(e) {
+				$(".select1").uedSelect({
+					width : 150
+				});
+			});
+		</script>
+		<div class="formbody">
+			<h:form id="form">              
+				 <p:growl id="growl" sticky="true" showDetail="true"/>  
+  
+		    <p:wizard flowListener="#{creditLimitAppleManageBean.onFlowProcess}">  
+		      
+		        <p:tab id="personal" title="个人资料">  
+		  
+		            <p:panel header="个人基本信息">  
+		                               
+		                <h:messages errorClass="error"/>  
+		                                      
+		                <h:panelGrid columns="4" styleClass="grid">  
+		                    <h:outputText value="真实姓名: " />  
+		                    <p:inputText  
+		                            value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" />  
+		                      
+		                    <h:outputText value="身份证: " />  
+		                    <p:inputText 
+		                            value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" />  
+		                      
+		                    <h:outputText value="年龄: " />  
+		                    <p:inputText value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" />      
+		                    
+		                    <h:outputText value="婚姻状态: " />  
+		                    <p:inputText value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" /> 
+		                    
+		                    <h:outputText value="学历: " />  
+		                    <p:inputText value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" /> 
+		                    
+		                    <h:outputText value="户籍地址: " />  
+		                    <p:inputText value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" /> 
+		                    
+		                    <h:outputText value="现居住地址: " />  
+		                    <p:inputText value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" /> 
+		                    
+		                    <h:outputText value="联系号码: " />  
+		                    <p:inputText value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" /> 
+		                    
+		                    <h:outputText value="家庭联系人1: " />  
+		                    <p:inputText value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" /> 
+		                    
+		                    <h:outputText value="电话号码: " />  
+		                    <p:inputText value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" /> 
+		                    
+		                    <h:outputText value="家庭联系人2: " />  
+		                    <p:inputText value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" /> 
+		                    
+		                    <h:outputText value="电话号码: " />  
+		                    <p:inputText value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" /> 
+		                    
+		                    <h:outputText value="工作联系人: " />  
+		                    <p:inputText value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" /> 
+		                    
+		                    <h:outputText value="电话号码: " />  
+		                    <p:inputText value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" /> 
+		                    
+		                    <h:outputText value="其他联系人: " />  
+		                    <p:inputText value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" /> 
+		                    
+		                    <h:outputText value="电话号码: " />  
+		                    <p:inputText value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" /> 
+		                </h:panelGrid>  
+		            </p:panel>          
+		        </p:tab>  
+		              
+		        <p:tab id="address" title="单位及收入情况">  
+		            <p:panel header="单位及收入情况">  
+		              
+		                <h:messages errorClass="error"/>  
+		                  
+		                <h:panelGrid columns="4" columnClasses="label, value">  
+		                   <h:outputText value="单位名称: " />  
+		                    <p:inputText 
+		                            value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" />  
+		                    <h:outputText value="单位性质: " />  
+		                    <p:inputText 
+		                            value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" />  
+		                    <h:outputText value="单位电话: " />  
+		                    <p:inputText 
+		                            value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" />  
+		                    <h:outputText value="年收入 " />  
+		                    <p:inputText 
+		                            value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" />  
+		                     <h:outputText value="职务: " />  
+		                    <p:inputText 
+		                            value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" /> 
+		                            <h:outputText value="工作年限: " />  
+		                    <p:inputText 
+		                            value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" /> 
+		                            <h:outputText value="所在部门: " />  
+		                    <p:inputText 
+		                            value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" />  
+		                              <h:outputText value="车辆价值: " />  
+		                    <p:inputText 
+		                            value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" /> 
+		                              <h:outputText value="房产价值: " />  
+		                    <p:inputText 
+		                            value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" /> 
+		                              <h:outputText value="单位地址: " />  
+		                    <p:inputText 
+		                            value="#{creditLimitAppleManageBean.creditLimitApply.limitApply}" />      
+		                   
+		                </h:panelGrid>  
+		            </p:panel>  
+		        </p:tab>  
+		              
+		        <p:tab id="contact" title="担保信息">  
+		            <p:panel header="担保信息">  
+		                  
+		                <h:messages errorClass="error"/>  
+		              
+		                <h:panelGrid columns="2" columnClasses="label, value">  
+		                    <h:outputText value="Email: *" />  
+		                    <p:inputText required="true" label="Email"  
+		                            value="#{userWizard.user.email}" />  
+		                      
+		                    <h:outputText value="Phone: " />  
+		                    <p:inputText value="#{userWizard.user.phone}"/>  
+		                      
+		                    <h:outputText value="Additional Info: " />  
+		                    <p:inputText value="#{userWizard.user.info}"/>  
+		                </h:panelGrid>  
+		            </p:panel>  
+		        </p:tab>  
+		              
+		        <p:tab id="confirm" title="资料收集">  
+		            <p:panel header="资料收集">  
+		              
+		                <h:panelGrid id="confirmation" columns="6">  
+		                    <h:outputText value="Firstname: " />  
+		                    <h:outputText styleClass="outputLabel"  
+		                                value="#{userWizard.user.firstname}" />  
+		                      
+		                    <h:outputText value="Lastname: " />  
+		                    <h:outputText  styleClass="outputLabel"  
+		                                value="#{userWizard.user.lastname}"/>  
+		                      
+		                    <h:outputText value="Age: " />  
+		                    <h:outputText styleClass="outputLabel"  
+		                                value="#{userWizard.user.age}" />>  
+		                      
+		                    <h:outputText value="Street: " />  
+		                    <h:outputText styleClass="outputLabel"  
+		                                value="#{userWizard.user.street}" />  
+		                      
+		                    <h:outputText value="Postal Code: " />  
+		                    <h:outputText styleClass="outputLabel"  
+		                                value="#{userWizard.user.postalCode}" />  
+		                      
+		                    <h:outputText value="City: " />  
+		                    <h:outputText styleClass="outputLabel"  
+		                                value="#{userWizard.user.city}" />  
+		                      
+		                    <h:outputText value="Email: " />  
+		                    <h:outputText styleClass="outputLabel"  
+		                                value="#{userWizard.user.email}" />  
+		                      
+		                    <h:outputText value="Phone " />  
+		                    <h:outputText styleClass="outputLabel"  
+		                                value="#{userWizard.user.phone}"/>  
+		                      
+		                    <h:outputText value="Info: " />  
+		                    <h:outputText styleClass="outputLabel"  
+		                                value="#{userWizard.user.info}" />  
+		                      
+		                    <h:outputText />  
+		                    <h:outputText />   
+		                    
+		                     <h:outputText value="家庭联系人2: " />  
+		                    <p:inputText value="" /> 
+		                    
+		                    <h:outputText value="电话号码: " />  
+		                    <p:inputText value="" /> 
+		                    
+		                    <h:outputText value="工作联系人: " />  
+		                    <p:inputText value="" /> 
+		                    
+		                    <h:outputText value="电话号码: " />  
+		                    <p:inputText value="" /> 
+		                    
+		                    <h:outputText value="其他联系人: " />  
+		                    <p:inputText value="" /> 
+		                    
+		                    <h:outputText value="电话号码: " />  
+		                    <p:inputText value="" />                         
+		                </h:panelGrid>  
+		                  
+		                <p:commandButton value="Submit" update="growl"    action="#{creditLimitAppleManageBean.addCreditLimit}"/>  
+		              
+		            </p:panel>  
+		        </p:tab>          
+		        
+		           <p:tab id="address" title="单位及收入情况">  
+		            <p:panel header="单位及收入情况">  
+		              
+		                <h:messages errorClass="error"/>  
+		                  
+		                <h:panelGrid columns="4" columnClasses="label, value">  
+		                   <h:outputText value="单位名称: " />  
+		                    <p:inputText 
+		                            value="#{creditLimitApplyManageBean.creditLimitApplyVO.jobCompanyName}" />  
+		                    <h:outputText value="单位性质: " />  
+		                    <p:inputText 
+		                            value="#{creditLimitApplyManageBean.creditLimitApplyVO.companyTypeCd}" />  
+		                    <h:outputText value="单位电话: " />  
+		                    <p:inputText 
+		                            value="#{creditLimitApplyManageBean.creditLimitApplyVO.companyPhone}" />  
+		                    <h:outputText value="年收入 " />  
+		                    <p:inputText 
+		                            value="#{creditLimitApplyManageBean.creditLimitApplyVO.jobIncomeCd}" />  
+		                     <h:outputText value="职务: " />  
+		                    <p:inputText 
+		                            value="#{creditLimitApplyManageBean.creditLimitApplyVO.jobPosition}" /> 
+		                            <h:outputText value="工作年限: " />  
+		                    <p:inputText 
+		                            value="#{creditLimitApplyManageBean.creditLimitApplyVO.jobYearCd}" /> 
+		                            <h:outputText value="所在部门: " />  
+		                    <p:inputText 
+		                            value="#{creditLimitApplyManageBean.creditLimitApplyVO.jobDeptName}" />  
+		                              <h:outputText value="车辆价值: " />  
+		                   
+		                </h:panelGrid>  
+		            </p:panel>  
+		        </p:tab>  
+		                                         
+          
+    		</p:wizard>                 
+			</h:form>
+
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

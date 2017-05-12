@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:q="http://www.qfw.com/jsf/ui" 
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://www.qfw.com/jsf/fn">
+<body>
+	
+    <div class="formbody">
+    <h:form>
+    	<div class = "seachUL">
+    		<h:panelGrid columns="2" styleClass="grid">
+				<h:outputLabel value="审批意见："  />
+				<h:selectOneMenu class="select1">
+								<f:selectItem itemLabel="同意" itemValue=" " />
+								<f:selectItem itemLabel="不同意" itemValue=" " />
+				</h:selectOneMenu>
+				          
+				<h:outputLabel value="审批说明："  />
+				<h:panelGrid cellpadding="3" >
+					<h:inputTextarea ></h:inputTextarea>
+				</h:panelGrid>
+				            
+				
+				<h:outputLabel value="审核人："  />
+				<h:inputText  value=""></h:inputText>
+				
+				<h:outputLabel value="审核机构："  />
+				<h:inputText  value=""></h:inputText>
+			</h:panelGrid>
+    	</div>
+		 <p:commandButton value="提交审批" style="width:130px;"
+							update="dataTable"></p:commandButton>&nbsp;&nbsp;
+		<p:commandButton value="关闭" style="width:130px;" onclick="closeParMainDialog();"         
+							update="dataTable"></p:commandButton>
+    </h:form>
+    </div>
+</body>
+</html>

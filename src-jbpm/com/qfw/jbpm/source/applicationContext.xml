@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<!--jbpm4.4 工作流 配置开始 -->
+
+	<bean id="springHelper" class="org.jbpm.pvm.internal.processengine.SpringHelper">
+		<property name="jbpmCfg" value="jbpm.cfg.xml" />
+	</bean>
+
+	<bean id="processEngine" factory-bean="springHelper"
+		factory-method="createProcessEngine" />
+	<bean id="repositoryService" factory-bean="processEngine"
+		factory-method="getRepositoryService" />
+	<bean id="executionService" factory-bean="processEngine"
+		factory-method="getExecutionService" />
+	<bean id="taskService" factory-bean="processEngine"
+		factory-method="getTaskService" />
+	<bean id="identityService" factory-bean="processEngine"
+		factory-method="getIdentityService" />
+		
+	<!-- jbpm 配置结束 
+	<bean id="jbpmServiceTarget" class="com.qfw.jbpm.bizservice.impl.JbpmServiceImpl">
+		<property name="processEngine" ref="processEngine"></property>
+	</bean>
+	
+	<bean id="jbpmService"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
+		lazy-init="true" parent="baseTxService">
+		<property name="proxyInterfaces">
+			<list>
+				<value>
+					com.qfw.jbpm.bizservice.JbpmService
+				</value>
+			</list>
+		</property>
+		<property name="target">
+			<ref bean="jbpmServiceTarget" />
+		</property>
+	</bean>
+	-->
+	<bean id="jbpmSessionEngine" class="com.qfw.jbpm.bizservice.impl.JbpmSessionEngine">
+		<property name="commonQuery" ref="commonQuery"></property>
+	</bean>
+	<bean id="flowBS" class="com.qfw.jbpm.bizservice.impl.FlowBSImpl" parent="baseService"></bean>
+</beans>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="secondLevel" xmlns="http://jbpm.org/4.4/jpdl">
+   <start g="273,38,48,48" name="start1">
+      <transition to="提交"/>
+   </start>
+   <task assignee="#{userId}" form="/test/submitFlow.jsf" g="250,118,92,52" name="提交">
+      <transition to="复合"/>
+   </task>
+   <task candidate-groups="#{roleId}" form="/test/approvalFlow.jsf" g="250,209,92,52" name="复合">
+      <transition g="-29,-10" name="结束" to="end1"/>
+      <transition g="393,232;394,144:-28,-11" name="驳回" to="提交"/>
+   </task>
+   <end g="273,287,48,48" name="end1"/>
+</process>

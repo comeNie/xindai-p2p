@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">我的工作台</a></li>
+				<li><a href="#">待办事项</a></li>
+				<li><a href="#">额度申请</a></li>
+			</ul>
+		</div>
+		<div  class="rightinfo">
+			<h:form id= "query">
+				<p:dataTable value="" var="data" rowKey="1" emptyMessage="暂无流程"
+					selection="#{flowManageBean.selectPrpDef}">
+					<p:column selectionMode="single" />
+					<p:column headerText="任务名称">
+						<h:outputText value="" />
+					</p:column>
+					<p:column headerText="处理时间">
+						<h:outputText value="" />
+					</p:column>
+					<p:column headerText="机构">
+						<h:outputText value="" />
+					</p:column>
+					<p:column headerText="操作员">
+						<h:outputText value="" />
+					</p:column>
+					<p:column headerText="操作员名称">
+						<h:outputText value="" />
+					</p:column>
+					<p:column headerText="状态">
+						<h:outputText value="" />
+					</p:column>
+					<p:column headerText="任务描述">
+						<h:outputText value="" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+		<div class="rightinfo" >
+			<h:form id="button">
+				<h:panelGroup width="100%" style="display:block;text-align:center">
+					<p:commandButton value="处理" />
+					<p:commandButton value="预览" />
+				</h:panelGroup>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+
+</html>

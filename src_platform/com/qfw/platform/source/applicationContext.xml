@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- freemarker的配置 -->
+	<bean id="platformFreemakerConfigBean"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPath" value="/WEB-INF/template/" />
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="classic_compatible">true</prop>
+				<prop key="whitespace_stripping">true</prop>
+				<prop key="template_update_delay">10</prop>
+				<prop key="locale">zh_CN</prop>
+				<prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+				<prop key="date_format">yyyy-MM-dd</prop>
+				<prop key="number_format">#.##</prop>
+			</props>
+		</property>
+		<property name="freemarkerVariables">
+			<map>
+				<entry key="sysCodeVal" value-ref="sysCodeVal" />
+				<entry key="sysCodeList" value-ref="sysCodeList" />
+				<entry key="sysCodeSelect" value-ref="sysCodeSelect" />
+				<entry key="sysCodeUl" value-ref="sysCodeUl" /> 
+				
+			</map>
+		</property>
+	</bean>
+	<!-- FreeMarker视图解析 如返回student。。在这里配置后缀名ftl和视图解析器。。 -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.freemarker.FreeMarkerView" />
+		<property name="suffix" value=".ftl" />
+		<property name="contentType" value="text/html;charset=UTF-8" />
+		<property name="exposeRequestAttributes" value="true" />
+		<property name="exposeSessionAttributes" value="true" />
+		<property name="exposeSpringMacroHelpers" value="true" />
+	</bean>
+
+	<bean id="springSendEmail" class="com.qfw.platform.utils.SpringSendEmail">
+		<property name="sender" ref="mailSender"></property>
+		<property name="freeMarkerConfigurer" ref="platformFreemakerConfigBean"></property>
+	</bean>
+
+	<bean id="messageManager" class="com.qfw.platform.cache.MessageManager">
+		<property name="springSendEmail" ref="springSendEmail"></property>
+		<property name="smsSenderBS" ref="smsSenderBS"></property>
+		<property name="msgTemplateBS" ref="msgTemplateBS"></property>
+		<property name="paramBS" ref="paramBS"></property>
+	</bean>
+	
+	<bean id="cacheManager" class="com.qfw.platform.cache.CacheManager">
+		<property name="codeDictBS" ref="codeDictBS"></property>
+		<property name="cmsFriendlinkService" ref="cmsFriendlinkService"></property>
+		<property name="cmsNavigationService" ref="cmsNavigationService"></property>
+	</bean>
+
+	<!-- 配置JCaptcha验证码功能 -->
+	<bean id="captchaService"
+		class="com.qfw.platform.cache.CustomGenericManageableCaptchaService">
+		<property name="captchaEngine">
+			<bean class="com.qfw.platform.cache.JCaptchaEngine" />
+		</property>
+		<!-- 验证码过期时间 -->
+		<property name="minGuarantedStorageDelayInSeconds" value="600" />
+	</bean>
+
+	<bean id="sysCodeVal" class="com.qfw.platform.directive.SysCodeValDirective"></bean>
+	<bean id="sysCodeList" class="com.qfw.platform.directive.SysCodeListDirective"></bean>
+	<bean id="sysCodeSelect" class="com.qfw.platform.directive.SysCodeSelectDirective"></bean>
+	<bean id="sysCodeUl" class="com.qfw.platform.directive.SysCodeUlDirective"></bean>
+</beans>

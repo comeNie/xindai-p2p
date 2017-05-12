@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<script type="text/javascript">
+			$(document).ready(function(e) {
+				$(".select1").uedSelect({
+					width : 150
+				});
+			});
+		</script>
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">收益管理</a></li>
+				<li><a href="#">收益详情</a></li>
+			</ul>
+		</div>
+		<div class="rightinfo">
+			<h:form id="search">
+				<p:growl globalOnly="true" autoUpdate="true"></p:growl>
+				<p:dataTable value="#{incomeDetailListBean.dataModel}" var="data"
+					rows="10" paginatorAlwaysVisible="false" id="dataTable"
+					paginatorPosition="bottom" lazy="true" emptyMessage="暂无数据"
+					paginator="true" rowsPerPageTemplate="5,10,15,20" binding="#{incomeDetailListBean.dataTable}"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					selection="#{incomeDetailListBean.incomeVO}">
+					<p:column headerText="登陆编号">
+						<h:outputText value="#{data.userCode}" />
+					</p:column>
+					<p:column headerText="姓名">
+						<h:outputText value="#{data.custName}" />
+					</p:column>
+					<p:column headerText="借款标题">
+						<h:outputText value="#{data.loanName}" />
+					</p:column>
+					<p:column headerText="投资金额">
+						<h:outputText value="#{data.crAmt}" converter="amtConverter" />
+					</p:column>
+					<p:column headerText="收益日期">
+						<h:outputText value="#{data.incomeDate}" />
+					</p:column>
+					<p:column headerText="【收益期数/总期数】">
+						<h:outputText value="【#{data.incomePeriod}/#{data.totalPeriod}】" />
+					</p:column>
+					<p:column headerText="收益年利率(%)">
+						<h:outputText value="#{data.incomeRate}"  converter="percentConverter"/>
+					</p:column>
+					<p:column headerText="收益金额">
+						<h:outputText value="#{data.incomeAmt}" converter="amtConverter" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+
+	<ui:define name="body">
+		<script type="text/javascript">
+			$(document).ready(function(e) {
+				$(".select1").uedSelect({
+					width : 150
+				});
+			});
+		</script>
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">我的工作台</a></li>
+				<li><a href="#">待办事项</a></li>
+			</ul>
+		</div>
+		<div class="rightinfo">
+			<h:form>
+
+				<ul class="seachform">
+
+					<li><h:outputLabel value="处理开始时间：" /> <h:inputText
+							value="#{myTaskBean.filterVO.startDate}" onclick="WdatePicker();"
+							styleClass="scinput">
+							<f:convertDateTime pattern="yyyy-MM-dd"></f:convertDateTime>
+						</h:inputText></li>
+					<li><h:outputLabel value="处理结束时间：" /> <h:inputText
+							value="#{myTaskBean.filterVO.endDate}" onclick="WdatePicker();"
+							styleClass="scinput">
+							<f:convertDateTime pattern="yyyy-MM-dd"></f:convertDateTime>
+						</h:inputText></li>
+					<li><h:outputLabel value="任务名称：" />
+						<div class="vocation">
+							<h:selectOneMenu styleClass="select1"
+								value="#{myTaskBean.filterVO.procdefId}">
+								<f:selectItem itemLabel="请选择" itemValue=""></f:selectItem>
+								<f:selectItems value="#{fn:getSelectItems('FOLWNAME')}"></f:selectItems>
+							</h:selectOneMenu>
+						</div></li>
+					<li><label>&nbsp;</label> <p:commandButton value="搜索"
+							action="#{myTaskBean.search}" styleClass="scbtn"
+							image="ui-icon ui-icon-search" update="dataTable"></p:commandButton></li>
+					<li><label>&nbsp;</label> <p:commandButton value="重置" type="reset"
+							styleClass="scbtn" image="ui-icon ui-icon-search" update="dataTable"></p:commandButton></li>
+				</ul>
+
+			</h:form>
+
+			<h:form id="dataTable">
+				<p:growl globalOnly="true" autoUpdate="true"></p:growl>
+				<p:dataTable value="#{myTaskBean.taskModel}" var="task"
+					emptyMessage="暂无信息" rows="5" binding="#{myTaskBean.dataTable}"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					paginatorAlwaysVisible="false" paginatorPosition="bottom"
+					lazy="true" paginator="true" rowsPerPageTemplate="5">
+					<p:column headerText="任务名称">
+						<h:outputText value="#{task.txName}" />
+					</p:column>
+					<p:column headerText="申请人">
+						<h:outputText value="#{task.applyUserName}" />
+					</p:column>
+					<p:column headerText="提交时间">
+						<h:outputText value="#{task.applyTime}">
+							<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"></f:convertDateTime>
+						</h:outputText>
+					</p:column>
+					<p:column headerText="最近处理时间">
+						<h:outputText value="#{task.processDate}">
+							<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"></f:convertDateTime>
+						</h:outputText>
+					</p:column>
+					<p:column headerText="当前环节">
+						<h:outputText value="#{task.curTaskName}" />
+					</p:column>
+					<!--  <p:column headerText="机构">
+						<h:outputText value="#{task.deptName}" />
+					</p:column>-->
+					<p:column headerText="操作员">
+						<h:outputText value="#{task.curProcessUser}" />
+					</p:column>
+					<p:column headerText="任务描述">
+						<h:outputText value="#{task.remark}" />
+					</p:column>
+					<p:column headerText="操作">
+						<a style="color:green;" href="#{request.contextPath}#{task.urlPath}?taskid=#{task.taskId}&amp;workItemId=#{task.executionId}">详细信息</a>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+		<br/>
+		<br/>
+		<div class="place">
+			<span> 会员生日：</span>
+		</div>
+		<h:form id="birthTable">
+			<p:growl globalOnly="true" autoUpdate="true"></p:growl>
+			<p:dataTable value="#{birthBean.dataModel}" var="birth"
+				emptyMessage="暂无信息" rows="5" binding="#{birthBean.dataTable}"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				paginatorAlwaysVisible="false" paginatorPosition="bottom"
+				lazy="true" paginator="true" rowsPerPageTemplate="5">
+				<p:column headerText="会员名称">
+					<h:outputText value="#{birth.custName}" />
+				</p:column>
+				<p:column headerText="生日">
+					<h:outputText value="#{birth.birthDate}" >
+						<f:convertDateTime pattern="yyyy-MM-dd"></f:convertDateTime>
+						</h:outputText>
+				</p:column>
+				<p:column headerText="手机号码">
+					<h:outputText value="#{birth.phone}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

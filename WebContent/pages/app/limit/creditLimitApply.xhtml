@@ -1,0 +1,1003 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:q="http://www.qfw.com/jsf/ui" xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="head">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>额度申请</title>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.idTabs.min.js"></script>
+		<style type="text/css">
+.dfinput {
+	width: 250px;
+}
+</style>
+	</ui:define>
+	<ui:define name="body">
+
+		<ui:param name="queryProvince"
+			value="SELECT PROVINCE AS LABEL,PROVINCEID AS VALUE FROM SYS_PROVINCE"></ui:param>
+		<ui:param name="queryCity"
+			value="SELECT CITY AS LABEL,CITYID AS VALUE FROM SYS_CITY WHERE PROVINCEID = '#{creditLimitApplyManageBean.creditLimitApplyVO.cust.provinceCd}'"></ui:param>
+		<ui:param name="queryArea"
+			value="SELECT AREA AS LABEL,AREAID AS VALUE FROM SYS_AREA WHERE CITYID = '#{creditLimitApplyManageBean.creditLimitApplyVO.cust.cityCd}'"></ui:param>
+		<ui:param name="queryLiveCity"
+			value="SELECT CITY AS LABEL,CITYID AS VALUE FROM SYS_CITY WHERE PROVINCEID = '#{creditLimitApplyManageBean.creditLimitApplyVO.cust.liveProvinceCd}'"></ui:param>
+		<ui:param name="queryLiveArea"
+			value="SELECT AREA AS LABEL,AREAID AS VALUE FROM SYS_AREA WHERE CITYID = '#{creditLimitApplyManageBean.creditLimitApplyVO.cust.liveCityCd}'"></ui:param>
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">额度申请</a></li>
+				<li><a href="#">额度申请信息填写</a></li>
+			</ul>
+		</div>
+
+		<div class="formbody">
+			<h:form id="loanForm">
+				<h:inputHidden id="his" value="#{creditLimitApplyManageBean.his}"/>
+				<p:growl autoUpdate="true"></p:growl>
+				<ul class="forminfo">
+
+					<li style="clear: none; float: left;"><h:outputLabel
+							value="客户名：" /> <h:inputText styleClass="dfinput"
+							readonly="true" disabled="true"
+							value="#{creditLimitApplyManageBean.creditLimitApplyVO.cust.custName}"></h:inputText>
+						<h:inputHidden styleClass="dfinput"
+							value="#{creditLimitApplyManageBean.creditLimitApplyVO.cust.id}"></h:inputHidden></li>
+
+					<li style="clear: right;"><h:outputLabel value="客户类型：" />
+						<div class="vocation">
+							<h:selectOneMenu styleClass="select" readonly="true"
+								disabled="true"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.cust.custTypeCd}">
+								<f:selectItems value="#{fn:getSelectItems('custTypeCd')}"></f:selectItems>
+							</h:selectOneMenu>
+						</div></li>
+					<li style="clear: both; float: left;"><h:outputLabel
+							value="申请额度：">
+							<b>*</b>
+						</h:outputLabel> <h:inputText styleClass="dfinput" required="true"
+							converter="amtConverter"
+							onfocus="this.value = parseNumber(this.value);"
+							onblur="this.value = formatNumber(this.value,2);"
+							converterMessage="额度申请格式错误" requiredMessage="申请额度不能为空"
+							id="limitApplyId" validatorMessage="额度申请最多保留2位小数" label="额度申请"
+							value="#{creditLimitApplyManageBean.creditLimitApplyVO.creditLimitApply.limitApply}">
+						</h:inputText></li>
+					<li style="clear: right;"><h:outputLabel value="标的类型：" />
+						<div class="vocation">
+							<h:selectOneMenu class="select"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.creditLimitApply.tenderType}">
+								<f:selectItems value="#{fn:getSelectItems('tenderTypeCd')}"></f:selectItems>
+							</h:selectOneMenu>
+						</div></li>
+					<li><h:outputLabel value="期限(月)"><b>*</b>
+						</h:outputLabel> <h:inputText styleClass="dfinput" required="true"
+							requiredMessage="期限不能为空" converterMessage="期限只能输入整数"
+							value="#{creditLimitApplyManageBean.creditLimitApplyVO.creditLimitApply.applyTerm}">
+							<p:ajax event="blur" />
+						</h:inputText></li>
+				</ul>
+				<br />
+				<div style="clear: both" id="usual1" class="usual">
+					<div class="itab">
+						<ul>
+							<li><a href="#tab1" class="selected">个人资料</a></li>
+							<li><a href="#tab2">单位及收入情况</a></li>
+							<li><a href="#tab3">担保信息</a></li>
+							<li><a href="#tab4">资料收集</a></li>
+						</ul>
+					</div>
+				</div>
+				<div id="tab1" class="tabson" title="个人资料">
+					<div class="formtitle">
+						<span>个人基本信息</span>
+					</div>
+					<ul class="forminfo">
+						<li style="clear: both; float: left;"><h:outputLabel value="真实姓名：" ><b>*</b></h:outputLabel> 
+							<h:inputText styleClass="dfinput"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.cust.custName}"></h:inputText></li>
+						<li style="clear: right;"><h:outputLabel value="身份证：" ><b>*</b></h:outputLabel> 
+							<h:inputText styleClass="dfinput"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.cust.certificateNum}"></h:inputText></li>
+						<li style="clear: both; float: left;"><h:outputLabel value="固定电话：" ><b>*</b></h:outputLabel> 
+							<h:inputText styleClass="dfinput"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.cust.telephone}"></h:inputText></li>
+						<li style="clear: right;"><h:outputLabel value="移动电话："><b>*</b></h:outputLabel> 
+							<h:inputText styleClass="dfinput"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.cust.mobileTelephone}"></h:inputText></li>
+						<li style="clear: both; float: left;"><h:outputLabel value="年龄：" ><b>*</b></h:outputLabel> 
+							<h:inputText styleClass="dfinput"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.cust.age}"></h:inputText></li>
+						<li style="clear: right;"><h:outputLabel value="性别：" ><b>*</b></h:outputLabel>
+							<div class="vocation">
+								<h:selectOneMenu styleClass="select"
+									value="#{creditLimitApplyManageBean.creditLimitApplyVO.cust.sex}">
+									<f:selectItems value="#{fn:getSelectItems('sex')}"></f:selectItems>
+								</h:selectOneMenu>
+							</div></li>
+						<li style="clear: both; float: left;"><h:outputLabel value="婚姻状况：" ><b>*</b></h:outputLabel>
+							<div class="vocation">
+								<h:selectOneMenu styleClass="select"
+									value="#{creditLimitApplyManageBean.creditLimitApplyVO.cust.maritalStatusCd}">
+									<f:selectItems value="#{fn:getSelectItems('maritalStatusCd')}"></f:selectItems>
+								</h:selectOneMenu>
+							</div></li>
+						<li style="clear: right;"><h:outputLabel value="学历：" ><b>*</b></h:outputLabel>
+							<div class="vocation">
+								<h:selectOneMenu styleClass="select"
+									value="#{creditLimitApplyManageBean.creditLimitApplyVO.cust.educationCd}">
+									<f:selectItems value="#{fn:getSelectItems('educationCd')}"></f:selectItems>
+								</h:selectOneMenu>
+							</div></li>
+						<li><h:outputLabel value="户籍地址：" ><b>*</b></h:outputLabel> 
+							<h:panelGroup
+								style="margin-right: 10px;" styleClass="vocation">
+								<h:selectOneMenu styleClass="select6"
+									value="#{creditLimitApplyManageBean.creditLimitApplyVO.cust.provinceCd}">
+									<f:selectItem itemLabel="请选择" itemValue=""></f:selectItem>
+									<f:selectItems
+										value="#{fn:findSelectItemsNotCache(queryProvince)}"></f:selectItems>
+									<p:ajax event="change" update="selectCity,selectArea"
+										oncomplete="$('#loanForm\\:selectCity1').uedSelect({width : 140});$('#loanForm\\:selectArea1').uedSelect({width : 140});"></p:ajax>
+								</h:selectOneMenu>
+							</h:panelGroup> <h:panelGroup styleClass="vocation" id="selectCity"
+								style="margin-right: 10px;">
+								<h:selectOneMenu styleClass="select6" id="selectCity1"
+									value="#{creditLimitApplyManageBean.creditLimitApplyVO.cust.cityCd}">
+									<f:selectItem itemLabel="请选择" itemValue=""></f:selectItem>
+									<f:selectItems value="#{fn:findSelectItemsNotCache(queryCity)}"></f:selectItems>
+									<p:ajax event="change" update="selectArea"
+										oncomplete="$('#loanForm\\:selectArea1').uedSelect({width : 140});"></p:ajax>
+								</h:selectOneMenu>
+							</h:panelGroup> <h:panelGroup styleClass="vocation" id="selectArea">
+								<h:selectOneMenu styleClass="select6" id="selectArea1"
+									value="#{creditLimitApplyManageBean.creditLimitApplyVO.cust.nationalityCd}">
+									<f:selectItem itemLabel="请选择" itemValue=""></f:selectItem>
+									<f:selectItems value="#{fn:findSelectItemsNotCache(queryArea)}"></f:selectItems>
+								</h:selectOneMenu>
+							</h:panelGroup></li>
+						<li><h:outputLabel value="街道地址："><b>*</b></h:outputLabel> 
+							<h:inputText styleClass="dfinput" style="width:515px"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.cust.streetAddress}"></h:inputText>
+						</li>
+						<li><h:outputLabel value="现居住地址：" ><b>*</b></h:outputLabel> 
+							<h:panelGroup
+								style="margin-right: 10px;" styleClass="vocation">
+								<h:selectOneMenu styleClass="select6"
+									value="#{creditLimitApplyManageBean.creditLimitApplyVO.cust.liveProvinceCd}">
+									<f:selectItem itemLabel="请选择" itemValue=""></f:selectItem>
+									<f:selectItems
+										value="#{fn:findSelectItemsNotCache(queryProvince)}"></f:selectItems>
+									<p:ajax event="change" update="selectLiveCity,selectLiveArea"
+										oncomplete="$('#loanForm\\:selectLiveCity1').uedSelect({width : 140});$('#loanForm\\:selectLiveArea1').uedSelect({width : 140});"></p:ajax>
+								</h:selectOneMenu>
+							</h:panelGroup> <h:panelGroup styleClass="vocation" id="selectLiveCity"
+								style="margin-right: 10px;">
+								<h:selectOneMenu styleClass="select6" id="selectLiveCity1"
+									value="#{creditLimitApplyManageBean.creditLimitApplyVO.cust.liveCityCd}">
+									<f:selectItem itemLabel="请选择" itemValue=""></f:selectItem>
+									<f:selectItems
+										value="#{fn:findSelectItemsNotCache(queryLiveCity)}"></f:selectItems>
+									<p:ajax event="change" update="selectLiveArea"
+										oncomplete="$('#loanForm\\:selectLiveArea1').uedSelect({width : 140});"></p:ajax>
+								</h:selectOneMenu>
+							</h:panelGroup> <h:panelGroup styleClass="vocation" id="selectLiveArea">
+								<h:selectOneMenu styleClass="select6" id="selectLiveArea1"
+									value="#{creditLimitApplyManageBean.creditLimitApplyVO.cust.liveNationalityCd}">
+									<f:selectItem itemLabel="请选择" itemValue=""></f:selectItem>
+									<f:selectItems
+										value="#{fn:findSelectItemsNotCache(queryLiveArea)}"></f:selectItems>
+								</h:selectOneMenu>
+							</h:panelGroup></li>
+						<li><h:outputLabel value="居住街道地址："><b>*</b></h:outputLabel> <h:inputText
+								styleClass="dfinput" style="width:515px"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.cust.liveStreetAddress}"></h:inputText>
+						</li>
+					</ul>
+					<div style="clear: both" class="formtitle">
+						<span>联系人信息</span>
+					</div>
+					<div class="ibox">
+						<div class="tools">
+							<ul class="toolbar">
+								<li><p:commandLink onclick="addContact.show();"
+									update="loanForm:contactTable,contactForm" oncomplete="updateContactForm();">
+								<span><img src="#{request.contextPath}/images/iadd.png" /></span>添加联系人</p:commandLink></li>
+							</ul>
+						</div>
+					</div>
+
+					<h:panelGroup id="contactTable">
+						<p:dataTable var="data" emptyMessage="暂无信息" rowIndexVar="index"
+							value="#{creditLimitApplyManageBean.creditLimitApplyVO.contacts}"
+							style="width:100%" cellpadding="0" cellspacing="0">
+							<p:column headerText="联系人姓名">
+								<h:outputText value="#{data.contactsName}" />
+							</p:column>
+							<p:column headerText="联系人类型">
+								<h:outputText value="#{data.contactsTypeCd}"
+									converter="#{fn:getSelectItemConverter('contactsTypeCd')}" />
+							</p:column>
+							<p:column headerText="联系人手机">
+								<h:outputText value="#{data.mobileTelephone}" />
+							</p:column>
+							<p:column headerText="联系人电话">
+								<h:outputText value="#{data.telephone}" />
+							</p:column>
+							<p:column headerText="证件类型">
+								<h:outputText value="#{data.certificateTypeCd}"
+									converter="#{fn:getSelectItemConverter('certificateTypeCd')}" />
+							</p:column>
+							<p:column headerText="证件号码">
+								<h:outputText value="#{data.certificateNum}" />
+							</p:column>
+							<p:column headerText="操作">
+								<p:commandLink update="loanForm:contactTable" immediate="true"
+									action="#{creditLimitApplyManageBean.deleteContact}" value="删除">
+									<f:param name="index" value="#{index}"></f:param>
+								</p:commandLink>
+							</p:column>
+						</p:dataTable>
+					</h:panelGroup>
+				</div>
+
+
+				<!-- tab2 -->
+				<div id="tab2" class="tabson">
+					<ul class="forminfo">
+						<li style="clear: both;"><h:outputLabel
+								value="单位名称" /> <h:inputText styleClass="dfinput"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.job.jobCompanyName}" /></li>
+						<li style="clear: both; float: left;"><h:outputLabel value="单位性质" />
+							<div class="vocation">
+								<h:selectOneMenu styleClass="select"
+									value="#{creditLimitApplyManageBean.creditLimitApplyVO.job.companyTypeCd}">
+									<f:selectItems value="#{fn:getSelectItems('companyTypeCd')}"></f:selectItems>
+								</h:selectOneMenu>
+							</div></li>
+						<li style="clear: right;"><h:outputLabel value="行业性质" />
+							<div class="vocation">
+								<h:selectOneMenu styleClass="select"
+									value="#{creditLimitApplyManageBean.creditLimitApplyVO.job.companyIndustryCd}">
+									<f:selectItems value="#{fn:getSelectItems('companyIndustryCd')}"></f:selectItems>
+								</h:selectOneMenu>
+							</div></li>
+						<li style="clear: both; float: left;"><h:outputLabel
+								value="单位电话" /> <h:inputText styleClass="dfinput"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.job.companyPhone}" /></li>
+						<li style="clear: right;"><h:outputLabel value="月收入" />
+							<div class="vocation">
+								<h:selectOneMenu styleClass="select"
+									value="#{creditLimitApplyManageBean.creditLimitApplyVO.job.jobIncomeCd}">
+									<f:selectItems value="#{fn:getSelectItems('jobIncomeCd')}"></f:selectItems>
+								</h:selectOneMenu>
+							</div></li>
+						<li style="clear: both; float: left;"><h:outputLabel
+								value="职务" />
+							<div class="vocation">
+								<h:selectOneMenu styleClass="select"
+									value="#{creditLimitApplyManageBean.creditLimitApplyVO.job.jobPosition}">
+									<f:selectItems value="#{fn:getSelectItems('jobPositionCd')}"></f:selectItems>
+								</h:selectOneMenu>
+							</div></li>
+						<li style="clear: right;"><h:outputLabel value="工作年限" />
+							<div class="vocation">
+								<h:selectOneMenu styleClass="select"
+									value="#{creditLimitApplyManageBean.creditLimitApplyVO.job.jobYearCd}">
+									<f:selectItems value="#{fn:getSelectItems('jobYearCd')}"></f:selectItems>
+								</h:selectOneMenu>
+							</div></li>
+						<li style="clear: both; float: left;"><h:outputLabel
+								value="所在部门" /> <h:inputText styleClass="dfinput"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.job.jobDeptName}" /></li>
+						<li style="clear: right; float: left;"><h:outputLabel
+								value="单位地址" /> <h:inputText styleClass="dfinput"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.job.companyAddress}"></h:inputText>
+						</li>
+					</ul>
+				</div>
+
+				<!-- tab3 -->
+
+				<div id="tab3" class="tabson">
+					<div class="formtitle">
+						<span>担保品信息</span>
+					</div>
+
+					<div class="ibox">
+						<div class="tools">
+							<ul class="toolbar">
+								<li><p:commandLink action="#{creditLimitApplyManageBean.addCollateralPrefix}"  onclick="addCollateral.show();"
+									update="loanForm:collateralTable,collateralForm" oncomplete="updateCollateralForm();">
+								<span><img src="#{request.contextPath}/images/iadd.png" /></span>添加担保品</p:commandLink></li>
+							</ul>
+						</div>
+					</div>
+					<h:panelGroup id="collateralTable">
+						<p:dataTable var="data" emptyMessage="暂无信息" rowIndexVar="index"
+							value="#{creditLimitApplyManageBean.creditLimitApplyVO.collateralInfos}"
+							style="width:100%" cellpadding="0" cellspacing="0">
+							<p:column headerText="担保品名称">
+								<h:outputText value="#{data.collateralName}" />
+							</p:column>
+							<p:column headerText="担保品类型">
+								<h:outputText value="#{data.collateralType}"
+									converter="#{fn:getSelectItemConverter('collateralTypeCd')}" />
+							</p:column>
+							<p:column headerText="担保品价值">
+								<h:outputText value="#{data.collateralWorth}" />
+							</p:column>
+							<p:column headerText="担保品说明">
+								<h:outputText value="#{data.collateralExplain}" />
+							</p:column>
+							<p:column headerText="图片">
+							    <h:panelGroup rendered="#{data.collateralAtt1 != null}">
+								  <img src="#{request.contextPath}/#{data.collateralAtt1}" title="点击查看大图" onclick="$('#showImg').attr('src',this.src);showImgDialog.show()" height="30"></img>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{data.collateralAtt2 != null}">
+								  <img src="#{request.contextPath}/#{data.collateralAtt2}" title="点击查看大图" onclick="$('#showImg').attr('src',this.src);showImgDialog.show()" height="30"></img>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{data.collateralAtt3 != null}">
+								  <img src="#{request.contextPath}/#{data.collateralAtt3}" title="点击查看大图" onclick="$('#showImg').attr('src',this.src);showImgDialog.show()" height="30"></img>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{data.collateralAtt4 != null}">
+								  <img src="#{request.contextPath}/#{data.collateralAtt4}" title="点击查看大图" onclick="$('#showImg').attr('src',this.src);showImgDialog.show()" height="30"></img>
+								</h:panelGroup>
+							</p:column>
+							<p:column headerText="操作">
+								<p:commandLink update="loanForm:collateralTable"
+									immediate="true"
+									action="#{creditLimitApplyManageBean.deleteCollateral}"
+									value="删除">
+									<f:param name="index" value="#{index}"></f:param>
+								</p:commandLink>
+								&nbsp;&nbsp; 
+								<p:commandLink 
+									action="#{creditLimitApplyManageBean.updateCollateralPrefix}"
+									onclick="addCollateral.show();"
+									update="loanForm:collateralTable,collateralForm"
+									oncomplete="updateCollateralForm();"
+									value="修改">
+									<f:param name="index" value="#{index}"></f:param>
+								</p:commandLink>
+								&nbsp;&nbsp; 
+								<p:commandLink 
+									action="#{creditLimitApplyManageBean.queryCollateral}"
+									onclick="addCollateral.show();"
+									update="loanForm:collateralTable,collateralForm"
+									oncomplete="updateCollateralForm();"
+									value="查看">
+									<f:param name="index" value="#{index}"></f:param>
+								</p:commandLink>
+							</p:column>
+						</p:dataTable>
+					</h:panelGroup>
+					<br></br>
+					<div class="formtitle">
+						<span>保证人信息</span>
+					</div>
+
+					<div class="ibox">
+						<div class="tools">
+							<ul class="toolbar">
+								<li><p:commandLink action="#{creditLimitApplyManageBean.addGuarantorPrefix}"  onclick="addGuarantor.show();"
+									update="loanForm:guarantorTable,guarantorForm" oncomplete="updateGuarantorForm();">
+								<span><img src="#{request.contextPath}/images/iadd.png" /></span>添加保证人</p:commandLink></li>
+							</ul>
+						</div>
+					</div>
+					<h:panelGroup id="guarantorTable">
+						<p:dataTable var="data" emptyMessage="暂无信息" rowIndexVar="index"
+							value="#{creditLimitApplyManageBean.creditLimitApplyVO.guarantorInfos}"
+							style="width:100%" cellpadding="0" cellspacing="0">
+							<p:column headerText="保证人">
+								<h:outputText value="#{data.guarantorName}" />
+							</p:column>
+							<p:column headerText="保证人类型">
+								<h:outputText value="#{data.guarantTypeCd}"
+									converter="#{fn:getSelectItemConverter('guarantorTypeCd')}" />
+							</p:column>
+							<p:column headerText="担保金额">
+								<h:outputText value="#{data.guarantorAmt}" />
+							</p:column>
+							<p:column headerText="担保说明">
+								<h:outputText value="#{data.guarantorExplain}" />
+							</p:column>
+							<p:column headerText="图片">
+							    <h:panelGroup rendered="#{data.guarantorAtt1 != null}">
+								  <img src="#{request.contextPath}/#{data.guarantorAtt1}" title="点击查看大图" onclick="$('#showImg').attr('src',this.src);showImgDialog.show()" height="30"></img>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{data.guarantorAtt2 != null}">
+								  <img src="#{request.contextPath}/#{data.guarantorAtt2}" title="点击查看大图" onclick="$('#showImg').attr('src',this.src);showImgDialog.show()" height="30"></img>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{data.guarantorAtt3 != null}">
+								  <img src="#{request.contextPath}/#{data.guarantorAtt3}" title="点击查看大图" onclick="$('#showImg').attr('src',this.src);showImgDialog.show()" height="30"></img>
+								</h:panelGroup>
+								<h:panelGroup rendered="#{data.guarantorAtt4 != null}">
+								  <img src="#{request.contextPath}/#{data.guarantorAtt4}" title="点击查看大图" onclick="$('#showImg').attr('src',this.src);showImgDialog.show()" height="30"></img>
+								</h:panelGroup>
+							</p:column>
+							<p:column headerText="操作">
+								<p:commandLink update="loanForm:guarantorTable" immediate="true"
+									action="#{creditLimitApplyManageBean.deleteGuarantor}"
+									value="删除">
+									<f:param name="index" value="#{index}"></f:param>
+								</p:commandLink>
+								&nbsp;&nbsp; 
+								<p:commandLink 
+									action="#{creditLimitApplyManageBean.updateGuarantorPrefix}"
+									onclick="addGuarantor.show();"
+									update="loanForm:guarantorTable,guarantorForm"
+									oncomplete="updateGuarantorForm();"
+									value="修改">
+									<f:param name="index" value="#{index}"></f:param>
+								</p:commandLink>
+								&nbsp;&nbsp; 
+								<p:commandLink 
+									action="#{creditLimitApplyManageBean.queryGuarantor}"
+									onclick="addGuarantor.show();"
+									update="loanForm:guarantorTable,guarantorForm"
+									oncomplete="updateGuarantorForm();"
+									value="查看">
+									<f:param name="index" value="#{index}"></f:param>
+								</p:commandLink>
+							</p:column>
+						</p:dataTable>
+					</h:panelGroup>
+				</div>
+
+				<!-- tab4 -->
+
+				<div id="tab4" class="tabson">
+					<ul class="forminfo">
+						<li><h:outputLabel value="评分"
+								style="background-color:yellow;" /> <h:inputText
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.cust.score}"
+								styleClass="dfinput" /></li>
+					</ul>
+					<div class="formtitle">
+						<span>基本信息</span>
+					</div>
+					<ul class="forminfo">
+						<li><h:outputLabel value="身份证件" />
+							<div onclick="changeValue(this)"
+								class="#{creditLimitApplyManageBean.creditLimitApplyVO.authMap['0'].authStatusCd == '2' ? 'checkon' : 'checkoff'}"></div>
+							<h:inputHidden id="id1"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.authMap['0'].authStatusCd}"></h:inputHidden>
+						</li>
+						<li><h:outputLabel value="户口本" />
+							<div onclick="changeValue(this)"
+								class="#{creditLimitApplyManageBean.creditLimitApplyVO.authMap['15'].authStatusCd == '2' ? 'checkon' : 'checkoff'}"></div>
+							<h:inputHidden
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.authMap['15'].authStatusCd}"></h:inputHidden></li>
+						<li><h:outputLabel value="学历证明" />
+							<div onclick="changeValue(this)"
+								class="#{creditLimitApplyManageBean.creditLimitApplyVO.authMap['8'].authStatusCd == '2' ? 'checkon' : 'checkoff'}"></div>
+							<h:inputHidden
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.authMap['8'].authStatusCd}"></h:inputHidden></li>
+					</ul>
+					<div class="formtitle" style="clear: both;">
+						<span>收入证明</span>
+					</div>
+					<ul class="forminfo">
+						<li><h:outputLabel value="收入证明" />
+							<div onclick="changeValue(this)"
+								class="#{creditLimitApplyManageBean.creditLimitApplyVO.authMap['4'].authStatusCd == '2' ? 'checkon' : 'checkoff'}"></div>
+							<h:inputHidden
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.authMap['4'].authStatusCd}"></h:inputHidden></li>
+						<li><h:outputLabel value="社保缴费账单" />
+							<div onclick="changeValue(this)"
+								class="#{creditLimitApplyManageBean.creditLimitApplyVO.authMap['16'].authStatusCd == '2' ? 'checkon' : 'checkoff'}"></div>
+							<h:inputHidden
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.authMap['16'].authStatusCd}"></h:inputHidden></li>
+						<li><h:outputLabel value="银行信用报告" />
+							<div onclick="changeValue(this)"
+								class="#{creditLimitApplyManageBean.creditLimitApplyVO.authMap['17'].authStatusCd == '2' ? 'checkon' : 'checkoff'}"></div>
+							<h:inputHidden
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.authMap['17'].authStatusCd}"></h:inputHidden></li>
+						<li><h:outputLabel value="个人所得税" />
+							<div onclick="changeValue(this)"
+								class="#{creditLimitApplyManageBean.creditLimitApplyVO.authMap['18'].authStatusCd == '2' ? 'checkon' : 'checkoff'}"></div>
+							<h:inputHidden
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.authMap['18'].authStatusCd}"></h:inputHidden></li>
+					</ul>
+
+					<div class="formtitle" style="clear: both;">
+						<span>资产证明</span>
+					</div>
+					<ul class="forminfo">
+						<li><h:outputLabel value="购房合同" />
+							<div onclick="changeValue(this)"
+								class="#{creditLimitApplyManageBean.creditLimitApplyVO.authMap['19'].authStatusCd == '2' ? 'checkon' : 'checkoff'}"></div>
+							<h:inputHidden
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.authMap['19'].authStatusCd}"></h:inputHidden></li>
+						<li><h:outputLabel value="汽车行驶证" />
+							<div onclick="changeValue(this)"
+								class="#{creditLimitApplyManageBean.creditLimitApplyVO.authMap['20'].authStatusCd == '2' ? 'checkon' : 'checkoff'}"></div>
+							<h:inputHidden
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.authMap['20'].authStatusCd}"></h:inputHidden></li>
+						<li><h:outputLabel value="房屋产权证" />
+							<div onclick="changeValue(this)"
+								class="#{creditLimitApplyManageBean.creditLimitApplyVO.authMap['21'].authStatusCd == '2' ? 'checkon' : 'checkoff'}"></div>
+							<h:inputHidden
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.authMap['21'].authStatusCd}"></h:inputHidden></li>
+						<li><h:outputLabel value="车位产权证" />
+							<div onclick="changeValue(this)"
+								class="#{creditLimitApplyManageBean.creditLimitApplyVO.authMap['22'].authStatusCd == '2' ? 'checkon' : 'checkoff'}"></div>
+							<h:inputHidden
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.authMap['22'].authStatusCd}"></h:inputHidden></li>
+					</ul>
+				</div>
+				<div style="clear: both;">
+					<ul class="forminfo">
+						<q:auditOpinion showInputAudit="false"
+							auditOpinionList="#{creditLimitApplyManageBean.auditOpinionList}"
+							comment="#{creditLimitApplyManageBean.creditLimitApplyVO.comment}"></q:auditOpinion>
+					</ul>
+					<ul class="forminfo" id="submitButton">
+						<li><label>&nbsp;</label> <h:commandButton value="提交" type="button"
+								styleClass="scbtn" onclick="selectUserDialog.show();" 
+								rendered="#{creditLimitApplyManageBean.workItemId == null &amp;&amp; creditLimitApplyManageBean.canBeSubmit}" />
+							<p:commandButton oncomplete="statusDialog.hide();"
+								action="#{creditLimitApplyManageBean.addCreditLimit}"
+								id="addCreditLimit" style="display: none;"></p:commandButton>
+							<h:commandButton
+								action="#{creditLimitApplyManageBean.submitAgain}" value="提交"
+								styleClass="scbtn"
+								rendered="#{creditLimitApplyManageBean.workItemId != null}" /> 
+							&nbsp;&nbsp; <h:commandButton value="撤销" styleClass="scbtn"  onclick="getHtml();statusDialog.show();"
+								rendered="#{creditLimitApplyManageBean.workItemId != null}"
+								action="#{creditLimitApplyManageBean.revoke}" /></li>
+					</ul>
+					<h:inputHidden id="hiddenHtml" value="#{creditLimitApplyManageBean.html}"></h:inputHidden>
+					<br /> <br />
+				</div>
+			</h:form>
+
+			<q:selectUser backingBean="#{creditLimitApplyManageBean}"
+				update="loanForm:userNameHidden" widgetVar="selectUserDialog"></q:selectUser>
+		</div>
+
+		<!-- 添加担保品 -->
+		<p:dialog widgetVar="addCollateral" width="800" height="300">
+			<f:facet name="header">
+				<h:outputText value="添加担保品" />
+			</f:facet>
+			<h:form id="collateralForm">
+				<h:inputHidden value="#{creditLimitApplyManageBean.collaIndex}"/>
+				<p:growl autoUpdate="true"></p:growl>
+				<ul class="forminfo" id="data">
+					<li style="clear: both; float: left;"><h:outputLabel style="width:100px" value="担保品名称"><b>*</b></h:outputLabel> 
+							<div class="vocation"><h:inputText styleClass="dfinput" id="collateralName"
+							disabled="#{creditLimitApplyManageBean.collaType == '1'}"  readonly="#{creditLimitApplyManageBean.collaType == '1'}"
+							value="#{creditLimitApplyManageBean.creditLimitApplyVO.collateralInfo.collateralName}" />
+							</div></li>
+					<li style="clear: right;"><h:outputLabel value="担保品类型" style="width:100px"><b>*</b></h:outputLabel>
+						<div class="vocation">
+							<h:selectOneMenu styleClass="select select3" id="collateralType"
+								disabled="#{creditLimitApplyManageBean.collaType == '1'}"  readonly="#{creditLimitApplyManageBean.collaType == '1'}"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.collateralInfo.collateralType}">
+								<f:selectItems value="#{fn:getSelectItems('collateralTypeCd')}"></f:selectItems>
+							</h:selectOneMenu>
+						</div></li>
+					<li style="clear: both; float: left;"><h:outputLabel
+							style="width:100px" value="担保品价值" ><b>*</b></h:outputLabel>
+							<div class="vocation"><h:inputText styleClass="dfinput" id="collateralWorth"
+								disabled="#{creditLimitApplyManageBean.collaType == '1'}"  readonly="#{creditLimitApplyManageBean.collaType == '1'}"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.collateralInfo.collateralWorth}" />
+							</div></li>
+					<li style="clear: right;"><h:outputLabel value="担保品说明" style="width:100px"><b>*</b></h:outputLabel> 
+							<div class="vocation"><h:inputText styleClass="dfinput" id="collateralExplain"
+								disabled="#{creditLimitApplyManageBean.collaType == '1'}"  readonly="#{creditLimitApplyManageBean.collaType == '1'}"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.collateralInfo.collateralExplain}" />
+							</div></li>
+					<li style="clear: both; float: left;"><h:outputLabel style="width:100px" value="抵质押人姓名"><b>*</b></h:outputLabel>
+							<div class="vocation"><h:inputText styleClass="dfinput" id="collGuarantorName"
+								disabled="#{creditLimitApplyManageBean.collaType == '1'}"  readonly="#{creditLimitApplyManageBean.collaType == '1'}"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.collateralInfo.guarantorName}" />
+							</div></li>
+					<li style="clear: right;"><h:outputLabel value="保证人类型" style="width:100px" ><b>*</b></h:outputLabel>
+						<div class="vocation">
+							<h:selectOneMenu styleClass="select select3" id="collGuarantTypeCd"
+								disabled="#{creditLimitApplyManageBean.collaType == '1'}"  readonly="#{creditLimitApplyManageBean.collaType == '1'}"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.collateralInfo.guarantTypeCd}">
+								<f:selectItems value="#{fn:getSelectItems('guarantTypeCd')}"></f:selectItems>
+							</h:selectOneMenu>
+						</div></li>
+					<li style="clear: both; float: left;"><h:outputLabel
+							style="width:100px" value="抵质押人证件类型" ><b>*</b></h:outputLabel>
+						<div class="vocation">
+							<h:selectOneMenu styleClass="select select3" id="collGuarantorPaType"
+								disabled="#{creditLimitApplyManageBean.collaType == '1'}"  readonly="#{creditLimitApplyManageBean.collaType == '1'}"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.collateralInfo.guarantorPaType}">
+								<f:selectItems value="#{fn:getSelectItems('certificateTypeCd')}"></f:selectItems>
+							</h:selectOneMenu>
+						</div></li>
+					<li style="clear: right;"><h:outputLabel value="抵质押人证件号码" style="width:100px" ><b>*</b></h:outputLabel> 
+						<div class="vocation"> <h:inputText styleClass="dfinput" id="collGuarantorPaNo"
+							disabled="#{creditLimitApplyManageBean.collaType == '1'}" 
+							readonly="#{creditLimitApplyManageBean.collaType == '1'}"
+							value="#{creditLimitApplyManageBean.creditLimitApplyVO.collateralInfo.guarantorPaNo}" />
+						</div></li>
+					<li><h:panelGroup id="files" >
+							<p:dataTable
+								rendered="#{fn:getListSize(creditLimitApplyManageBean.files) != 0}"
+								value="#{creditLimitApplyManageBean.files}" var="file"
+								rowIndexVar="index">
+								<p:column headerText="附件">
+									<h:outputText value="附件#{index+1}"></h:outputText>
+								</p:column>
+								<p:column headerText="文件名称">
+									<h:outputText value="#{file.name}" />
+								</p:column>
+								<p:column headerText="图片">
+								    <img src="#{request.contextPath}/#{file.path}" title="点击查看大图" onclick="$('#showImg').attr('src',this.src);showImgDialog.show()" height="30"></img>
+								</p:column>
+								<p:column headerText="操作">
+									<p:commandLink value="删除" immediate="true"
+										disabled="#{creditLimitApplyManageBean.collaType == '1'}"  readonly="#{creditLimitApplyManageBean.collaType == '1'}"
+										update="collateralForm:files,collateralForm:uploadFile"
+										action="#{creditLimitApplyManageBean.deleteFile}">
+										<f:param name="fileType" value="collateral"></f:param>
+										<f:param name="index" value="#{index}"></f:param>
+									</p:commandLink>
+								</p:column>
+							</p:dataTable>
+
+						</h:panelGroup></li>
+					<li><h:panelGroup id="uploadFile" rendered="#{creditLimitApplyManageBean.collaType == '0' || creditLimitApplyManageBean.collaType == '2' }">
+							<p:fileUpload update="files,uploadFile" id="upload"
+								rendered="#{fn:getListSize(creditLimitApplyManageBean.files) &lt; 4}"
+								fileUploadListener="#{creditLimitApplyManageBean.handleFileUpload}"
+								uploadLabel="上传" cancelLabel="取消" label="选择..." fileLimit="4"
+								fileLimitMessage="最多只能选择4个文件" mode="advanced" />
+						</h:panelGroup></li>
+					<li><label>&nbsp;</label> <p:commandButton value="保存" rendered="#{creditLimitApplyManageBean.collaType == '0'}"
+							update="loanForm:collateralTable,collateralForm"
+							onclick="return checkCollateralForm();"
+							action="#{creditLimitApplyManageBean.addCollateral}"
+							oncomplete="updateCollateralForm();addCollateral.hide();"
+							styleClass="scbtn"></p:commandButton>
+							<p:commandButton value="修改" rendered="#{creditLimitApplyManageBean.collaType == '2'}"
+							update="loanForm:collateralTable,collateralForm"
+							onclick="return checkCollateralForm();"
+							action="#{creditLimitApplyManageBean.updateCollateral}"
+							oncomplete="updateCollateralForm();addCollateral.hide();"
+							styleClass="scbtn"></p:commandButton>
+							</li>
+				</ul>
+				<br></br>
+			</h:form>
+		</p:dialog>
+		<!-- 添加保证人 -->
+		<p:dialog widgetVar="addGuarantor" width="800" height="300">
+			<f:facet name="header">
+				<h:outputText value="添加保证人" />
+			</f:facet>
+			<h:form id="guarantorForm">
+				<h:inputHidden value="#{creditLimitApplyManageBean.guaranIndex}"/>
+				<p:growl autoUpdate="true"></p:growl>
+				<ul class="forminfo">
+					<li style="clear: both; float: left;">
+							<div class="vocation"><h:outputLabel value="保证人" ><b>*</b></h:outputLabel>  
+							<h:inputText styleClass="dfinput" id="guarantorName"
+								disabled="#{creditLimitApplyManageBean.guaranType == '1'}"  readonly="#{creditLimitApplyManageBean.guaranType == '1'}"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.guarantorInfo.guarantorName}" />
+							</div></li>
+					<li style="clear: right;"><h:outputLabel value="担保类型" ><b>*</b></h:outputLabel> 
+						<div class="vocation">
+							<h:selectOneMenu styleClass="select select2" id="guarantTypeCd"
+								disabled="#{creditLimitApplyManageBean.guaranType == '1'}"  readonly="#{creditLimitApplyManageBean.guaranType == '1'}"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.guarantorInfo.guarantTypeCd}">
+								<f:selectItems value="#{fn:getSelectItems('guarantorTypeCd')}"></f:selectItems>
+							</h:selectOneMenu>
+						</div></li>
+					<li style="clear: both; float: left;"><h:outputLabel value="保证人证件类型" ><b>*</b></h:outputLabel> 
+						<div class="vocation">
+							<h:selectOneMenu styleClass="select select2" id="guarantorPaType"
+								disabled="#{creditLimitApplyManageBean.guaranType == '1'}"  readonly="#{creditLimitApplyManageBean.guaranType == '1'}"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.guarantorInfo.guarantorPaType}">
+								<f:selectItems value="#{fn:getSelectItems('certificateTypeCd')}"></f:selectItems>
+							</h:selectOneMenu>
+						</div></li>
+					<li style="clear: right;"><h:outputLabel value="保证人证件号码" ><b>*</b></h:outputLabel> 
+					 		<div class="vocation"><h:inputText styleClass="dfinput" id="guarantorPaNo"
+								disabled="#{creditLimitApplyManageBean.guaranType == '1'}"  readonly="#{creditLimitApplyManageBean.guaranType == '1'}"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.guarantorInfo.guarantorPaNo}" />
+							</div></li>
+					<li style="clear: both; float: left;"><h:outputLabel value="担保金额" ><b>*</b></h:outputLabel>  
+						<div class="vocation"><h:inputText styleClass="dfinput" id="guarantorAmt"
+							disabled="#{creditLimitApplyManageBean.guaranType == '1'}"  readonly="#{creditLimitApplyManageBean.guaranType == '1'}"
+							value="#{creditLimitApplyManageBean.creditLimitApplyVO.guarantorInfo.guarantorAmt}" />
+						</div></li>
+					<li style="clear: right;"><h:outputLabel value="担保说明" ><b>*</b></h:outputLabel>  
+						<div class="vocation"><h:inputText styleClass="dfinput" id="guarantorExplain"
+							disabled="#{creditLimitApplyManageBean.guaranType == '1'}"  readonly="#{creditLimitApplyManageBean.guaranType == '1'}"
+							value="#{creditLimitApplyManageBean.creditLimitApplyVO.guarantorInfo.guarantorExplain}" />
+						</div></li>
+					<li><h:panelGroup id="files1">
+							<p:dataTable
+								rendered="#{fn:getListSize(creditLimitApplyManageBean.files1) != 0}"
+								value="#{creditLimitApplyManageBean.files1}" var="file"
+								rowIndexVar="index">
+								<p:column headerText="附件">
+									<h:outputText value="#{file.title}"></h:outputText>
+								</p:column>
+								<p:column headerText="文件名称">
+									<h:outputText value="#{file.name}" />
+								</p:column>
+								<p:column headerText="图片">
+								    <img src="#{request.contextPath}/#{file.path}" title="点击查看大图" onclick="$('#showImg').attr('src',this.src);showImgDialog.show()" height="30"></img>
+								</p:column>
+								<p:column headerText="操作">
+									<p:commandLink value="删除" immediate="true"
+										disabled="#{creditLimitApplyManageBean.guaranType == '1'}"  readonly="#{creditLimitApplyManageBean.guaranType == '1'}"
+										update="guarantorForm:files1,guarantorForm:uploadFile1"
+										action="#{creditLimitApplyManageBean.deleteFile}">
+										<f:param name="fileType" value="collateral"></f:param>
+										<f:param name="index" value="#{index}"></f:param>
+									</p:commandLink>
+								</p:column>
+							</p:dataTable>
+						</h:panelGroup></li>
+					<li><h:panelGroup id="uploadFile1"  rendered="#{creditLimitApplyManageBean.guaranType == '0' || creditLimitApplyManageBean.guaranType == '2'}">
+							<p:fileUpload update="files1,uploadFile1" id="upload1"
+								rendered="#{fn:getListSize(creditLimitApplyManageBean.files1) &lt; 4}"
+								fileUploadListener="#{creditLimitApplyManageBean.handleFileUpload1}"
+								uploadLabel="上传" cancelLabel="取消" label="选择..." fileLimit="4"
+								fileLimitMessage="最多只能选择4个文件" mode="advanced" />
+						</h:panelGroup></li>
+					<li><label>&nbsp;</label> <p:commandButton value="保存" rendered="#{creditLimitApplyManageBean.guaranType == '0'}"
+							update="loanForm:guarantorTable,guarantorForm"
+							onclick="return checkGuarantorForm();"
+							action="#{creditLimitApplyManageBean.addGuarantor}"
+							oncomplete="updateGuarantorForm();addGuarantor.hide();"
+							styleClass="scbtn"></p:commandButton>
+							<p:commandButton value="修改" rendered="#{creditLimitApplyManageBean.guaranType == '2'}"
+							update="loanForm:guarantorTable,guarantorForm"
+							onclick="return checkGuarantorForm();"
+							action="#{creditLimitApplyManageBean.updateGuarantor}"
+							oncomplete="updateGuarantorForm();addGuarantor.hide();"
+							styleClass="scbtn"></p:commandButton>
+							</li>
+				</ul>
+				<br></br>
+			</h:form>
+		</p:dialog>
+
+		<!-- 添加联系人 -->
+		<p:dialog widgetVar="addContact" width="800" height="300">
+			<f:facet name="header">
+				<h:outputText value="添加联系人" />
+			</f:facet>
+			<h:form id="contactForm">
+				<ul class="forminfo">
+					<li style="clear: both; float: left;"><h:outputLabel value="联系人姓名" ><b>*</b></h:outputLabel> 
+						<div class="vocation"> <h:inputText styleClass="dfinput" id="contactsName"
+							value="#{creditLimitApplyManageBean.creditLimitApplyVO.contact.contactsName}" />
+						</div></li>
+					<li style="clear: right;"><h:outputLabel value="联系人类型" />
+						<div class="vocation">
+							<h:selectOneMenu styleClass="select select4"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.contact.contactsTypeCd}">
+								<f:selectItems value="#{fn:getSelectItems('contactsTypeCd')}"></f:selectItems>
+							</h:selectOneMenu>
+						</div></li>
+
+					<li style="clear: both; float: left;"><h:outputLabel value="联系人手机" ><b>*</b></h:outputLabel> 
+							<div class="vocation"> <h:inputText styleClass="dfinput" id="mobileTelephone"
+							value="#{creditLimitApplyManageBean.creditLimitApplyVO.contact.mobileTelephone}" />
+							</div>
+					</li>
+
+					<li style="clear: right;"><h:outputLabel value="联系人电话" /> 
+						<div class="vocation"><h:inputText styleClass="dfinput"
+							value="#{creditLimitApplyManageBean.creditLimitApplyVO.contact.telephone}" />
+						</div>
+					</li>
+					<li style="clear: both; float: left;"><h:outputLabel value="证件类型" ><b>*</b></h:outputLabel> 
+						<div class="vocation">
+							<h:selectOneMenu styleClass="select select4" id="certificateTypeCd"
+								value="#{creditLimitApplyManageBean.creditLimitApplyVO.contact.certificateTypeCd}">
+								<f:selectItems value="#{fn:getSelectItems('certificateTypeCd')}"></f:selectItems>
+							</h:selectOneMenu>
+						</div></li>
+					<li style="clear: right;"><h:outputLabel value="证件号码" ><b>*</b></h:outputLabel> 
+					 	<div class="vocation">
+					 		<h:inputText styleClass="dfinput" id="certificateNum"
+					 		value="#{creditLimitApplyManageBean.creditLimitApplyVO.contact.certificateNum}" />
+						</div></li>
+					<li><label>&nbsp;</label> <p:commandButton value="保存" 
+							update="loanForm:contactTable,contactForm"
+							onclick="return checkContactForm();"
+							action="#{creditLimitApplyManageBean.addContact}"
+							oncomplete="updateContactForm();addContact.hide();"
+							styleClass="scbtn"></p:commandButton></li>
+				</ul>
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog widgetVar="showImgDialog" width="420" height="300">
+		   <img src="" id="showImg" width="400"></img>
+		</p:dialog>
+		<script type="text/javascript">
+			$("#usual1 ul").idTabs();
+			$(document).ready(function(e) {
+				$(".select").uedSelect({
+					width : 250
+				});
+				$(".select1").uedSelect({
+					width : 180
+				});
+				$(".select6").uedSelect({
+					width : 140
+				});
+				var his = $("#loanForm\\:his").val();
+				if(his=="true"){
+					$("#submitButton").hide();
+				}else{
+					$("#submitButton").show();
+				}
+			});
+			function updateGuarantorForm() {
+				$(".select2").uedSelect({
+					width : 250
+				});
+			}
+			function updateCollateralForm() {
+				$(".select3").uedSelect({
+					width : 250
+				});
+			}
+			function updateContactForm() {
+				$(".select4").uedSelect({
+					width : 250
+				});
+			}
+			function changeValue(a) {
+				var ja = $(a);
+				var class1 = ja.attr("class")
+				if ("checkoff" == class1) {
+					ja.next().val("2");
+					ja.removeClass("checkoff");
+					ja.addClass("checkon");
+				} else {
+					ja.next().val("3");
+					ja.removeClass("checkon");
+					ja.addClass("checkoff");
+				}
+			}
+			function completeSelectUser() {
+				$("#loanForm\\:addCreditLimit").click();
+				setTimeout("statusDialog.show();",300);//延时300毫秒 
+			}
+			function getHtml(){
+				var html = $("html").clone();
+				html.find("#submitButton").remove();
+				$("#loanForm\\:hiddenHtml").val(html.html());
+			}
+			function checkContactForm() { 
+				//检查联系人信息
+				// 校验联系人名称
+				var contactsName = $("#contactForm\\:contactsName").val();
+				if(null ==contactsName ||contactsName.length==0){
+					alert("联系人名称不能为空!");
+					return false;
+				}
+				// 交易电话号码
+				var mobileTelephone = $("#contactForm\\:mobileTelephone").val();
+				var flag = validatemobile(mobileTelephone);
+				if(!flag){
+					return false;
+				}
+				//校验身份证
+                var idCard = $("#contactForm\\:certificateNum").val();
+                var paymentWayCd = $("#contactForm\\:certificateTypeCd");
+				if(!validateIdCard(paymentWayCd,idCard)){
+					return false;
+				}
+				return true;
+			}  
+			function checkCollateralForm() { 
+				//检查担保品信息
+				var collateralName = $("#collateralForm\\:collateralName").val();
+				if(null ==collateralName ||collateralName.length==0){
+					alert("担保品名称不能为空!");
+					return false;
+				}
+				//担保品价值
+				var collateralWorth = $("#collateralForm\\:collateralWorth").val();
+				if(null ==collateralWorth ||collateralWorth.length==0){
+					alert("担保品价值不能为空!");
+					return false;
+				}
+				//担保品说明
+				var collateralExplain = $("#collateralForm\\:collateralExplain").val();
+				if(null ==collateralExplain ||collateralExplain.length==0){
+					alert("担保品说明不能为空!");
+					return false;
+				}
+				//抵质押人姓名
+				var collGuarantorName = $("#collateralForm\\:collGuarantorName").val();
+				if(null ==collGuarantorName ||collGuarantorName.length==0){
+					alert("抵质押人姓名不能为空!");
+					return false;
+				}
+				//校验身份证
+				var idCard = $("#collateralForm\\:collGuarantorPaNo").val();
+                var paymentWayCd = $("#collateralForm\\:collGuarantorPaType");
+				if(!validateIdCard(paymentWayCd,idCard)){
+					return false;
+				}
+				return true;
+			} 
+			function checkGuarantorForm() { 
+				//检查保证人信息
+				var guarantorName = $("#guarantorForm\\:guarantorName").val();
+				if(null ==guarantorName ||guarantorName.length==0){
+					alert("保证人名称不能为空!");
+					return false;
+				}
+				//校验身份证
+				var idCard = $("#guarantorForm\\:guarantorPaNo").val();
+                var paymentWayCd = $("#guarantorForm\\:guarantorPaType");
+				if(!validateIdCard(paymentWayCd,idCard)){
+					return false;
+				}
+				//检查担保金额
+				var guarantorAmt = $("#guarantorForm\\:guarantorAmt").val();
+				if(null ==guarantorAmt ||guarantorAmt.length==0){
+					alert("担保金额不能为空!");
+					return false;
+				}
+				//检查担保说明
+				var guarantorExplain = $("#guarantorForm\\:guarantorExplain").val();
+				if(null ==guarantorExplain ||guarantorExplain.length==0){
+					alert("担保说明不能为空!");
+					return false;
+				}
+				return true;
+			} 
+			function validatemobile(mobile)
+		    {
+		        if(mobile.length==0)
+		        {
+		           alert('请输入11位的手机号码！');
+		           return false;
+		        }    
+		        if(mobile.length!=11)
+		        {
+		            alert('请输入11位的手机号码！');
+		            return false;
+		        }
+		        var myreg = /^(((13[0-9]{1})|159|153)+\d{8})$/;
+		        if(!myreg.test(mobile))
+		        {
+		            alert('请输入有效的手机号码！');
+		            return false;
+		        }
+		        return true;
+		    }
+			function validateIdCard(paymentWayCd,idCard)
+		    {
+				var regex = /^[1-9]\d{16}[\d|x|X]$/;	
+				if(paymentWayCd.val()=="0"){
+					 if (regex.exec(idCard)){				
+	                 } else {				
+	                	alert('身份证格式错误，第一位不为0，2-17位是数字，最后一位可数字、可X');	
+	                	return false;
+	                 }
+				}
+		        return true;
+		    }
+		</script>
+	</ui:define>
+</ui:composition>
+</html>
+

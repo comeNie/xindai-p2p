@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">贷后管理</a></li>
+				<li><a href="#">逾期贷后任务</a></li>
+			</ul>
+		</div>
+		<div class="rightinfo">
+			<h:form id="search">
+				<ul class="seachform">
+					<li><h:outputLabel value="合同号：" /> <h:inputText
+							styleClass="scinput" value="#{postLoanManageBean.searchVO.account}" /></li>
+					<li><h:outputLabel value="借款标题：" /> <h:inputText
+							styleClass="scinput" value="#{postLoanManageBean.searchVO.loanId}" /></li>
+					<li><h:outputLabel value="用户id：" /> <h:inputText
+							styleClass="scinput" value="#{postLoanManageBean.searchVO.custName}" /></li>
+					<li><h:outputLabel value="用户真名：" /> <h:inputText
+							styleClass="scinput" value="#{postLoanManageBean.searchVO.custName}" /></li>
+					<li><h:outputLabel value="逾期天数：" /> <h:inputText
+							styleClass="scinput" value="#{postLoanManageBean.searchVO.custName}" /></li>
+					<li><h:outputLabel value="还款状态：" /> <h:inputText
+							styleClass="scinput" value="#{postLoanManageBean.searchVO.custName}" /></li>
+					<li><h:outputLabel value="应还日期从：" /> <h:inputText
+							styleClass="scinput" value="#{postLoanManageBean.searchVO.custName}" /></li>
+					<li><h:outputLabel value="到：" /> <h:inputText
+							styleClass="scinput" value="#{postLoanManageBean.searchVO.custName}" /></li>						
+					<li><h:outputLabel value="客户经理：" /> <h:inputText
+							styleClass="scinput" value="#{postLoanManageBean.searchVO.custName}" /></li>	
+					<li><h:outputLabel value="机构：" /> <h:inputText
+							styleClass="scinput" value="#{postLoanManageBean.searchVO.custName}" /></li>
+							
+					<li><label>&nbsp;</label> <p:commandButton value="搜索"
+							action="#{postLoanManageBean.search}" styleClass="scbtn"
+							image="ui-icon ui-icon-search" update="dataTable"></p:commandButton></li>
+					<li><label>&nbsp;</label> <p:commandButton value="重置" type="reset"
+							styleClass="scbtn" image="ui-icon ui-icon-search" update="dataTable"></p:commandButton></li>
+				</ul>
+				<div class="tools">
+					<ul class="toolbar">
+						<li><p:commandLink id="addInfo" action="#{postLoanManageBean.operate}"                         
+									oncomplete="showWindow('#{request.contextPath}/pages/app/custInfo/chooseBusinessType.jsf?operateFlag=addBusiness','业务发起',1000,1000);"
+									onclick="if(!$('.ui-state-highlight').text()){alert('请选择一条记录');return false;}"
+								update="dataTable">
+								<f:param name="operateFlag" value="addBusiness" /><span><img src="#{request.contextPath}/images/t01.png" /></span>贷后检查</p:commandLink></li>
+						<li><p:commandLink id="addInfo222" action="#{postLoanManageBean.operate}"                         
+									oncomplete="showWindow('#{request.contextPath}/pages/app/custInfo/chooseBusinessType.jsf?operateFlag=addBusiness','业务发起',1000,1000);"
+									onclick="if(!$('.ui-state-highlight').text()){alert('请选择一条记录');return false;}"
+								update="dataTable">
+								<f:param name="operateFlag" value="addBusiness" /><span><img src="#{request.contextPath}/images/t01.png" /></span>浏览</p:commandLink></li>
+					</ul>
+				</div>
+				<p:growl globalOnly="true" autoUpdate="true"></p:growl>
+				<p:dataTable rowClasses="r,odd" value="#{postLoanManageBean.dataModel}"
+					var="loan" rows="10" paginatorAlwaysVisible="false"
+					paginatorPosition="bottom" lazy="true" emptyMessage="暂无数据"
+					paginator="true" rowsPerPageTemplate="5,10,15,20" id="dataTable"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					selection="#{postLoanManageBean.selectLoan}">
+					<p:column selectionMode="single" />
+					<p:column headerText="贷后任务ID">
+						<h:outputText value="#{loan.custId}" />
+					</p:column>
+					<p:column headerText="用户ID">
+						<h:outputText value="#{loan.account}" />
+					</p:column>
+					<p:column headerText="用户真名">
+						<h:outputText value="#{loan.custName}" />
+					</p:column>
+					<p:column headerText="贷后产生方式	">
+						<h:outputText value="#{loan.certificateNum}" />
+					</p:column>
+					<p:column headerText="开始时间">
+						<h:outputText value="#{loan.sysCreateTime}/#{loan.sysCreateTime}" />
+					</p:column>
+					<p:column headerText="完成时间">
+						<h:outputText value="#{loan.accountBalAmt}" />
+					</p:column>
+					<p:column headerText="客户经理">
+						<h:outputText value="#{loan.pmAmt}" />
+					</p:column>
+					<p:column headerText="机构">
+						<h:outputText value="#{loan.pmAmt}" />
+					</p:column>
+					<p:column headerText="贷后状态">
+						<h:outputText value="#{loan.pmAmt}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+		<p:dialog widgetVar="mainDialog" width="900" height="400" modal="true">
+			<f:facet name="header">
+				<h:outputText id="mainDialogTitle" value="用户管理" />
+			</f:facet>
+			<iframe id="mainFrameHidden" width="100%" height="100%"
+				name="mainFrameHidden" scrolling="auto" src="" frameborder="0">
+			</iframe>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+
+</html>

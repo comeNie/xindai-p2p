@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:q="http://www.qfw.com/jsf/ui" xmlns:p="http://primefaces.org/ui">
+	<ui:composition template="/templates/main.xhtml">
+		<ui:define name="body">
+			<div class="place">
+				<span>位置：</span>
+				<ul class="placeul">
+					<li>密码修改</li>
+				</ul>
+			</div>
+			<div class="formbody">
+				<h:form id="pwdform">
+					<ul class="forminfo">
+						<p:growl globalOnly="true" autoUpdate="true"></p:growl>
+						<li>
+							<label><font style="color:red;">* </font>旧密码</label>
+							<h:panelGrid columns="2">
+								<h:inputSecret id="password" value="#{userManageBean.oldPassWord}" immediate="false" styleClass="dfinput"
+									required="true" requiredMessage="旧密码不能为空，请输入旧密码">
+								</h:inputSecret>
+							</h:panelGrid>
+						</li>
+						<li>
+							<label><font style="color:red;">* </font>新密码</label>
+							<h:panelGrid columns="2">
+								<h:inputSecret id="newPassWord" value="#{userManageBean.newPassWord}" immediate="false" styleClass="dfinput"
+									required="true" requiredMessage="新密码不能为空，请输入新密码">
+								</h:inputSecret><i>密码长度介于6~16之间的长度</i>
+							</h:panelGrid>
+						</li>
+						<li>
+							<label><font style="color:red;">* </font>确认密码</label>
+							<h:panelGrid columns="2">
+								<h:inputSecret id="newPassWord2" value="#{userManageBean.newPassWord2}" immediate="false" styleClass="dfinput"
+									required="true" requiredMessage="确认密码不能为空，请输入确认密码">
+								</h:inputSecret><i>密码长度介于6~16之间的长度</i>
+							</h:panelGrid>
+						</li>
+						<li>
+							<label>&nbsp;</label>
+							<h:commandButton styleClass="btn" oncomplete="refreshParent();" value="确定" 
+									action="#{userManageBean.updatePassWord}"></h:commandButton>
+						</li>
+					</ul>
+				</h:form>
+			</div>
+		</ui:define>
+	</ui:composition>
+</html>

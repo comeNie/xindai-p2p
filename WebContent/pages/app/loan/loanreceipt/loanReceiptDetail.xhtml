@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:q="http://www.qfw.com/jsf/ui" 
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://www.qfw.com/jsf/fn">
+<f:view>
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link href="#{request.contextPath}/css/style.css" rel="stylesheet" type="text/css" />
+<link href="#{request.contextPath}/css/select.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="#{request.contextPath}/js/jquery.idTabs.min.js"></script>
+<script type="text/javascript" src="#{request.contextPath}/js/select-ui.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(e) {
+    $(".select1").uedSelect({
+		width : 200	
+	});
+});
+</script>
+<style type="text/css">
+.inputType{width:200px; height:32px; line-height:32px; border-top:solid 1px #a7b5bc; border-left:solid 1px #a7b5bc; 
+	border-right:solid 1px #ced9df; border-bottom:solid 1px #ced9df;
+ 	background:url(../images/inputbg.gif) repeat-x; text-indent:10px;}
+.divType {padding:10px 18px;}
+.divpanelGrid {width:100%}
+.divpanelGrid label {margin-left:12px;float:left; line-height:40px; padding-left:7px; padding-right:12px; }
+
+.panelGrid {width:80%;line-height:40px;float:left; margin-left:12px;}
+.outputLabel {margin-left:12px;float:left; line-height:40px; padding-left:7px; padding-right:12px; }
+</style>
+</h:head>
+
+<h:body>
+	<div class="place">
+		<span>位置：</span>
+		<ul class="placeul">
+			<li><a href="#">借款管理</a></li>
+			<li><a href="#">借据详情</a></li>
+		</ul>
+	</div>
+	
+    <div class="formbody">
+    <h:form id="loanForm">
+    	<div class="rightinfo">
+    		<h:messages id="errorinfo" />
+			<table>
+				<tr>
+					<td> <h:outputLabel value="借款名称" styleClass="outputLabel" /></td>
+					<td><h:inputText styleClass="inputType" disabled="true" readonly="true" value="#{loanReceiptDetailBean.loanApplyVO.loanName}"></h:inputText></td>
+					<td><h:outputLabel value="标的类型" class ="outputLabel"  /></td>
+					<td>
+					<h:selectOneRadio value="#{loanReceiptDetailBean.loanApplyVO.loanTypeCd}" disabled="true" readonly="true" >
+						<f:selectItems value="#{fn:getSelectItems('tenderTypeCd')}"></f:selectItems>
+					</h:selectOneRadio>
+					</td>
+				</tr>
+				<tr>
+					<td><h:outputLabel value="标的总额：" class ="outputLabel" /></td>
+					<td><h:inputText  styleClass="inputType" converter="amtConverter"
+						 disabled="true" readonly="true" value="#{loanReceiptDetailBean.loanApplyVO.applyAmt}"></h:inputText></td>
+					<td><h:outputLabel value="每份金额" class ="outputLabel" /></td>
+					<td><h:inputText styleClass="inputType" converter="amtConverter"
+						 disabled="true" readonly="true" value="#{loanReceiptDetailBean.loanApplyVO.temderCountAmt}" ></h:inputText></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel value="借款余额" class ="outputLabel" /></td>
+					<td><h:inputText  styleClass="inputType" converter="amtConverter"
+						disabled="true" readonly="true" value="#{loanReceiptDetailBean.loanBO.loanBalAmt}"></h:inputText></td>
+					<td><h:outputLabel value="借款期限" class ="outputLabel" /></td>
+					<td><h:inputText styleClass="inputType" disabled="true" readonly="true" value="#{loanReceiptDetailBean.loanBO.loanTerm}" ></h:inputText></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel value="放款日期" class ="outputLabel" /></td>
+					<td><h:inputText  styleClass="inputType" disabled="true" readonly="true" value="#{loanReceiptDetailBean.loanBO.loanDate}"></h:inputText></td>
+					<td><h:outputLabel value="到期日期" class ="outputLabel" /></td>
+					<td><h:inputText styleClass="inputType" disabled="true" readonly="true" value="#{loanReceiptDetailBean.loanBO.loanDueDate}" ></h:inputText></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel value="还款方式" class ="outputLabel" /></td>
+					<td><h:inputText  styleClass="inputType" disabled="true" readonly="true" converter="#{fn:getSelectItemConverter('repayTypeCd')}" 
+						value="#{loanReceiptDetailBean.loanBO.repayTypeCd}"></h:inputText></td>
+					<td><h:outputLabel value="还款周期" class ="outputLabel" /></td>
+					<td><h:inputText styleClass="inputType" disabled="true" readonly="true" value="#{loanReceiptDetailBean.loanBO.repayCycle}" ></h:inputText></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel value="总期数" class ="outputLabel" /></td>
+					<td><h:inputText  styleClass="inputType" disabled="true" readonly="true" value="#{loanReceiptDetailBean.loanBO.totalPeriod}"></h:inputText></td>
+					<td><h:outputLabel value="已还期数" class ="outputLabel" /></td>
+					<td><h:inputText styleClass="inputType" disabled="true" readonly="true" value="#{loanReceiptDetailBean.loanBO.repayedPeriod}" ></h:inputText></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel value="借款年利率(%)" class ="outputLabel" /></td>
+					<td><h:inputText  styleClass="inputType" disabled="true" readonly="true" 
+						converter="percentConverter" value="#{loanReceiptDetailBean.loanBO.loanRate}"></h:inputText></td>
+					<td><h:outputLabel value="展期年利率(%)" class ="outputLabel" /></td>
+					<td><h:inputText styleClass="inputType" disabled="true" readonly="true"
+						converter="percentConverter" value="#{loanReceiptDetailBean.loanBO.delayRate}" ></h:inputText></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel value="逾期年利率(%)" class ="outputLabel" /></td>
+					<td><h:inputText  styleClass="inputType" disabled="true" readonly="true" 
+						converter="percentConverter" value="#{loanReceiptDetailBean.loanBO.overdueRate}"></h:inputText></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel value="借款总本息" class ="outputLabel" /></td>
+					<td><h:inputText  styleClass="inputType" converter="amtConverter"
+						disabled="true" readonly="true" value="#{loanReceiptDetailBean.loanBO.ttlPrincipalInterestAmt}"></h:inputText></td>
+					<td><h:outputLabel value="借款总利息" class ="outputLabel" /></td>
+					<td><h:inputText styleClass="inputType" converter="amtConverter"
+						disabled="true" readonly="true" value="#{loanReceiptDetailBean.loanBO.ttlInterestAmt}" ></h:inputText></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel value="累计产生罚息" class ="outputLabel" /></td>
+					<td><h:inputText  styleClass="inputType" converter="amtConverter"
+						disabled="true" readonly="true" value="#{loanReceiptDetailBean.loanBO.ttlPenaltyAmt}"></h:inputText></td>
+					<td><h:outputLabel value="累计已还款金额" class ="outputLabel" /></td>
+					<td><h:inputText styleClass="inputType" converter="amtConverter"
+						disabled="true" readonly="true" value="#{loanReceiptDetailBean.loanBO.ttlRepayedAmt}" ></h:inputText></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel value="累计平台垫付金额" class ="outputLabel" /></td>
+					<td><h:inputText  styleClass="inputType" converter="amtConverter"
+						disabled="true" readonly="true" value="#{loanReceiptDetailBean.loanBO.ttlPlatRepayedAmt}"></h:inputText></td>
+					<td><h:outputLabel value="提前还款金额" class ="outputLabel" /></td>
+					<td><h:inputText styleClass="inputType" converter="amtConverter"
+						disabled="true" readonly="true" value="#{loanReceiptDetailBean.loanBO.earlyRepayAmt}" ></h:inputText></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel value="提前还款日期" class ="outputLabel" /></td>
+					<td><h:inputText  styleClass="inputType" disabled="true" readonly="true" value="#{loanReceiptDetailBean.loanBO.earlyRepayDate}"></h:inputText></td>
+					<td><h:outputLabel value="还款结清方式" class ="outputLabel" /></td>
+					<td><h:inputText styleClass="inputType" disabled="true" readonly="true" 
+						value="#{loanReceiptDetailBean.loanBO.repayEndWay}" converter="#{fn:getSelectItemConverter('repayWayCd')}" ></h:inputText></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel value="提前还款原因" class ="outputLabel" /></td>
+					<td><h:inputTextarea styleClass="inputType" disabled="true" readonly="true" value="#{loanReceiptDetailBean.loanBO.earlyRepayReason}"></h:inputTextarea></td>
+					<td><h:outputLabel value="状态" class ="outputLabel" /></td>
+					<td><h:inputText styleClass="inputType" disabled="true" readonly="true" 
+						value="#{loanReceiptDetailBean.loanBO.loanStatusCd}"  converter="#{fn:getSelectItemConverter('loanStatusCd')}" ></h:inputText></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel value="用途" class ="outputLabel" /></td>
+					<td><h:inputTextarea styleClass="inputType" disabled="true" readonly="true" value="#{loanReceiptDetailBean.loanApplyVO.loanPurpose}"></h:inputTextarea></td>
+				</tr>
+				<tr>
+					<td><h:outputLabel value="备注" class ="outputLabel" /></td>
+					<td><h:inputTextarea styleClass="inputType" disabled="true" readonly="true" value="#{loanReceiptDetailBean.loanBO.comment}"></h:inputTextarea></td>
+				</tr>
+			</table>
+		</div>
+    	</h:form>
+    </div>        
+</h:body>
+</f:view>
+</html>

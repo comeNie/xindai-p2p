@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:q="http://www.qfw.com/jsf/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<div class="formbody">
+
+			<h:form id="productForm">
+				<ul class="forminfo">
+					<p:growl autoUpdate="true"></p:growl>
+					<li><label>产品编号</label> <h:inputText id="productNum"
+							value="#{addProductInfoBean.product.productNum}" immediate="false"
+							required="true" label="产品编号" requiredMessage="产品编号不能为空"
+							styleClass="dfinput"  maxlength="50">
+							<p:ajax event="blur" update="deptCodeMsg" />
+						</h:inputText></li>
+					<li><label>产品名称</label> <h:inputText id="productName"
+							value="#{addProductInfoBean.product.productName}" immediate="false"
+							required="true" label="产品名称" requiredMessage="产品名称不能为空"
+							styleClass="dfinput"  maxlength="50">
+							<p:ajax event="blur" update="deptCodeMsg" />
+						</h:inputText></li>
+					<li style="clear: none; float: left"><label>最小年化利率</label> <h:inputText id="leastRateYear" converter="percentConverter"
+							value="#{addProductInfoBean.product.leastRateYear}" immediate="false" style="width:128px;"
+							required="true" label="最小年化利率" requiredMessage="最小年化利率不能为空" maxlength="8" 
+							styleClass="scinput">
+							<p:ajax event="blur" update="deptCodeMsg" />
+						</h:inputText></li>
+					<li style="clear: right"><label>&nbsp;&nbsp;最大年化利率</label> <h:inputText id="mostRateYear" converter="percentConverter"
+							value="#{addProductInfoBean.product.mostRateYear}" immediate="false"  style="width:128px;"
+							required="true" label="最大年化利率" requiredMessage="最大年化利率不能为空" maxlength="8"
+							styleClass="scinput">
+							<p:ajax event="blur" update="deptCodeMsg" />
+						</h:inputText></li>
+					<li><label>产品描述</label> <h:inputTextarea id="productDesc" style="height:80px;" 
+							value="#{addProductInfoBean.product.productDesc}" immediate="false"
+							label="产品描述" maxlength="200"
+							styleClass="dfinput">
+							<p:ajax event="blur" update="deptCodeMsg" />
+						</h:inputTextarea></li>
+					<li style="clear: left"><label>图片上传</label> <h:inputText id="productImgUrl" 
+							value="#{addProductInfoBean.product.productImgUrl}" immediate="false"
+							required="true" label="图片上传" requiredMessage="产品图片上传不能为空"
+							styleClass="dfinput">
+							<p:ajax event="blur" update="deptCodeMsg" />
+						</h:inputText></li>		
+					<li><label>&nbsp;</label> <p:commandButton styleClass="btn"
+							value="保存" action="#{addProductInfoBean.operate}" oncomplete="refreshParent();"
+							rendered="#{addProductInfoBean.operateFlag != 'view'}"></p:commandButton>&nbsp;&nbsp;
+						<p:commandButton styleClass="btn" value="关闭" type="button" onclick="closeParMainDialog();"></p:commandButton></li>
+				</ul>
+			</h:form>
+		</div>
+
+	</ui:define>
+</ui:composition>
+
+</html>

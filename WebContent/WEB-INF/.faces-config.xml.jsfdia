@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:*" PATH="*" SHAPE="32,305,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:0" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="imageDetail::#pages#grmainpage#myPicImageDetail.xhtml"
+    NAME="output" PATH="/pages/grmainpage/myPicImageDetail.xhtml"
+    TARGET="rules:#pages#grmainpage#myPicImageDetail.xhtml"
+    TITLE="imageDetail" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:1" PATH="*" SHAPE="32,417,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:1" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="setIndexShow::#pages#app#auditPic.xhtml"
+    NAME="output" PATH="/pages/app/auditPic.xhtml"
+    TARGET="rules:#pages#app#auditPic.xhtml" TITLE="setIndexShow" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:2" PATH="*" SHAPE="32,529,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:2" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="updatePhoto::#pages#grmainpage#createPhoto.xhtml" NAME="output"
+    PATH="/pages/grmainpage/createPhoto.xhtml"
+    TARGET="rules:#pages#grmainpage#createPhoto.xhtml"
+    TITLE="updatePhoto" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:3" PATH="*" SHAPE="32,641,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:3" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="showPhotosImage::#proscenium#showPhotosImage.xhtml"
+    NAME="output" PATH="/proscenium/showPhotosImage.xhtml"
+    TARGET="rules:#proscenium#showPhotosImage.xhtml"
+    TITLE="showPhotosImage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:4" PATH="*" SHAPE="32,753,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:4" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="newUploadPhotos::#proscenium#newUploadPhotos.xhtml"
+    NAME="output" PATH="/proscenium/newUploadPhotos.xhtml"
+    TARGET="rules:#proscenium#newUploadPhotos.xhtml"
+    TITLE="newUploadPhotos" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:5" PATH="*" SHAPE="32,865,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:5" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="commentPhotos::#proscenium#index_commentTop.xhtml" NAME="output"
+    PATH="/proscenium/index_commentTop.xhtml"
+    TARGET="rules:#proscenium#index_commentTop.xhtml"
+    TITLE="commentPhotos" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:6" PATH="*" SHAPE="32,977,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:6" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="voteTopPhotos::#proscenium#index_photosSort.xhtml" NAME="output"
+    PATH="/proscenium/index_photosSort.xhtml"
+    TARGET="rules:#proscenium#index_photosSort.xhtml"
+    TITLE="voteTopPhotos" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#pages#grmainpage#updatePicImage.xhtml"
+  PATH="/pages/grmainpage/updatePicImage.xhtml" SHAPE="240,881,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#grmainpage#myPicImageDetail.xhtml"
+  PATH="/pages/grmainpage/myPicImageDetail.xhtml" SHAPE="240,321,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#grmainpage#myPicImage.xhtml"
+  PATH="/pages/grmainpage/myPicImage.xhtml" SHAPE="240,545,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#grmainpage#createPhoto.xhtml"
+  PATH="/pages/grmainpage/createPhoto.xhtml" SHAPE="240,433,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#grmainpage#inputPhotoPassWord.xhtml"
+  PATH="/pages/grmainpage/inputPhotoPassWord.xhtml" SHAPE="240,769,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#grmainpage#sharingPicImage.xhtml"
+  PATH="/pages/grmainpage/sharingPicImage.xhtml" SHAPE="240,657,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#grmainpage#batchUpdatePhoto.xhtml"
+  PATH="/pages/grmainpage/batchUpdatePhoto.xhtml" SHAPE="240,993,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:7" PATH="*" SHAPE="32,1025,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:7" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="showphotoList::#proscenium#showphotoList.xhtml" NAME="output"
+    PATH="/proscenium/showphotoList.xhtml"
+    TARGET="rules:#proscenium#showphotoList.xhtml" TITLE="showphotoList" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#proscenium#showPhotosImage.xhtml"
+  PATH="/proscenium/showPhotosImage.xhtml" SHAPE="240,1041,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:8" PATH="*" SHAPE="32,1137,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:8" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="searchphotoList::#proscenium#SearchphotoList.xhtml"
+    NAME="output" PATH="/proscenium/SearchphotoList.xhtml"
+    TARGET="rules:#proscenium#SearchphotoList.xhtml"
+    TITLE="searchphotoList" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#pages#app#auditPic.xhtml"
+  PATH="/pages/app/auditPic.xhtml" SHAPE="240,1153,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:9" PATH="*" SHAPE="32,1249,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:9" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="userRegister::#proscenium#user_register.xhtml" NAME="output"
+    PATH="/proscenium/user_register.xhtml"
+    TARGET="rules:#proscenium#user_register.xhtml" TITLE="userRegister" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:10" PATH="*" SHAPE="32,1361,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:10" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="photoIndex::#proscenium#index.xhtml"
+    NAME="output" PATH="/proscenium/index.xhtml"
+    TARGET="rules:#proscenium#index.xhtml" TITLE="photoIndex" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#proscenium#showphotoList.xhtml"
+  PATH="/proscenium/showphotoList.xhtml" SHAPE="240,1265,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:11" PATH="*" SHAPE="32,2369,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:11" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="voteTopPhotos::#proscenium#voteTopPhotos.xhtml" NAME="output"
+    PATH="/proscenium/voteTopPhotos.xhtml"
+    TARGET="rules:#proscenium#voteTopPhotos.xhtml" TITLE="voteTopPhotos" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:12" PATH="*" SHAPE="32,2481,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:12" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="sortPhotos::#proscenium#sortPhotos.xhtml"
+    NAME="output" PATH="/proscenium/sortPhotos.xhtml"
+    TARGET="rules:#proscenium#sortPhotos.xhtml" TITLE="sortPhotos" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:13" PATH="*" SHAPE="32,1921,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:13" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="indexClickph::#proscenium#index_clickph.xhtml" NAME="output"
+    PATH="/proscenium/index_clickph.xhtml"
+    TARGET="rules:#proscenium#index_clickph.xhtml" TITLE="indexClickph" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:14" PATH="*" SHAPE="32,2145,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:14" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="myPicImage::#pages#grmainpage#myPicImage.xhtml" NAME="output"
+    PATH="/pages/grmainpage/myPicImage.xhtml"
+    TARGET="rules:#pages#grmainpage#myPicImage.xhtml" TITLE="myPicImage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:15" PATH="*" SHAPE="32,2033,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:15" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="sharingPicImage::#pages#grmainpage#sharingPicImage.xhtml"
+    NAME="output" PATH="/pages/grmainpage/sharingPicImage.xhtml"
+    TARGET="rules:#pages#grmainpage#sharingPicImage.xhtml"
+    TITLE="sharingPicImage" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:16" PATH="*" SHAPE="32,1809,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:16" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="inPutPassWord::#pages#grmainpage#inputPhotoPassWord.xhtml"
+    NAME="output" PATH="/pages/grmainpage/inputPhotoPassWord.xhtml"
+    TARGET="rules:#pages#grmainpage#inputPhotoPassWord.xhtml"
+    TITLE="inPutPassWord" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:*:17" PATH="*" SHAPE="32,2257,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:17" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="updatePicImge::#pages#grmainpage#updatePicImage.xhtml"
+    NAME="output" PATH="/pages/grmainpage/updatePicImage.xhtml"
+    TARGET="rules:#pages#grmainpage#updatePicImage.xhtml"
+    TITLE="updatePicImge" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#proscenium#user_register.xhtml"
+  PATH="/proscenium/user_register.xhtml" SHAPE="240,1937,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#proscenium#newUploadPhotos.xhtml"
+  PATH="/proscenium/newUploadPhotos.xhtml" SHAPE="240,1489,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#proscenium#SearchphotoList.xhtml"
+  PATH="/proscenium/SearchphotoList.xhtml" SHAPE="240,1825,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#proscenium#index_clickph.xhtml"
+  PATH="/proscenium/index_clickph.xhtml" SHAPE="240,2497,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#proscenium#index_commentTop.xhtml"
+  PATH="/proscenium/index_commentTop.xhtml" SHAPE="240,1601,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#proscenium#index_photosSort.xhtml"
+  PATH="/proscenium/index_photosSort.xhtml" SHAPE="240,1713,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#proscenium#index.xhtml"
+  PATH="/proscenium/index.xhtml" SHAPE="240,2049,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:*:18" PATH="*" SHAPE="32,2593,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:*:18" NAME="item" PATH="*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="bathUpdatePhoto::#pages#grmainpage#batchUpdatePhoto.xhtml"
+    NAME="output" PATH="/pages/grmainpage/batchUpdatePhoto.xhtml"
+    TARGET="rules:#pages#grmainpage#batchUpdatePhoto.xhtml"
+    TITLE="bathUpdatePhoto" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#proscenium#voteTopPhotos.xhtml"
+  PATH="/proscenium/voteTopPhotos.xhtml" SHAPE="256,2385,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#proscenium#sortPhotos.xhtml"
+  PATH="/proscenium/sortPhotos.xhtml" SHAPE="240,2609,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

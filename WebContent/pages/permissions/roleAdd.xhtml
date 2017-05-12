@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:q="http://www.qfw.com/jsf/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<div class="formbody">
+
+			<h:form id="roleForm">
+				<ul class="forminfo">
+					<p:growl autoUpdate="true"></p:growl>
+					<li><label>所属部门</label> <h:inputText id="deptName"
+							readonly="true" onclick="if(#{roleAddBean.operateFlag == 'add'}){deptTree.show();}"
+							value="#{roleAddBean.dept.deptName}" immediate="false"
+							label="部门代号" styleClass="dfinput">
+						</h:inputText> <h:inputHidden id="deptId"
+							value="#{roleAddBean.dept.deptId}"></h:inputHidden><i></i></li>
+
+					<li><label>角色代号</label> <h:panelGrid columns="2">
+							<h:inputText id="roleCode" value="#{roleAddBean.role.roleCode}"
+								immediate="false" required="true" label="角色代号" validatorMessage="角色代号不能有特殊字符"
+								styleClass="dfinput" requiredMessage="角色代号不能为空" maxlength="30">
+								<f:validateRegex pattern="^[a-zA-Z0-9_]+$" />
+								<f:validateLength maximum="30"/>
+								<p:ajax event="blur" update="roleCodeMsg" />
+							</h:inputText><i>角色代号不能超过30个字符</i>
+						</h:panelGrid></li>
+					<li><label>角色名称</label> <h:panelGrid columns="2">
+							<h:inputText id="roleName" value="#{roleAddBean.role.roleName}" validatorMessage="角色名称不能有特殊字符"
+								immediate="false" required="true" label="角色名称" maxlength="30"
+								requiredMessage="角色名称不能为空" styleClass="dfinput">
+								<f:validateRegex pattern="^[a-zA-Z0-9_\u4e00-\u9fa5]+$" />
+								<f:validateLength maximum="30"/>
+								<p:ajax event="blur" update="roleNameMsg" />
+							</h:inputText><i>角色名称不能超过30个字符</i>
+						</h:panelGrid></li>
+					<li><label>角色描述</label> <h:panelGrid columns="2">
+							<h:inputTextarea id="roleDesc" value="#{roleAddBean.role.roleDesc}"  style="height:100px;"
+								immediate="false" required="true" label="角色描述" validatorMessage="角色描述超出100个字符"
+								requiredMessage="角色描述不能为空" styleClass="dfinput">
+								<f:validateLength maximum="100"/>
+								<p:ajax event="blur" update="roleNameMsg" />
+							</h:inputTextarea><i>角色描述不能超过100个字符</i>
+						</h:panelGrid></li>
+
+					<li><label>&nbsp;</label> <p:commandButton styleClass="btn"
+							value="保存" action="#{roleAddBean.save}" update="dataTable" oncomplete="refreshParent();"
+							rendered="#{roleAddBean.operateFlag != 'view'}"></p:commandButton>&nbsp;&nbsp;
+						<p:commandButton styleClass="btn" value="关闭" type="button"
+							onclick="closeParMainDialog();"></p:commandButton></li>
+				</ul>
+			</h:form>
+		</div>
+
+		<p:dialog widgetVar="deptTree" width="250" height="300" modal="true">
+			<f:facet name="header">
+				<h:outputText value="部门信息" />
+			</f:facet>
+			<div style="width: 100%;text-align: center;">
+				<input type="button" value="关闭" class="scbtn" onclick="deptTree.hide()"></input>
+			</div>
+			<h:form>
+				<p:tree value="#{roleAddBean.allDept}" var="node" id="checkboxTree"
+					style="width:170px;border:0px;" selectionMode="single"
+					selection="#{roleAddBean.selectedDept}">
+					<p:ajax event="select" oncomplete="deptTree.hide();" update=":roleForm:deptName :roleForm:deptId"
+						listener="#{roleAddBean.onDeptSelect}" />
+					<p:treeNode>
+						<h:outputLabel value="#{node.deptName}"></h:outputLabel>
+					</p:treeNode>
+				</p:tree>
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+</ui:composition>
+
+</html>

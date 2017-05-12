@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">债权管理</a></li>
+				<li><a href="#">债权转让详情</a></li>
+			</ul>
+		</div>
+		<div class="formbody">
+			<h:form id="form">
+				<p:growl autoUpdate="true"></p:growl>
+				<ul class="forminfo">
+					<li><h:outputLabel value="标题：" /> <h:inputText
+							styleClass="dfinput" disabled="true" readonly="true"
+							value="#{creditorDetailInfoBean.loanApplyVO.loanName}"></h:inputText></li>
+					<li><h:outputLabel value="标的总额：" /> <h:inputText
+							styleClass="dfinput" disabled="true" readonly="true" converter="amtConverter"
+							value="#{creditorDetailInfoBean.loanApplyVO.applyAmt}" ></h:inputText></li>
+					<li><h:outputLabel value="标的类型" /> <h:selectOneRadio disabled="true" readonly="true"
+							value="#{creditorDetailInfoBean.loanApplyVO.loanTypeCd}">
+							<f:selectItems value="#{fn:getSelectItems('tenderTypeCd')}"
+								readonly="true"></f:selectItems>
+						</h:selectOneRadio></li>
+					<li><h:outputLabel value="年利率(%)" /> <h:inputText converter="percentConverter"
+							styleClass="dfinput" disabled="true" readonly="true"
+							value="#{creditorDetailInfoBean.loanApplyVO.expectLoanRate}"></h:inputText></li>
+					<li><h:outputLabel value="还款方式" /> <h:inputText
+							styleClass="dfinput" disabled="true" readonly="true"
+							value="#{creditorDetailInfoBean.loanApplyVO.repayTypeCd}"
+							converter="#{fn:getSelectItemConverter('repayTypeCd')}"></h:inputText></li>
+					<li><h:outputLabel value="剩余份数" /> <h:inputText
+							id="surplusCount" disabled="true" readonly="true"
+							value="#{creditorDetailInfoBean.bcr.surplusCount}" styleClass="dfinput"></h:inputText></li>
+					<li><h:outputLabel value="债权金额" /> <h:inputText  converter="amtConverter"
+							disabled="true" readonly="true" value="#{creditorDetailInfoBean.bcr.crAmt}"
+							styleClass="dfinput"></h:inputText></li>
+					<li><h:outputLabel value="转让份数" /> <h:inputText
+							id="tranTtlCount" onchange="changeInputCount();" required="true"
+							requiredMessage="请输入转让份数" disabled="true" readonly="true"
+							value="#{creditorDetailInfoBean.tranBO.tranTtlCount}" styleClass="dfinput"></h:inputText></li>
+					<li><h:outputLabel value="转让金额" /> <h:inputText converter="amtConverter"
+							styleClass="dfinput" id="tranTtlAmt" disabled="true" readonly="true"
+							value="#{creditorDetailInfoBean.tranBO.tranTtlAmt}" ></h:inputText></li>
+					<li><h:outputLabel value="转让开始日期" /> <h:inputText styleClass="dfinput" disabled="true" readonly="true"
+							value="#{creditorDetailInfoBean.tranBO.tranDate}" >
+							<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"></f:convertDateTime>
+							</h:inputText></li>	
+					<li><h:outputLabel value="转让期限(天)" /> <h:inputText styleClass="dfinput" disabled="true" readonly="true"
+							value="#{creditorDetailInfoBean.tranBO.tranTerm}"></h:inputText></li>
+					<li><h:outputLabel value="接手奖金" /> <h:inputText disabled="true" readonly="true"
+							styleClass="dfinput" id="takeAmt" onchange="checkAmt()" converter="amtConverter"
+							value="#{creditorDetailInfoBean.tranBO.takeAmt}"></h:inputText></li>
+					<li><h:outputLabel value="还款期限 " /> <h:inputText
+							styleClass="dfinput" disabled="true" readonly="true"
+							value="#{creditorDetailInfoBean.loanApplyVO.loanTerm}"></h:inputText></li>
+					<li><h:outputLabel value="最小投标金额" />
+						<h:inputText id="minTenderAmt" styleClass="dfinput" disabled="true" readonly="true" converter="amtConverter"
+							value="#{creditorDetailInfoBean.loanApplyVO.temderCountAmt}"></h:inputText></li>
+					<li><h:outputLabel value="年利率(%)" /> <h:inputText disabled="true" readonly="true" converter="percentConverter"
+							value="#{creditorDetailInfoBean.tranBO.loanRate}" styleClass="dfinput" id="feeRate"></h:inputText></li>
+				</ul>
+			</h:form>
+			<br></br>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

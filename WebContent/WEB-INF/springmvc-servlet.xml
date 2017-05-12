@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+
+	xsi:schemaLocation="http://www.springframework.org/schema/beans  
+            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+            http://www.springframework.org/schema/context  
+            http://www.springframework.org/schema/context/spring-context-3.0.xsd  
+            http://www.springframework.org/schema/tx  
+            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd  
+            http://www.springframework.org/schema/jdbc  
+            http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd 
+            http://www.springframework.org/schema/mvc   
+        	http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+	<!--注解说明 -->
+	<context:annotation-config />
+	<!-- 把标记了@Controller注解的类转换为bean -->
+	<context:component-scan base-package="com.qfw.platform;com.qfw.manager" />
+	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 请求映射 -->
+	<!-- 添加注解驱动 -->  
+    <mvc:annotation-driven /> 
+	<mvc:resources mapping="/html/**" location="/html/" />
+	
+	 <mvc:interceptors>  
+      <mvc:interceptor>
+      		<mvc:mapping path="/user/agent/*.ftl" />
+            <mvc:mapping path="/user/financial/*.ftl" />
+            <mvc:mapping path="/user/fund/*.ftl" />
+            <mvc:mapping path="/user/index/*.ftl" />
+            <mvc:mapping path="/user/loan/*.ftl" />
+            <mvc:mapping path="/user/message/*.ftl" />
+            <mvc:mapping path="/platform/GoToLoan.ftl" />
+            <mvc:mapping path="/loan/tender.do" />
+            <mvc:mapping path="/userIndex/*.do" /> 
+            <mvc:mapping path="/userFund/*.do" /> 
+            <mvc:mapping path="/userFinancial/*.do" /> 
+            <mvc:mapping path="/userLoan/*.do" />
+        	<mvc:mapping path="/userAgent/*.do" /> 
+            <mvc:mapping path="/userMessage/noteSet.do" />
+			<mvc:mapping path="/userMessage/noteSetSubmit.do" /> 
+			<mvc:mapping path="/userMessage/ajaxNoteSet.do" /> 
+			<mvc:mapping path="/userMessage/messageManage.do" /> 
+			<mvc:mapping path="/userMessage/deleteMsg.do" /> 
+			<mvc:mapping path="/userMessage/ajaxDelMsg.do" /> 
+			<mvc:mapping path="/userMessage/ajaxSetReaded.do" /> 
+			<mvc:mapping path="/userMessage/ajaxQuerySystemMessage.do" /> 
+			<mvc:mapping path="/userMessage/ajaxQueryPrivMessage.do" /> 
+			<mvc:mapping path="/userMessage/ajaxQuerySendMessage.do" /> 
+			<mvc:mapping path="/userMessage/ajaxSendMsg.do" /> 
+			<mvc:mapping path="/userMessage/ajaxQueryNoteSet.do" /> 
+            <mvc:mapping path="/userSecurity/*.do" /> 
+            <bean class="com.qfw.common.filter.FrontIsLogin">  
+                <property name="loginHtml">  
+                    <value>/loginAction/login.do</value>  
+                </property> 
+            </bean>  
+        </mvc:interceptor> 
+        <!--<mvc:interceptor> 设置拦截的路径
+            <mvc:mapping path="/user/agent/*.ftl" />
+            <mvc:mapping path="/user/financial/*.ftl" />
+            <mvc:mapping path="/user/fund/*.ftl" />
+            <mvc:mapping path="/user/index/*.ftl" />
+            <mvc:mapping path="/user/loan/*.ftl" />
+            <mvc:mapping path="/user/message/*.ftl" />
+            <mvc:mapping path="/platform/GoToLoan.ftl" />
+            <mvc:mapping path="/userIndex/*.do" /> 
+            <mvc:mapping path="/userFund/*.do" /> 
+            <mvc:mapping path="/userFinancial/*.do" /> 
+            <mvc:mapping path="/userLoan/*.do" />
+        	<mvc:mapping path="/userAgent/*.do" /> 
+            <mvc:mapping path="/userMessage/*.do" /> 
+            <mvc:mapping path="/userSecurity/*.do" /> 
+            <bean class="com.qfw.common.filter.FrontLoginAJAX"></bean>  
+        </mvc:interceptor>
+        -->  
+    </mvc:interceptors>  
+	
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+</beans>

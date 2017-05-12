@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<h:form>
+			<p:growl showDetail="true" autoUpdate="true" />
+			<h:inputHidden id="taskid" value="#{approvalFlowBean.taskid}"></h:inputHidden>
+			<h:panelGrid id="flowid"
+				style="width:100%; border-collapse:collapse; border-bottom : 0px;"
+				columns="4" border="1" styleClass="ui-widget-content">
+				<h:outputText value="申请开始时间：" />
+				<p:calendar value="#{approvalFlowBean.date}" id="popupButtonCal" showOn="button" />
+				<h:outputText value="申请天数：" />
+				<h:inputText value="#{approvalFlowBean.day}"></h:inputText>
+				<h:outputText value="申请原因："></h:outputText> 
+				<h:inputTextarea value="#{approvalFlowBean.reason}" rows="3"></h:inputTextarea>
+				<h:outputText value="意见："></h:outputText> 
+				<h:inputTextarea value="#{approvalFlowBean.comment}" rows="3"></h:inputTextarea>
+			</h:panelGrid>
+			<p:commandButton action="#{approvalFlowBean.submit}" value="同意"></p:commandButton>
+			<p:commandButton action="#{approvalFlowBean.reject}" value="拒绝"></p:commandButton>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

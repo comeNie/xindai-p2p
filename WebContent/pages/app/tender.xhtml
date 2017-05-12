@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:q="http://www.qfw.com/jsf/ui" xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<script type="text/javascript">
+			$(document).ready(function(e) {
+				$(".select1").uedSelect({
+					width : 150
+				});
+			});
+		</script>
+		<div class="formbody">
+			<div class="formtitle">
+				<span>基本信息</span>
+			</div>
+			<h:form id="form">
+				<p:growl globalOnly="true"></p:growl>
+				<ul class="forminfo">
+					<li><label>借款编号</label> <h:inputText style="width:300px;"
+							value="#{tenderBean.crbo.loanApproveId}" styleClass="dfinput"></h:inputText>
+					</li>
+					<li><label>投资金额</label> <h:inputText style="width:300px;"
+							value="#{tenderBean.crbo.crAmt}" styleClass="dfinput"></h:inputText>
+					</li>
+					<li><label>投资份数</label> <h:inputText style="width:300px;"
+							value="#{tenderBean.crbo.turnoverCount}" styleClass="dfinput"></h:inputText>
+					</li>
+					<li><label onclick="selectUserDialog.show();" style="text-decoration: underline;cursor: pointer;">选人</label>
+					<h:inputText id="userNameHidden" style="width:300px;" styleClass="dfinput"
+							value="#{tenderBean.selectUser.userName}" readonly="true"
+							onclick="selectUserDialog.show();"></h:inputText></li>
+					<q:auditOpinion backingBean="#{tenderBean}" showInputAudit="true"></q:auditOpinion>
+					<li><label>&nbsp;</label> <h:commandButton styleClass="btn"
+							value="提交" action="#{tenderBean.submit}"></h:commandButton>&nbsp;&nbsp;
+						<h:commandButton styleClass="btn" value="关闭" type="button"
+							onclick="closeParMainDialog();"></h:commandButton></li>
+				</ul>
+			</h:form>
+		</div>
+		<q:selectUser backingBean="#{tenderBean}" update="form:userNameHidden" widgetVar="selectUserDialog" ></q:selectUser>
+	</ui:define>
+</ui:composition>
+</html>

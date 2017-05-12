@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://www.qfw.com/jsf/fn">
+<f:view contentType="text/html">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Cache-Control" content="no-cache" />
+		<title>后台管理系统</title>
+		<link href="#{request.contextPath}/css/style.css" rel="stylesheet"
+			type="text/css" />
+		<link href="#{request.contextPath}/css/select.css" rel="stylesheet"
+			type="text/css" />
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/select-ui.min.js"></script>
+		<script language="javascript" type="text/javascript"
+			src="#{request.contextPath}/js/WdatePicker.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/windows.utils.js"></script>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/utils.js"></script>
+		<ui:insert name="head"></ui:insert>
+	</h:head>
+	<h:body>
+		<p:ajaxStatus onstart="statusDialog.show();"
+			oncomplete="statusDialog.hide();" />
+		<ui:insert name="body"></ui:insert>
+		<h:form id="clearfrom">
+			<h:commandLink id="clearview" action="clear"></h:commandLink>
+		</h:form>
+		<p:dialog modal="true" widgetVar="statusDialog" header="请稍后..."
+			draggable="false" closable="false">
+			<p:graphicImage value="/design/ajaxloadingbar.gif" />
+		</p:dialog>
+	</h:body>
+</f:view>
+</html>

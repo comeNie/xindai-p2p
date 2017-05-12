@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">系统管理</a></li>
+				<li><a href="#">角色管理</a></li>
+			</ul>
+		</div>
+		<div class="rightinfo">
+
+
+			<h:form id="search">
+				<p:growl globalOnly="true" autoUpdate="true"></p:growl>
+				<ul class="seachform">
+
+					<li><h:outputLabel value="角色代号：" /> <h:inputText
+							styleClass="scinput" value="#{roleManageBean.roleVO.roleCode}" /></li>
+					<li><h:outputLabel value="角色名称：" /> <h:inputText
+							styleClass="scinput" value="#{roleManageBean.roleVO.roleName}" /></li>
+					<li><label>&nbsp;<p:commandButton id="refresh" styleClass="refresh" style="display: none;"
+								action="#{roleManageBean.refresh}" update="dataTable"></p:commandButton></label> <p:commandButton value="搜索"
+							action="#{roleManageBean.search}" styleClass="scbtn"
+							update="dataTable"></p:commandButton></li>
+					<li><label>&nbsp;</label> <p:commandButton value="重置" type="reset"
+							styleClass="scbtn" image="ui-icon ui-icon-search" update="dataTable"></p:commandButton></li>
+				</ul>
+				<div class="tools">
+					<ul class="toolbar">
+						<li><p:commandLink id="addInfo"
+								action="#{roleManageBean.operate}"
+								oncomplete="showWindow('#{request.contextPath}/pages/permissions/roleAdd.jsf?operateFlag=add','角色添加');">
+								<f:param name="operateFlag" value="add" />
+								<span><img src="#{request.contextPath}/images/t01.png" /></span>添加</p:commandLink></li>
+						<li><p:commandLink id="editInfo"
+								onclick="if(!$('.ui-state-highlight').text()){alert('请选择一条记录');return false;}"
+								image="ui-icon ui-icon-pencil"
+								action="#{roleManageBean.operate}"
+								oncomplete="showWindow('#{request.contextPath}/pages/permissions/roleAdd.jsf?operateFlag=edit','角色编辑');">
+								<f:param name="operateFlag" value="edit" />
+								<span><img src="#{request.contextPath}/images/t02.png" /></span>修改</p:commandLink></li>
+						<li><p:commandLink id="delInfo" update="dataTable"
+								onclick="if(!$('.ui-state-highlight').text()){alert('请选择一条记录');return false;}else{if(!confirm('是否确定删除？')){return false;}}"
+								image="ui-icon ui-icon-close" action="#{roleManageBean.operate}">
+								<f:param name="operateFlag" value="delete" />
+								<span><img src="#{request.contextPath}/images/t03.png" /></span>删除</p:commandLink></li>
+						<li><p:commandLink id="viewInfo"
+								onclick="if(!$('.ui-state-highlight').text()){alert('请选择一条记录');return false;}"
+								image="ui-icon ui-icon-search"
+								action="#{roleManageBean.operate}"
+								oncomplete="showWindow('#{request.contextPath}/pages/permissions/roleAdd.jsf?operateFlag=view','角色查看');">
+								<f:param name="operateFlag" value="view" />
+								<span><img src="#{request.contextPath}/images/t06.png" /></span>查看</p:commandLink></li>
+						<li><p:commandLink id="selectFuns" update="form:changeFuns"
+								oncomplete="funDailog.show();"
+								onclick="if(!$('.ui-state-highlight').text()){alert('请选择一条记录');return false;}"
+								image="ui-icon ui-icon-close" action="#{roleManageBean.operate}">
+								<f:param name="operateFlag" value="selectFuns" />
+								<span><img src="#{request.contextPath}/images/t05.png" /></span>分配权限</p:commandLink></li>
+					</ul>
+				</div>
+				<p:dataTable value="#{roleManageBean.lazyModel}" var="role"
+					id="dataTable" rows="10" paginatorAlwaysVisible="false"
+					paginatorPosition="bottom" lazy="true" emptyMessage="暂无数据"
+					paginator="true" rowsPerPageTemplate="5,10,15,20" binding="#{roleManageBean.dataTable}"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					selection="#{roleManageBean.selectRole}">
+					<p:column selectionMode="single" />
+					<p:column headerText="角色代号">
+						<h:outputText value="#{role.roleCode}" />
+					</p:column>
+					<p:column headerText="角色名称">
+						<h:outputText value="#{role.roleName}" />
+					</p:column>
+					<p:column headerText="所属部门">
+						<h:outputText value="#{role.deptName}" />
+					</p:column>
+					<p:column headerText="角色描述">
+						<h:outputText value="#{role.roleDesc}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+
+		<p:dialog widgetVar="mainDialog" width="750" height="400" modal="true">
+			<f:facet name="header">
+				<h:outputText id="mainDialogTitle" value="用户管理" />
+			</f:facet>
+			<iframe id="mainFrameHidden" width="100%" height="100%"
+				name="mainFrameHidden" scrolling="no" src="" frameborder="0">
+			</iframe>
+		</p:dialog>
+		<p:dialog widgetVar="funDailog" width="720" height="310" modal="true">
+			<f:facet name="header">
+				<h:outputText id="funDailogTitle" value="功能" />
+			</f:facet>
+			<h:form id="form">
+				<table>
+					<tr style="background: white;">
+						<td valign="middle"><p:tree id="changeFuns"
+								value="#{roleManageBean.allFuns}" var="funs"
+								style="width:250px;height:300px;overflow-y: auto;overflow-x: hidden;"
+								selectionMode="checkbox"
+								selection="#{roleManageBean.selectedFuns}">
+								<p:treeNode>
+									<h:outputText value="#{funs.funName}" />
+								</p:treeNode>
+							</p:tree></td>
+						<td valign="middle" style="padding-left: 10px"><p:commandButton ajax="true" value="全选"
+								styleClass="scbtn" action="#{roleManageBean.selectedAllFuns}"
+								update="changeFuns"></p:commandButton>
+							<p /> <p:commandButton ajax="true" value="反选" styleClass="scbtn"
+								action="#{roleManageBean.removedAllFuns}" update="changeFuns"></p:commandButton>
+							<p /> <p:commandButton styleClass="scbtn" value="保存"
+								action="#{roleManageBean.addFuns}"></p:commandButton>
+							<p /></td>
+					</tr>
+				</table>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+
+</html>

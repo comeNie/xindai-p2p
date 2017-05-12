@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:q="http://www.qfw.com/jsf/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">授权管理</a></li>
+				<li><a href="#">授权信息</a></li>
+			</ul>
+		</div>
+
+		<div class="formbody">
+
+			<h:form id="grantUserForm">
+				<ul class="forminfo">
+					<p:growl autoUpdate="true"></p:growl>
+					<li><label>授权用户ID</label> <h:inputText id="grantUserId"
+							value="#{addGrantUserBean.grant.grantUserId}" immediate="false"
+							required="true" label="授权用户ID" requiredMessage="授权用户ID不能为空"
+							styleClass="dfinput">
+							<p:ajax event="blur" update="deptCodeMsg" />
+						</h:inputText></li>
+					<li><label>被授权用户ID</label> <h:inputText id="grantedUserId"
+							value="#{addGrantUserBean.grant.grantedUserId}" immediate="false"
+							required="true" label="被授权用户ID" requiredMessage="被授权用户ID不能为空"
+							styleClass="dfinput">
+							<p:ajax event="blur" update="deptCodeMsg" />
+						</h:inputText></li>
+					<li><label>流程名称</label> <h:inputText id="flowKey"
+							value="#{addGrantUserBean.grant.flowKey}" immediate="false"
+							required="true" label="流程名称" requiredMessage="流程名称不能为空"
+							styleClass="dfinput">
+							<p:ajax event="blur" update="deptCodeMsg" />
+						</h:inputText></li>
+					<!-- <li><label>开始日期</label> <h:inputText id="startDate"
+							value="#{addGrantUserBean.grant.startDate}" immediate="false"
+							required="true" label="开始日期" requiredMessage="开始日期不能为空"
+							styleClass="dfinput">
+							<p:ajax event="blur" update="deptCodeMsg" />
+						</h:inputText></li> 
+					<li><label>结束日期</label> <h:inputText id="endDate"
+							value="#{addGrantUserBean.grant.endDate}" immediate="false"
+							required="true" label="结束日期" requiredMessage="结束日期不能为空"
+							styleClass="dfinput">
+							<p:ajax event="blur" update="deptCodeMsg" />
+						</h:inputText></li>-->
+					<li><label>开始日期</label> <h:inputText id="startDate"
+							value="#{addGrantUserBean.grant.startDate}" onclick="WdatePicker();"
+							styleClass="scinput">
+							<f:convertDateTime pattern="yyyy-MM-dd"></f:convertDateTime>
+						</h:inputText></li>
+					<li><label>结束日期</label> <h:inputText id="endDate"
+							value="#{addGrantUserBean.grant.endDate}" onclick="WdatePicker();"
+							styleClass="scinput">
+							<f:convertDateTime pattern="yyyy-MM-dd"></f:convertDateTime>
+						</h:inputText><i>结束日期不能小于开始日期</i></li>
+					<li><label>&nbsp;</label> <p:commandButton styleClass="btn"
+							value="保存" action="#{addGrantUserBean.operate}" oncomplete="refreshParent();"
+							rendered="#{addGrantUserBean.operateFlag != 'view'}"></p:commandButton>&nbsp;&nbsp;
+						<p:commandButton styleClass="btn" value="关闭" type="button" onclick="closeParMainDialog();"></p:commandButton></li>
+				</ul>
+			</h:form>
+		</div>
+
+	</ui:define>
+</ui:composition>
+
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:q="http://www.qfw.com/jsf/ui" xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="head">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>放款申请</title>
+		<script type="text/javascript"
+			src="#{request.contextPath}/js/jquery.idTabs.min.js"></script>
+		<style type="text/css">
+.dfinput {
+	width: 250px;
+}
+</style>
+	</ui:define>
+	<ui:define name="body">
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">放款审批</a></li>
+			</ul>
+		</div>
+
+		<div class="formbody">
+			<h:form id="loanForm">
+				<p:growl autoUpdate="true"></p:growl>
+				<div class="rightinfo">
+
+					<ul class="forminfo">
+						<li style="clear: none; float: left;"><h:outputLabel
+								value="标题："><b>*</b></h:outputLabel> <h:inputText class="dfinput"
+								disabled="true" readonly="true"
+								value="#{loanApprovalBean.data['LOAN_NAME']}"></h:inputText></li>
+						<li style="clear: right;"><h:outputLabel value="产品"
+								class="outputLabel" /> <h:inputText class="dfinput"
+								disabled="true" readonly="true"
+								value="#{loanApprovalBean.productInfoVO.productName}"></h:inputText></li>
+						<li><h:outputLabel value="每份金额" /> <h:inputText
+								class="dfinput" id="temderCountAmt"
+								onchange="changeInputCount();" disabled="true" readonly="true"
+								value="#{loanApprovalBean.data['TENDER_LIMIT_AMT']}"></h:inputText>
+							</li>
+						<li><h:outputLabel value="标的总额：" /> <h:inputText disabled="true" readonly="true"
+								id="applyAmt" onchange="changeInputCount();" class="dfinput"
+								value="#{loanApprovalBean.data['TENDER_USE_AMT']}"></h:inputText> <i>请输入每份金额的倍数</i></li>
+						<li style="clear: left; float: left;"><h:outputLabel value="份数" /> <h:inputText
+								class="dfinput" disabled="true" readonly="true"
+								id="tenderTtlCount"
+								value="#{loanApprovalBean.data['TENDER_TTL_COUNT']}"></h:inputText></li>
+
+						<li style="clear: right;"><h:outputLabel
+								value="还款期限 (月)" /> <h:inputText class="dfinput" disabled="true" readonly="true"
+								value="#{loanApprovalBean.data['LOAN_TERM']}"></h:inputText>
+								<i>还款期限必须大于0</i></li>
+						<li style="clear: none; float: left;"><h:outputLabel
+								value="筹标期限(天)" /> <h:inputText class="dfinput" disabled="true" readonly="true"
+								value="#{loanApprovalBean.data['TENDER_TERM']}" /></li>
+						<li style="clear: right;"><h:outputLabel value="标的类型" />
+							<div class="vocation">
+								<h:selectOneMenu styleClass="select" disabled="true" readonly="true"
+									value="#{loanApprovalBean.data['LOAN_TYPE_CD']}">
+									<f:selectItems value="#{fn:getSelectItems('tenderTypeCd')}"></f:selectItems>
+								</h:selectOneMenu>
+							</div></li>
+						<li style="clear: left; float: left;"><h:outputLabel value="还款方式" />
+							<div class="vocation">
+								<h:selectOneMenu styleClass="select" disabled="true" readonly="true"
+									value="#{loanApprovalBean.data['REPAY_TYPE_CD']}">
+									<f:selectItems value="#{fn:getSelectItems('repayTypeCd')}"></f:selectItems>
+								</h:selectOneMenu>
+							</div></li>
+						<li style="clear: right;float: left;"><h:outputLabel
+								value="年利率(%)" /> <h:inputText class="dfinput" converter="percentConverter"
+								disabled="true" readonly="true"
+								value="#{loanApprovalBean.data['LOAN_RATE']}"></h:inputText>
+								<i>最大年化利率>=年利率>=最小年化利率</i></li>
+						<li><h:outputLabel value="最小年化利率(%)" /> <h:inputText
+								styleClass="dfinput" disabled="true" readonly="true" converter="percentConverter"
+								value="#{loanApprovalBean.productInfoVO.leastRateYear}" /><i>产品最小年化利率(%)</i></li>
+						<li><h:outputLabel value="最大年化利率(%)" /> <h:inputText
+								styleClass="dfinput" disabled="true" readonly="true"  converter="percentConverter"
+								value="#{loanApprovalBean.productInfoVO.mostRateYear}" /><i>产品最大年化利率(%)</i></li>
+
+						<li><h:outputLabel value="违约利率(%)" /> <h:inputText
+								styleClass="dfinput" disabled="true" readonly="true" converter="percentConverter"
+								value="#{loanApprovalBean.data['ADVANCE_RATE']}"></h:inputText><i>提前还款违约利率(%)</i></li>
+						<li style="clear: none; float: left;"><h:outputLabel
+								value="展期加罚率 (%)" /> <h:inputText styleClass="dfinput"
+								disabled="true" readonly="true" converter="percentConverter"
+								value="#{loanApprovalBean.data['DELAY_RATE']}"></h:inputText></li>
+						<li style="clear: right;"><h:outputLabel value="逾期加罚率(%)" />
+							<h:inputText styleClass="dfinput" disabled="true" readonly="true" converter="percentConverter"
+								value="#{loanApprovalBean.data['OVERDUE_RATE']}"></h:inputText></li>
+						
+						
+						<li style="clear: none; float: left;"><h:outputLabel value="支付方式" />
+							<div class="vocation">
+								<h:selectOneMenu styleClass="select" readonly="true" disabled="true" id="paymentWayCd"
+									value="#{loanApprovalBean.data['PAYMENT_WAY_CD']}">
+									<f:selectItems value="#{fn:getSelectItems('paymentWayCd')}"></f:selectItems>
+								</h:selectOneMenu>
+							</div></li>
+						<li style="clear: right;display: none;" id="partyUserId" ><h:outputLabel
+								style="text-decoration: underline; cursor: pointer;">第三方用户</h:outputLabel>
+							<h:inputText id="partyUserNameHidden" styleClass="dfinput"
+								value="#{loanApprovalBean.selectPartyUser.userName}" readonly="true" ></h:inputText>
+								<i>支付方式为受托支付时，第三方必须有值</i></li>
+   						<li><h:outputLabel value="用途" /> <h:inputTextarea
+								styleClass="dfinput"
+								style="width:588px;height:50px;line-height:16px;"
+								value="#{loanApprovalBean.data['LOAN_PURPOSE']}" /></li>
+						<li><h:outputLabel value="备注" /> <h:inputTextarea
+								styleClass="dfinput"
+								style="width:588px;height:50px;line-height:16px;"
+								value="#{loanApprovalBean.data['REMARK']}" /></li>
+
+					</ul>
+
+				</div>
+				<br />
+				
+				<div>
+					<ul class="forminfo">
+						<q:auditOpinion showInputAudit="true"
+							auditOpinionList="#{loanApprovalBean.auditOpinionList}"
+							comment="#{loanApprovalBean.data['COMMENT']}"></q:auditOpinion>
+					</ul>
+					<ul class="forminfo" id="submitButton">
+						<li>
+							<label>&nbsp;</label> 
+							<h:commandButton value="同意" onclick="getHtml();statusDialog.show();" action="#{loanApprovalBean.agree}"
+								styleClass="scbtn"  />&nbsp;&nbsp;
+								<h:commandButton styleClass="scbtn" onclick="if(!confirm('不同意放款，将退回所有投资者的投资金额，是否确认不同意？')){return false;}" value="不同意" action="#{loanApprovalBean.disagree}"  />
+							</li>
+					</ul>
+					<h:inputHidden id="hiddenHtml" value="#{loanApprovalBean.html}"></h:inputHidden>
+				</div>
+			</h:form>
+			<q:selectUser backingBean="#{loanApprovalBean}"
+				update="loanForm:userNameHidden" widgetVar="selectUserDialog"></q:selectUser>
+			<q:selectPartyUser backingBean="#{loanApprovalBean}"
+				update="loanForm:partyUserNameHidden" widgetVar="selectPartyUserDialog"></q:selectPartyUser>
+		</div>
+
+		<script type="text/javascript">
+			$(document).ready(function(e) {
+				$(".select").uedSelect({
+					width : 250
+				});
+				$(".select1").uedSelect({
+					width : 180
+				});
+			});
+			function getHtml(){
+				var html = $("html").clone();
+				html.find("#submitButton").remove();
+				$("#loanForm\\:hiddenHtml").val(html.html());
+			}
+		</script>
+	</ui:define>
+</ui:composition>
+</html>

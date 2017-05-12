@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="withdrawals_apply" xmlns="http://jbpm.org/4.4/jpdl">
+	<start g="223,21,48,48" name="start">
+		<transition to="申请提现"/>
+	</start>
+	<task assignee="#{applyUser}" form="/pages/app/payout/submitWithdrawals.jsf" g="200,100,92,52" name="申请提现">
+		<transition g="126,125:29,-17" name="撤销" to="cancel"/>
+		<transition g="-31,-14" name="提交" to="财务管理审核"/>
+	</task>
+	<task candidate-groups="#{auditRole}" form="/pages/app/payout/approvalWithdrawals.jsf" g="200,200,92,52" name="财务管理审核">
+      <transition g="-30,-9" name="通过" to="end"/>
+      <transition g="353,225;353,126:-29,-13" name="退回" to="申请提现"/>
+	</task>
+	<end g="223,279,48,48" name="end"/>
+	<end-cancel g="102,206,48,48" name="cancel"/>
+</process>

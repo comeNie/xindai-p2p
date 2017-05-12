@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">审批意见</a></li>
+			</ul>
+		</div>
+		
+		<div class="rightinfo">
+			<h:form>
+			<p:growl showDetail="true" autoUpdate="true" />
+			<h:inputHidden id="taskid" value=""></h:inputHidden>
+			<h:panelGrid id="flowid"
+				style="width:100%; border-collapse:collapse; border-bottom : 0px;"
+				columns="4" border="1" styleClass="ui-widget-content">
+				<h:outputText value="审批意见" />
+				<h:selectOneListbox value="" size="1">
+					<f:selectItem itemLabel="同意" itemValue="0"/>
+					<f:selectItem itemLabel="同意" itemValue="1" />
+				</h:selectOneListbox>
+				<h:outputText value=""></h:outputText>
+				<h:outputText value=""></h:outputText>
+				<h:outputText value="审批意见"></h:outputText> 
+				<h:inputTextarea value="" rows="3" style="width:100%"></h:inputTextarea>
+				<h:outputText value=""></h:outputText>
+				<h:outputText value=""></h:outputText>
+				<h:outputText value="审核人"></h:outputText> 
+				<h:inputText value=""></h:inputText>
+				<h:outputText value="审核机构"></h:outputText> 
+				<h:inputText value=""></h:inputText>
+			</h:panelGrid>
+			<p:commandButton value="提交"></p:commandButton>
+		</h:form>
+		</div>
+		
+		<div class="rightinfo">
+			<h:form id="dataTable2">
+				<p:growl globalOnly="true" autoUpdate="true"></p:growl>
+				<p:dataTable value="" var="data" emptyMessage="暂无信息" rows="10"
+					style="width:100%" cellpadding="0" cellspacing="0"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					paginatorAlwaysVisible="false" paginatorPosition="bottom"
+					lazy="true" paginator="true" rowsPerPageTemplate="5,10,15,20" >
+					<p:column headerText="序号">
+						<h:outputText value="" />
+					</p:column>
+					<p:column headerText="审核人">
+						<h:outputText value="" />
+					</p:column>
+					<p:column headerText="审核机构">
+						<h:outputText value="" />
+					</p:column>
+					<p:column headerText="审批意见">
+						<h:outputText value="" />
+					</p:column>
+					<p:column headerText="审批意见">
+						<h:outputText value="" />
+					</p:column>
+					<p:column headerText="">
+						<h:outputText value="" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+		<br/>
+		<br/>
+	</ui:define>
+</ui:composition>
+
+</html>

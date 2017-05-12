@@ -1,0 +1,51 @@
+@charset "utf-8";
+/* CSS Document */
+body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,form,fieldset,legend,button,input,textarea,th,td{margin:0;padding:0;}
+body,button,textarea{font:14px 'Microsoft Yahei',arial,\5b8b\4f53,sans-serif; margin:0; padding:0; overflow:scroll;}
+body{ background:#e0eaeb;}
+h1,h2,h3,h4,h5,h6{font-size:100%;}
+address,cite,dfn,em,var{font-style:normal;}
+code,kbd,pre,samp{font-family:'Microsoft Yahei';}
+small{font-size:12px;}
+ul,ol{list-style:none;}
+sup{vertical-align:text-top;}
+sub{vertical-align:text-bottom;}
+legend{color:#000;}
+fieldset,img{border:0;}
+button,input,select,textarea{font-size:100%;font-family:'Microsoft Yahei';}
+p a{ margin:0; padding:0; font-weight:normal;}
+.clear{clear: both; overflow:hidden;}
+table{border-collapse:collapse;border-spacing:0;}
+input{ border:0; background:0;outline:none;}
+
+
+
+
+.loginbg{ overflow:hidden;}
+.loginbox{ width:100%; margin:0 auto 0; background:url(../../img/bg.jpg) #e0eaeb repeat-x scroll 0 0; margin-top:15%; overflow:hidden;s} 
+.header{ overflow:hidden; position:absolute; top:18%;margin:0 auto; left:40%; height:58px}
+.header .loginlogo{ background:url(../../img/login_logo.png) center no-repeat; width:142px; height:58px; float:left;}
+.logo_title{ float:left; margin:20px 5px; color:#022440;}
+.logincon{ margin:30px 0 0 300px;float:left; overflow:hidden;}
+.logincon h2{ color:#5c5e5f; font-size:25px; font-weight:normal; line-height:38px; margin-top:10px;}
+.logincon h2 span{ color:#8d8d8d; font-size:18px;}
+
+.login{ width:1000px;background:url(../../img/login_bg.jpg) no-repeat 0 top; height:251px; margin:0 auto; overflow:hidden;}
+.login p{ width:380px; height:40px; margin:10px 0 0 0; float:left; clear:both; overflow:hidden; position:relative;}
+.login label{ width:88px; text-align:right; float:left; line-height:30px;color:#555555;}
+.login input{ width:204px; height:28px; border:#dcdcdc 1px solid; margin-left:10px; color:#000000; font-size:12px; background:url(../../img/user.gif) #FFF no-repeat left; padding-left:30px; line-height:26px;}
+.login input:hover{ border:1px #F90 solid;}
+.login input.input_password{ background: url(../../img/password.gif)  #FFF no-repeat; }
+.login input.input_code{  background: url(../../img/password.gif)  #FFF no-repeat; width:50px; float:left;}
+
+.login p a{float:left; margin-left:15px; line-height:30px; color:#ff0000; text-decoration:underline;}
+.login p a:hover{ color:#f81d4c; text-decoration:none;}
+.login input.checkbox{ float:inherit; width:auto;  margin:5px 0 0 15px; *margin:14px 0 0 0;padding:0;  width:15px; height:15px; font-size:12px; border:0;}
+.login input.login_but{ background:url(../../img/login_button.png) no-repeat 0 0; text-align:center; height:34px; line-height:30px; color:#fff; font-size:14px; width:93px; margin:0 10px; padding:0;font-family: 'Microsoft Yahei';cursor:pointer; border:0;}
+.login input.login_but0{ background:url(../../img/login_button0.png) no-repeat 0 0; text-align:center; height:34px; line-height:30px; color:#fff; font-size:14px; width:93px; margin:0 10px; padding:0;font-family: 'Microsoft Yahei';cursor:pointer; border:0;}
+.login input.inputF{color:#555;}
+
+.error_tip{ position:absolute; left:128px; top:5px; color:#dadada; width:100px; text-align:left;}
+.footer{ text-align:center; color:#7d7d7d; margin-top:20px}
+
+

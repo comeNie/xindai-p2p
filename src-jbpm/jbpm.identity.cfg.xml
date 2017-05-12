@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jbpm-configuration>
+
+<!-- 
+  <transaction-context>
+    <identity-session />
+  </transaction-context>
+ -->  
+  <transaction-context>
+	<hibernate-session current="true" />
+	<Object class="com.qfw.jbpm.bizservice.impl.JbpmSessionEngine" />
+  </transaction-context>
+
+</jbpm-configuration>

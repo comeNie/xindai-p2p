@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="limits_apply" xmlns="http://jbpm.org/4.4/jpdl">
+	<start g="108,6,48,48" name="start">
+		<transition to="客户经理录入"/>
+	</start>
+	<task g="85,76,92,52" name="客户经理录入">
+		<transition g="-11,-19" name="提交" to="执行提交服务"/>
+	</task>
+	<task g="85,150,92,52" name="风控岗审核">
+		<transition g="-6,-20" name="同意" to="执行风控服务"/>
+		<transition g="-35,-7" name="退回" to="客户经理录入"/>
+	</task>
+	<task g="85,223,92,52" name="合规岗审核">
+		<transition g="-37,-6" name="退回" to="风控岗审核"/>
+      <transition g="-4,-19" name="同意" to="合规审批"/>
+	</task>
+	<end g="109,294,48,48" name="end"/>
+	<java class="com.qfw.jbpm.bizservice.ExecutionBusinessProcesses" g="242,108,92,52" method="execution" name="执行提交服务">
+		<transition to="风控岗审核"/>
+	</java>
+	<java class="com.qfw.jbpm.bizservice.ExecutionBusinessProcesses" g="242,188,92,52" method="execution" name="执行风控服务">
+		<transition to="合规岗审核"/>
+	</java>
+	<java class="com.qfw.jbpm.bizservice.ExecutionBusinessProcesses" g="242,188,92,52" method="execution" name="风控审批">
+	</java>
+   <java class="com.qfw.jbpm.bizservice.ExecutionBusinessProcesses" g="241,266,92,52" method="execution" name="合规审批">
+		<transition to="end"/>
+   </java>
+</process>

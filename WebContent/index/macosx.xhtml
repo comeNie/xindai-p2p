@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:p="http://primefaces.org/ui">
+	
+<f:view contentType="text/html">
+<h:head>
+	<title>
+		<ui:insert name="title">PrimeFaces ShowCase</ui:insert>
+	</title>
+	<meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+	<script src="#{request.contextPath}/js/utils.js" type="text/javascript" />
+	<link type="text/css" rel="stylesheet" href="#{request.contextPath}/themes/aristo/skin.css" />
+	<link type="text/css" rel="stylesheet" href="#{request.contextPath}/syntaxhighlighter/styles/syntaxhighlighter.css"></link>
+	<style type="text/css">
+		body {
+			background: url(../images/macosx/macback.png);
+			margin: 0;
+			padding: 0;
+			font-family: geneva, arial, helvetica, sans-serif;
+			font-size:80%;
+		}
+
+		.appleIcon {
+			background: url(../images/macosx/apple.png) no-repeat;
+            width:16px;
+            height:16px;
+		}
+
+        .ui-dialog .ui-terminal {
+            border:0;
+        }
+
+        .ui-dialog.terminalDialog .ui-dialog-content {
+            padding:0;
+        }
+	</style>
+	<script>
+			function changeMenu(contextPath, src, funName) {
+				if (src != "") {
+					 var page = $(document.getElementById('centerPage').contentWindow.document.body);
+	        		 var clearlink = page.find("#clearfrom\\:clearview");
+	        		 clearlink.click();
+	        		  
+					$("#centerPage").attr("src", contextPath + src);
+					main.show();
+					main.focus();
+				}
+			}
+		</script>
+</h:head>
+
+<h:body>
+
+	<h:outputText value="#{macosxBean.text}" />
+
+	<p:growl showDetail="true" sticky="true"/>
+    <p:menubar model="#{navigationBean.menuModel}" />
+	
+	
+	<p:dialog widgetVar="mainDialog" modal="true" onHide="clearView();">
+			<f:facet name="header">
+				<h:outputText id="mainDialogTitle" value="来至网页" />
+			</f:facet>
+			<iframe id="mainFrameHidden" name="mainFrameHidden" scrolling="auto" width="100%" height="100%"
+				src="/food/pages/permissions/userManage.jsf" frameborder="0"> </iframe>
+	</p:dialog>
+	
+	<p:dialog widgetVar="main" modal="false" onHide="clearView();" width="900" height="500"  maximizable="true" minimizable="true">
+			<f:facet name="header">
+				<h:outputText id="mainTitle" value="来至网页" />
+			</f:facet>
+			<iframe id="centerPage" src="/food/pages/permissions/funManage.jsf" marginheight="0"
+						marginwidth="0"  width="100%" height="100%" 
+						name="mainFrame" scrolling="auto" frameborder="0" />
+	</p:dialog>
+	
+	<p:dock>
+		<p:menuitem label="Finder" icon="/images/macosx/finder.png" url="#" onclick="main.show();main.focus();" />
+		<p:menuitem label="Terminal" icon="/images/macosx/terminal.png" url="#" onclick="terminal.show();term.focus();"/>
+		<p:menuitem label="Safari" icon="/images/macosx/safari.png" url="#" />
+		<p:menuitem label="iTunes" icon="/images/macosx/itunes.png" url="#"/>
+		<p:menuitem label="iChat" icon="/images/macosx/ichat.png" url="#"/>
+		<p:menuitem label="Trash" icon="/images/macosx/trash.png" url="#"/>
+	</p:dock>
+
+    <p:stack icon="/images/stack/stack.png">
+		<p:menuitem value="Aperture" icon="/images/stack/aperture.png" url="#" />
+		<p:menuitem value="Photoshop" icon="/images/stack/photoshop.png" url="#"/>
+		<p:menuitem value="Coda" icon="/images/stack/coda.png" url="#"/>
+		<p:menuitem value="Safari" icon="/images/stack/safari.png" url="#" />
+		<p:menuitem value="Finder" icon="/images/stack/finder.png" url="#" />
+	</p:stack>
+	
+</h:body>
+
+
+</f:view>
+
+<script language="javascript" src="#{request.contextPath}/syntaxhighlighter/scripts/shCore.js"></script>
+<script language="javascript" src="#{request.contextPath}/syntaxhighlighter/scripts/shBrushXml.js"></script>
+<script language="javascript" src="#{request.contextPath}/syntaxhighlighter/scripts/shBrushJava.js"></script>
+<script language="javascript" src="#{request.contextPath}/syntaxhighlighter/scripts/shBrushCss.js"></script>
+<script language="javascript" src="#{request.contextPath}/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+<script language="javascript">
+	dp.SyntaxHighlighter.ClipboardSwf = '#{request.contextPath}/syntaxhighlighter/scripts/clipboard.swf';
+	dp.SyntaxHighlighter.HighlightAll('code');
+</script>
+</html>
+
+	

@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<script type="text/javascript">
+			$(document).ready(function(e) {
+				$(".select1").uedSelect({
+					width : 150
+				});
+			});
+		</script>
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">我要借款</a></li>
+				<li><a href="#">成为借款人</a></li>
+				<li><a href="#">担保信息</a></li>
+			</ul>        
+		</div>
+		&nbsp;
+		&nbsp;
+		<div class="userinfo">
+			<h:form>
+			<p:growl showDetail="true" autoUpdate="true" />
+			<h:inputHidden id="taskid" value=""></h:inputHidden>
+			<h:panelGrid id="flowid"
+				style="width:100%; border-collapse:collapse; border-bottom : 0px;"
+				columns="4" border="1" styleClass="ui-widget-content">
+				<h:outputLabel value="用户名" />
+				<h:inputText value=""></h:inputText>
+				<h:outputLabel value="客户类型" />
+				<h:outputLabel value="">
+					<h:selectOneListbox>
+						<f:selectItem itemLabel="公司" itemValue="0"/>
+						<f:selectItem itemLabel="XX" itemValue="1" />
+					</h:selectOneListbox>
+				</h:outputLabel>
+				<h:outputLabel value="申请额度" />
+				<h:inputText value=""></h:inputText>
+				<h:outputLabel value="标的类型" />
+				<h:outputLabel value="">
+					<h:selectManyCheckbox value="" id="type">
+						<f:selectItem itemLabel="抵押" itemValue="0"/>
+						<f:selectItem itemLabel="担保" itemValue="1" />
+						<f:selectItem itemLabel="信用" itemValue="2" />
+					</h:selectManyCheckbox>
+				</h:outputLabel>
+				<h:outputLabel value="开始日期" />
+				<h:inputText value=""></h:inputText>
+				<h:outputLabel value="结束日期" />
+				<h:inputText value=""></h:inputText>
+			</h:panelGrid>
+		</h:form>
+		</div>
+		&nbsp;
+		&nbsp;
+		<h:form>
+				<ul class="seachform">
+					<li><label>&nbsp;</label> <p:commandButton value="个人资料"
+							 style="width:130px;"
+							update="dataTable"></p:commandButton></li>
+					<li><label>&nbsp;</label> <p:commandButton value="单位及收入情况"
+							  style="width:130px;"
+							update="dataTable"></p:commandButton></li>
+					<li><label>&nbsp;</label> <p:commandButton value="担保信息"
+							 style="width:130px;"
+							update="dataTable"></p:commandButton></li>
+					<li><label>&nbsp;</label> <p:commandButton value="资料收集"
+							 style="width:130px;"
+							update="dataTable"></p:commandButton></li>
+							
+				</ul>
+		</h:form>
+		
+		
+		<div class="userinfo1">
+			<h:form>
+			<p:growl showDetail="true" autoUpdate="true" />
+			<h:inputHidden id="taskid1" value=""></h:inputHidden>
+			<h:panelGrid id="flowid1"
+				style="width:100%; border-collapse:collapse; border-bottom : 0px;"
+				columns="4" border="1" styleClass="ui-widget-content">
+				<h:outputLabel value="担保品名称" />
+				<h:inputText value=""></h:inputText>
+				<h:outputLabel value="担保品类型" />
+				<h:outputLabel value="">
+					<h:selectOneListbox>
+						<f:selectItem itemLabel="房地产抵押" itemValue="0"/>
+						<f:selectItem itemLabel="XX" itemValue="1" />
+					</h:selectOneListbox>
+				</h:outputLabel>
+				<h:outputLabel value="担保品价值" />
+				<h:inputText value=""></h:inputText>
+				<h:outputLabel value="" />
+				<h:outputLabel value="" />
+				<h:outputLabel value="担保品说明" />
+				<h:inputText value=""></h:inputText>
+				<h:outputLabel value="" />
+				<h:outputLabel value="" />
+				<h:outputLabel value="附件上传1" />
+				<h:inputText value=""></h:inputText>
+				<h:outputLabel value="附件上传2" />
+				<h:inputText value=""></h:inputText>
+				<h:outputLabel value="附件上传3" />
+				<h:inputText value=""></h:inputText>
+				<h:outputLabel value="附件上传4" />
+				<h:inputText value=""></h:inputText>
+			</h:panelGrid>
+		</h:form>
+		</div>
+		<li><h:commandButton styleClass="btn" value="增加" type="button"
+			  onclick=""></h:commandButton></li>
+			  
+	
+		<div class="userinfo2">
+			<h:form>
+			<p:growl showDetail="true" autoUpdate="true" />
+			<h:inputHidden id="taskid2" value=""></h:inputHidden>
+			<h:panelGrid width="100%">
+				<p:dataTable value="" var="data" emptyMessage="暂无信息" rows="10"
+					style="width:100%" cellpadding="0" cellspacing="0"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					paginatorAlwaysVisible="false" paginatorPosition="bottom"
+					lazy="true" paginator="true" rowsPerPageTemplate="5,10,15,20" >
+					<p:column headerText="担保品名称">
+						<h:outputText value="" />
+					</p:column>
+					<p:column headerText="担保品类型">
+						<h:outputText value="" />
+					</p:column>
+					<p:column headerText="担保品价值">
+						<h:outputText value="" />
+					</p:column>
+					<p:column headerText="担保品说明">
+						<h:outputText value="" />
+					</p:column>
+				</p:dataTable>
+			</h:panelGrid>
+		</h:form>
+		</div>
+		
+		<div class="userinfo3">
+			<h:form>
+			<p:growl showDetail="true" autoUpdate="true" />
+			<h:inputHidden id="taskid3" value=""></h:inputHidden>
+			<h:panelGrid id="flowid3"
+				style="width:100%; border-collapse:collapse; border-bottom : 0px;"
+				columns="4" border="1" styleClass="ui-widget-content">
+				<h:outputLabel value="保证人" />
+				<h:inputText value=""></h:inputText>
+				<h:outputLabel value="保证人类型" />
+				<h:outputLabel value="">
+					<h:selectOneListbox>
+						<f:selectItem itemLabel="担保公司担保" itemValue="0"/>
+						<f:selectItem itemLabel="XX" itemValue="1" />
+					</h:selectOneListbox>
+				</h:outputLabel>
+				<h:outputLabel value="担保金额" />
+				<h:inputText value=""></h:inputText>
+				<h:outputLabel value="" />
+				<h:outputLabel value="" />
+				<h:outputLabel value="担保说明" />
+				<h:inputText value=""></h:inputText>
+				<h:outputLabel value="" />
+				<h:outputLabel value="" />
+				<h:outputLabel value="附件上传1" />
+				<h:inputText value=""></h:inputText>
+				<h:outputLabel value="附件上传2" />
+				<h:inputText value=""></h:inputText>
+				<h:outputLabel value="附件上传3" />
+				<h:inputText value=""></h:inputText>
+				<h:outputLabel value="附件上传4" />
+				<h:inputText value=""></h:inputText>
+			</h:panelGrid>
+		</h:form>
+		</div>
+		<li><h:commandButton styleClass="btn" value="增加" type="button"
+			  onclick=""></h:commandButton></li>
+			  
+	
+		<div class="userinfo4">
+			<h:form>
+			<p:growl showDetail="true" autoUpdate="true" />
+			<h:inputHidden id="taskid4" value=""></h:inputHidden>
+			<h:panelGrid width="100%">
+				<p:dataTable value="" var="data" emptyMessage="暂无信息" rows="10"
+					style="width:100%" cellpadding="0" cellspacing="0"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					paginatorAlwaysVisible="false" paginatorPosition="bottom"
+					lazy="true" paginator="true" rowsPerPageTemplate="5,10,15,20" >
+					<p:column headerText="保证人">
+						<h:outputText value="" />
+					</p:column>
+					<p:column headerText="保证人类型">
+						<h:outputText value="" />
+					</p:column>
+					<p:column headerText="担保金额">
+						<h:outputText value="" />
+					</p:column>
+					<p:column headerText="担保说明">
+						<h:outputText value="" />
+					</p:column>
+				</p:dataTable>
+			</h:panelGrid>
+		</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

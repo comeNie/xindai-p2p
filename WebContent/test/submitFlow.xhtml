@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<h:form>
+			<p:growl showDetail="true" autoUpdate="true" /> 
+			<h:inputHidden value="#{submitFlowBean.taskid}"></h:inputHidden>
+			<h:panelGrid id="flowid"
+				style="width:100%; border-collapse:collapse; border-bottom : 0px;"
+				columns="4" border="1" styleClass="ui-widget-content">
+				<h:outputText value="申请开始时间：" />
+				<p:calendar value="#{submitFlowBean.date}" id="popupButtonCal"
+					showOn="button" />
+				<h:outputText value="申请天数：" />
+				<h:inputText value="#{submitFlowBean.day}"></h:inputText>
+				<h:outputText value="申请原因："></h:outputText>
+				<h:inputTextarea value="#{submitFlowBean.reason}" rows="3"></h:inputTextarea>
+			</h:panelGrid>
+			<h:panelGrid rendered="#{submitFlowBean.taskid != null}"
+				style="width:100%; border-collapse:collapse; border-bottom : 0px;"
+				columns="2" border="1" styleClass="ui-widget-content">
+				<h:outputText value="审批意见："></h:outputText>
+				<p:dataList value="#{submitFlowBean.comments}" var="comment">
+					<h:inputTextarea readonly="true" value="#{comment}"></h:inputTextarea>
+				</p:dataList>
+			</h:panelGrid>
+			<p:commandButton action="#{submitFlowBean.submit}" value="提交"></p:commandButton>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

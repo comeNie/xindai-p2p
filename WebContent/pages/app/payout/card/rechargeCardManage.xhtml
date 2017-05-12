@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+	<script type="text/javascript">
+			$(document).ready(function(e) {
+				$(".select1").uedSelect({
+					width : 150
+				});
+			});
+		</script>
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">日常管理</a></li>
+				<li><a href="#">充值卡管理</a></li>
+			</ul>
+		</div>
+		<div class="rightinfo">
+			<h:form id="search">
+				<ul class="seachform">
+					<li><h:outputLabel value="批次号：" /> 
+						<h:inputText id="batchNo" styleClass="scinput" value="#{rechargeCardBean.vo.batchNo}" /></li>
+					<li><h:outputLabel value="卡号：" /> 
+						<h:inputText id="cardCd" styleClass="scinput" value="#{rechargeCardBean.vo.cardCd}" /></li>
+					<li><h:outputLabel value="状态：" />
+						<div class="vocation">
+							<h:selectOneMenu styleClass="select1" value="#{rechargeCardBean.vo.status}">
+								<f:selectItem  itemLabel="请选择" itemValue="" />
+								<f:selectItems value="#{fn:getSelectItems('rechargeSearchStatusCd')}"></f:selectItems>
+							</h:selectOneMenu>
+						</div></li>
+					<li><label>&nbsp;
+							<p:commandButton id="refresh" styleClass="refresh" style="display: none;"
+								action="#{rechargeCardBean.refresh}" update="dataTable"></p:commandButton></label>
+							<p:commandButton value="搜索"
+								action="#{rechargeCardBean.search}" styleClass="scbtn"  update="dataTable"></p:commandButton></li>
+										<li><label>&nbsp;</label> <p:commandButton value="重置" type="reset"
+							styleClass="scbtn" image="ui-icon ui-icon-search" update="dataTable"></p:commandButton></li>
+
+				</ul>
+				<p:growl globalOnly="true" autoUpdate="true"></p:growl>
+
+				<div class="tools">
+					<ul class="toolbar">
+						<li><p:commandLink id="addInfo" oncomplete="showWindow('#{request.contextPath}/pages/app/payout/card/addRechargeCard.jsf?operateFlag=add','生成充值卡');" action="#{rechargeCardBean.operate}">
+						<f:param name="operateFlag" value="add" /><span><img src="#{request.contextPath}/images/t01.png" /></span>生成充值卡</p:commandLink></li>
+					</ul>
+				</div>
+				
+				<p:dataTable value="#{rechargeCardBean.cardModel}" var="card"
+					rows="10" paginatorAlwaysVisible="false" id="dataTable" rowKey="#{card.id}"
+					paginatorPosition="bottom" lazy="true" emptyMessage="暂无数据"
+					paginator="true" rowsPerPageTemplate="5,10,15,20" binding="#{rechargeCardBean.dataTable}"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					selection="#{rechargeCardBean.cardVO}">
+					<p:column selectionMode="single" />
+					<p:column>
+						<f:facet name="header">
+				          	<h:outputText value="生成批次号" />
+				      	</f:facet>
+						<h:outputText value="#{card.batchNo}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+				          	<h:outputText value="卡号" />
+				      	</f:facet>
+						<h:outputText value="#{card.cardCd}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+				          	<h:outputText value="金额" />
+				      	</f:facet>
+						<h:outputText value="#{card.amt}" converter="amtConverter"/>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+				          	<h:outputText value="有效起始时间" />
+				      	</f:facet>
+						<h:outputText value="#{card.startDate}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+				          	<h:outputText value="有效截止时间" />
+				      	</f:facet>
+						<h:outputText value="#{card.endDate}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+				          	<h:outputText value="充值时间" />
+				      	</f:facet>
+						<h:outputText value="#{card.rechargeDate}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+				          	<h:outputText value="充值用户" />
+				      	</f:facet>
+						<h:outputText value="#{card.userName}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+				          	<h:outputText value="充值姓名" />
+				      	</f:facet>
+						<h:outputText value="#{card.custName}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+				          	<h:outputText value="创建时间" />
+				      	</f:facet>
+						<h:outputText value="#{card.sysCreateTime}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+				          	<h:outputText value="状态" />
+				      	</f:facet>
+						<h:outputText value="#{card.status}" converter="#{fn:getSelectItemConverter('rechargeStatusCd')}" />
+					</p:column>
+				</p:dataTable>
+				
+			</h:form>
+			<p:dialog widgetVar="mainDialog" width="670" height="400" modal="true">
+				<f:facet name="header">
+					<h:outputText id="mainDialogTitle" value="理财卡管理" />
+				</f:facet>
+				<iframe id="mainFrameHidden" name="mainFrameHidden" scrolling="no"
+					width="100%" height="100%" src="" frameborder="0"> </iframe>
+			</p:dialog>
+		</div>
+	</ui:define>
+</ui:composition>
+
+</html>

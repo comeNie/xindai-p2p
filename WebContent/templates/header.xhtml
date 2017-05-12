@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+            xmlns:h="http://java.sun.com/jsf/html"
+            xmlns:f="http://java.sun.com/jsf/core"
+            xmlns:ui="http://java.sun.com/jsf/facelets"
+            xmlns:p="http://primefaces.org/ui">
+		<!-- wrapper -->
+		<div class="header">
+			<div class="topnav">
+			<h:form>
+				<span><a href="#{request.contextPath}/index.jsf">饭饭首页</a> | <a href="#{request.contextPath}/buyerPages/userIndex.jsf">我的饭饭</a> | <a
+					href="javascript:window.external.addFavorite(window.location.href,'饭饭')">加入收藏</a>
+					| <a href="#">帮助中心</a><f:verbatim rendered="#{topNavigationBean.isLogin}"> | </f:verbatim><h:commandLink value="退出" action="#{topNavigationBean.loginOut}" rendered="#{topNavigationBean.isLogin}" ></h:commandLink></span> 您好，欢迎来到饭饭网！
+				<f:verbatim rendered="#{!topNavigationBean.isLogin}">
+					<a href="#{request.contextPath}/login.jsf" target="_top">请登录</a>
+					<a href="#{request.contextPath}/register.jsf">免费注册</a>
+				</f:verbatim>
+				<h:outputText value="欢迎" rendered="#{topNavigationBean.isLogin}"></h:outputText>
+				<f:verbatim rendered="#{topNavigationBean.isLogin}">
+					<a href="#{request.contextPath}/buyerPages/userIndex.jsf">#{topNavigationBean.loginUser.userCode}</a>
+				</f:verbatim>
+			</h:form>
+			</div>
+			<div class="banner">
+			    <ui:insert name="header"></ui:insert>
+			</div>
+		</div>
+</ui:composition>

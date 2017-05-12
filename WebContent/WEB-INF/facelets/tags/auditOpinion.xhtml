@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://www.qfw.com/jsf/fn" xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+	<ui:repeat var="auditOpinion" value="#{auditOpinionList}">
+		<li><label>#{auditOpinion.approvalRoleName}审批意见：</label> <h:inputTextarea readonly="true"
+				styleClass="textinput"
+				value="&lt;#{auditOpinion.approvalUserName}_#{auditOpinion.sysCreateTime}:&gt;#{auditOpinion.comment}"></h:inputTextarea>
+		</li>
+	</ui:repeat>
+	<li style="display: #{showInputAudit ? 'inherit' : 'none'}"><label
+		style="display: #{showInputAudit ? 'inherit' : 'none'}">审批意见：</label>
+		<h:inputTextarea styleClass="textinput" rendered="#{showInputAudit}"
+			value="#{comment}"></h:inputTextarea></li>
+
+</ui:composition>
+
+</html>

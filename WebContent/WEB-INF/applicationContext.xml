@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/context        
+    http://www.springframework.org/schema/context/spring-context-2.5.xsd
+    http://cxf.apache.org/jaxws   
+    http://cxf.apache.org/schemas/jaxws.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+	
+	<context:annotation-config></context:annotation-config>
+	<context:component-scan base-package="com.qfw"></context:component-scan>
+	<!-- 使用annotation定义事务 -->
+ 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+	<!-- <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean"> 
+		<property name="configLocation" value="/WEB-INF/hibernate.cfg.xml"> </property> 
+		</bean> -->
+
+	
+	<bean id="jndiDataSource" 
+	class="com.qfw.common.util.NewBasicDataSource"
+		lazy-init="true">
+		<!-- class="org.apache.commons.dbcp.BasicDataSource" -->
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+			<!-- <value>oracle.jdbc.driver.OracleDriver</value> -->
+		</property>
+		<property name="url">
+<!-- 		<value>jdbc:mysql://192.168.0.100:3306/p2p?useUnicode=true&amp;characterEncoding=utf-8&amp;useServerPrepStmts=false</value> -->
+ <value>jdbc:mysql://localhost:3306/p2p?useUnicode=true&amp;characterEncoding=utf-8&amp;useServerPrepStmts=false</value>       
+<!--  <value>jdbc:mysql://bigdatap.oicp.net:3305/p2p?useUnicode=true&amp;characterEncoding=utf-8&amp;useServerPrepStmts=false</value>        -->
+		</property>
+		<property name="username">
+		 <value>root</value>  
+		</property>
+		<property name="password">
+ 		<value>password</value> 
+		</property>
+		
+		<property name="maxActive">
+			<value>10</value>
+		</property>
+		<property name="minIdle">
+			<value>5</value>
+		</property>
+		<property name="validationQuery">
+			<value>SELECT 1 from dual</value>
+		</property>
+		<property name="testOnBorrow">
+			<value>true</value>
+		</property>
+	</bean>
+	<bean class="com.qfw.common.util.ApplicationContextUtil"></bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="jndiDataSource" />
+		<!--查找实体类Entity的方法1(指定) -->
+		<!-- <property name="annotatedClasses"> <list> <value>com.witbridge.model.Userinfo</value> 
+			<value>com.witbridge.model.Log</value> </list> </property> -->
+		<!--查找实体类Entity的方法2(扫描指定包下的全部实体类) -->
+		<property name="packagesToScan">
+			<list>
+				<value>com.qfw.common.model</value><!--  -->
+				<value>com.qfw.batch.model.bo</value>
+				<value>com.qfw.model.bo</value>
+				<value>com.qfw.jbpm.model.bo</value>
+				<value>com.qfw.platform.model.bo</value>
+			</list>
+		</property>
+		<!-- jbpm hibernate配置 开始-->
+		<property name="mappingLocations">
+			<list>
+				<value>classpath:jbpm.repository.hbm.xml</value>
+				<value>classpath:jbpm.execution.hbm.xml</value>
+				<value>classpath:jbpm.history.hbm.xml</value>
+				<value>classpath:jbpm.task.hbm.xml</value>
+				<value>classpath:jbpm.identity.hbm.xml</value>
+			</list>
+		</property>
+		
+		<!-- jbpm hibernate配置结束-->
+		<property name="hibernateProperties">
+			<value>
+				<!-- hibernate.dialect=org.hibernate.dialect.Oracle9Dialect -->
+				<!-- hibernate.dialect=org.hibernate.dialect.MySQLDialect -->
+				hibernate.dialect=org.hibernate.dialect.MySQLInnoDBDialect
+				hibernate.show_sql=true
+				<!-- hibernate.hbm2ddl.auto = update -->
+			</value>
+		</property>
+	</bean>
+
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource">
+			<ref bean="jndiDataSource" />
+		</property>
+	</bean>
+	<bean id="baseService" class="com.qfw.common.bizservice.impl.BaseServiceImpl">
+		<property name="commonQuery" ref="commonQuery"></property>
+		<property name="baseDAO" ref="baseDAO"></property>
+	</bean>
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="commonQuery" class="com.qfw.common.dao.impl.CommonQueryImpl">
+		<property name="jdbcTemplate">
+			<ref bean="jdbcTemplate" />
+		</property>
+	</bean>
+	<bean id="baseDAO" class="com.qfw.common.dao.impl.BaseDAOImpl">
+		<property name="hibernateTemplate">
+			<ref bean="hibernateTemplate" />
+		</property>
+		<property name="jdbcTemplate">
+			<ref bean="jdbcTemplate" />
+		</property>
+	</bean>
+	<bean id="userDAO" class="com.qfw.common.dao.permission.impl.UserDAOImpl"
+		parent="baseDAO">
+	</bean>
+	<bean id="roleDAO" class="com.qfw.common.dao.permission.impl.RoleDAOImpl"
+		parent="baseDAO">
+	</bean>
+	<bean id="loginBS" class="com.qfw.common.bizservice.permission.impl.LoginBSImpl">
+		<property name="commonQuery">
+			<ref bean="commonQuery" />
+		</property>
+		<property name="userBS">
+			<ref bean="userBS" />
+		</property>
+		<property name="userDAO">
+			<ref bean="userDAO" />
+		</property>
+		<property name="custInfoBS">
+			<ref bean="custInfoBS"/>
+		</property>
+	</bean>
+	<bean id="deptDAO" class="com.qfw.common.dao.permission.impl.DeptDAOImpl"
+		parent="baseDAO">
+	</bean>
+	<bean id="deptBS" class="com.qfw.common.bizservice.permission.impl.DeptBSImpl" parent="baseService">
+		<property name="deptDAO">
+			<ref bean="deptDAO" />
+		</property>
+	</bean>
+	
+	
+	<bean id="userBS"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
+		lazy-init="true" parent="baseTxService">
+		<property name="proxyInterfaces">
+			<list>
+				<value>
+					com.qfw.common.bizservice.permission.IUserBS
+				</value>
+			</list>
+		</property>
+		<property name="target">
+			<ref bean="userBSTarget" />
+		</property>
+	</bean>
+	<bean id="userBSTarget" class="com.qfw.common.bizservice.permission.impl.UserBSImpl"
+		parent="baseService">
+		<property name="userDAO" ref="userDAO"></property>
+	</bean>
+	<!-- add by weiqinshu on20140401 start -->
+	<bean id="creditLimitApplyBS"
+		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"
+		lazy-init="true" parent="baseTxService">
+		<property name="proxyInterfaces">
+			<list>
+				<value>
+					com.qfw.bizservice.credit.ICreditLimitApplyBS
+				</value>
+			</list>
+		</property>
+		<property name="target">
+			<ref bean="creditLimitApplyBSTarget" />
+		</property>
+	</bean>
+	<bean id="creditLimitApplyBSTarget" class="com.qfw.bizservice.credit.impl.CreditLimitApplyBSImpl"
+		parent="baseService">
+	</bean>
+	<!-- <bean id="userBS" parent="baseTxService"> 
+		<property name="target">
+			<ref local="userBSTarget" />
+		</property>
+	</bean>
+	-->
+	
+	<!-- add by weiqinshu on 20130705 商品信息   end -->
+	
+	<bean id="roleBS" class="com.qfw.common.bizservice.permission.impl.RoleBSImpl"
+		parent="baseService">
+		<property name="roleDAO" ref="roleDAO"></property>
+	</bean>
+	<bean id="codeDictDAO" class="com.qfw.common.dao.impl.CodeDictDAOImpl"
+		parent="baseDAO"></bean>
+	<bean id="codeDictBS" class="com.qfw.common.bizservice.impl.CodeDictBSImpl">
+		<property name="codeDictDAO" ref="codeDictDAO"></property>
+	</bean>
+	
+	<bean id="paramBS" class="com.qfw.common.bizservice.impl.ParamBSImpl"
+		parent="baseService">
+	</bean>
+	
+	
+	<bean id="componseFactory" class="com.qfw.common.bizservice.impl.ComponseFactory">
+		<property name="baseDAO">
+			<ref bean="baseDAO"></ref>
+		</property>
+	</bean>
+	<bean id="namingTransactionAttributeBank" class="org.springframework.transaction.interceptor.NameMatchTransactionAttributeSource">
+		<property name="properties">
+			<props>
+				<prop key="save*">PROPAGATION_REQUIRED,ISOLATION_DEFAULT,-BizException</prop>
+				<prop key="update*">PROPAGATION_REQUIRED,ISOLATION_DEFAULT,-BizException</prop>
+				<prop key="delete*">PROPAGATION_REQUIRED,ISOLATION_DEFAULT,-BizException</prop>
+				<prop key="import*">PROPAGATION_REQUIRED</prop>
+				<prop key="auth*">PROPAGATION_REQUIRED,ISOLATION_DEFAULT,-BizException</prop>
+				<prop key="tran*">PROPAGATION_REQUIRED,ISOLATION_DEFAULT,-BizException</prop>
+				<prop key="*Receive">PROPAGATION_REQUIRED,ISOLATION_DEFAULT,-BizException</prop>
+				<prop key="tranNew*">PROPAGATION_REQUIRES_NEW,ISOLATION_DEFAULT,-BizException</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="baseTxService" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean" abstract="true">
+		<property name="transactionManager">
+			<ref bean="transactionManager" />
+		</property>
+		<property name="proxyTargetClass" value="true" />
+		<property name="transactionAttributeSource">
+			<ref bean="namingTransactionAttributeBank" />
+		</property>
+	</bean>
+	
+	<bean id="funBS" class="com.qfw.common.bizservice.permission.impl.FunBSImpl" parent="baseService">
+	</bean>
+	
+	<bean id="funDAO" class="com.qfw.common.dao.permission.impl.FunDAOImpl"
+		parent="baseDAO">
+	</bean>
+	
+	<bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor" /> 
+	
+	<bean id="freeMarkerConfiguration" class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
+		<property name="templateLoaderPath" value="classpath:com/qfw/model/template"></property>
+		<property name="defaultEncoding" value="UTF-8"></property>
+	</bean>
+	
+	<bean id="mailSender"  class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host">
+            <value>smtp.163.com</value>
+        </property>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.timeout">25000</prop>
+            </props>
+        </property>
+        <property name="username">
+            <value>pangmaotest@163.com</value>
+        </property>
+        <property name="password">
+            <value>123456test</value>
+        </property>
+    </bean>
+	
+	<import resource="classpath:com/qfw/batch/source/applicationContext.xml"/>
+	<import resource="classpath:com/qfw/jbpm/source/applicationContext.xml"/>
+	<import resource="classpath:com/qfw/platform/source/applicationContext.xml"/>
+	
+	<!-- <import resource="classpath:META-INF/cxf/cxf.xml"/>  
+      <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml"/>  
+      <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>  
+  
+      <jaxws:endpoint   
+             id="userInfoSyn"  
+             implementor="com.qfw.service.impl.UserInfoSynImpl"  
+             address="/userInfoSyn" />  
+  
+     <bean id="client"   
+            class="com.qfw.service.IUserInfoSyn"   
+            factory-bean="clientFactory"   
+            factory-method="create"/>  
+  
+     <bean id="clientFactory" class="org.apache.cxf.jaxws.JaxWsProxyFactoryBean">  
+            <property name="serviceClass" value="com.qfw.service.IUserInfoSyn"/>  
+            <property name="address" value="http://bigdatap.oicp.net:8089/xindai-p2p/webservice/userInfoSyn"/>  
+     </bean>   -->
+</beans>

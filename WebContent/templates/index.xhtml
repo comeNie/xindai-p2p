@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:q="http://www.qfw.com/jsf/ui" xmlns:p="http://primefaces.org/ui">
+<f:view contentType="text/html">
+	<h:head>
+		<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+		<script src="#{request.contextPath}/js/utils.js" type="text/javascript" />
+		<ui:insert name="headContents"></ui:insert>
+	</h:head>
+	<h:outputScript library="primefaces" name="jquery/jquery.js"
+		target="head" />
+	<h:body>
+		<div class="fullbg">
+			<!-- wrapper -->
+			<div class="wrapper">
+			   <ui:include src="header.xhtml"></ui:include>
+				<!-- main -->
+				<ui:insert name="main"></ui:insert>
+				<!-- main end -->
+			</div>
+			<!-- wrapper end -->
+			<div class="clear10"></div>
+			<ui:include src="footer.xhtml"></ui:include>
+		</div>
+
+	</h:body>
+</f:view>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html">
+	<h:head>
+		<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+			<title>后台管理</title>
+		</f:facet>
+		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/css/default.css" />
+		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/css/syntaxhighlighter/syntaxhighlighter.css" />
+		<script src="#{request.contextPath}/js/utils.js"
+			type="text/javascript" />
+		<style type="text/css">
+.nestedUnit {
+	border: 0px none !important;
+}
+
+.ui-layout-center .ui-layout-resizer {
+	border: 1px solid #A8A8A8 !important;
+}
+
+.ui-tree-item span {
+	float: left !important;
+}
+
+.ui-tree {
+	border: 0px none !important;
+}
+
+.ui-tabs {
+	border: 0px none !important;
+}
+</style>
+	</h:head>
+
+	<h:body styleClass="ui-widget-content">
+
+		<p:layout fullPage="true">
+			<p:layoutUnit position="north" size="90" resizable="true"
+				closable="false" collapsible="false"
+				style="padding: 0px;margin: 0px; overflow: hidden;">
+				<div class="ui-widget ui-widget-header"
+					style="padding: 0px; margin: 0px; overflow: hidden; border: 0px;">
+					<div align="center" style="float: right; height: 80px;">
+						<table>
+							<tr>
+								<td valign="bottom"><h:form style="padding 0;margin:0;">
+										<p:commandLink action="#{loginBean.loginOut}"
+											oncomplete="location.href='#{request.contextPath}/'">
+											<br /> 安全退出
+					     </p:commandLink>
+									</h:form></td>
+								<td valign="bottom"><a
+									href="#{request.contextPath}/pages/grmainpage/updatePassword.jsf"
+									target="mainFrame">修改密码
+								</a></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</p:layoutUnit>
+
+			<p:layoutUnit position="south" size="25" resizable="false"
+				closable="false" collapsible="false"
+				style="text-align: center;padding: 0px;margin: 0px; overflow: hidden;">
+				<div class="ui-widget ui-widget-header"
+					style="padding: 0px; margin: 0px; overflow: hidden; border: 0px; line-height: 20px;">
+					&copy;&nbsp;&nbsp;2011-2012 &nbsp;&bull;&nbsp;.</div>
+			</p:layoutUnit>
+			<p:layoutUnit position="west" size="200" header="功能菜单"
+				resizable="true" closable="false" collapsible="true">
+				<h:form id="menuForm">
+					<p:tree value="#{navigationBean.funRoot}" var="node" onNodeClick="changeMenu('#{request.contextPath}',node.find('input').val(),node.find('label').val());"
+						id="checkboxTree" style="width:170px" selectionMode="single">
+						<p:treeNode>
+							<h:outputLabel id="menuid" value="#{node.funName}" style="width:100px"></h:outputLabel>
+							<h:inputHidden value="#{node.funPath}"></h:inputHidden>
+						</p:treeNode>
+					</p:tree>
+				</h:form>
+			</p:layoutUnit>
+			<p:layoutUnit position="center" header="当前位置>>首页" id="center"
+				style="font-style: italic;font-weight: normal;">
+				<p:outputPanel id="outputPanel">
+					<h:inputHidden value="#{navigationBean.selectSysFunction.funName}"
+						id="curFunName" />
+					<iframe id="centerPage"
+						src="#{request.contextPath}#{navigationBean.selectSysFunction.funPath}"
+						style="width: 100%; height: 100%;" name="mainFrame"
+						scrolling="auto" frameborder="0" />
+				</p:outputPanel>
+			</p:layoutUnit>
+		</p:layout>
+
+		<p:dialog widgetVar="mainDialog" modal="true" onHide="clearView();">
+			<f:facet name="header">
+				<h:outputText id="mainDialogTitle" value="来至网页" />
+			</f:facet>
+			<iframe id="mainFrameHidden" name="mainFrameHidden" scrolling="auto"
+				src="" frameborder="0"> </iframe>
+		</p:dialog>
+		<script>
+          function changeMenu(contextPath,src,funName){
+        	  if(src != ""){
+        		  var page = $(document.getElementById('centerPage').contentWindow.document.body);
+        		  var clearlink = page.find("#clearfrom\\:clearview");
+        		  clearlink.click();
+        		  $("#centerPage").attr("src",contextPath+src+"?"+Math.random());
+                  var menu1 = $(".ui-icon-triangle-1-s").next().text();
+                  var title = $('#center .ui-layout-unit-header-title');
+                  title.text("当前位置>>"+funName);
+                  title.css("font-weight","normal").css("font-family","Verdana").css("FONT-SIZE","9pt");
+        	  }
+          }
+       </script>
+	</h:body>
+</f:view>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:q="http://www.qfw.com/jsf/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">系统管理</a></li>
+				<li><a href="#">权限管理</a></li>
+			</ul>
+		</div>
+		<div class="rightinfo">
+
+			<fieldset>
+				<h:form id="form">
+					<table align="left">
+						<tr>
+							<td valign="top"><h:outputLabel>部门：</h:outputLabel> <p:tree
+									value="#{funManageBean.allDept}" var="depts"
+									style="width:250px;height:300px;overflow-y: auto;overflow-x: hidden;"
+									selectionMode="single"
+									selection="#{funManageBean.selectedDept}">
+									<p:ajax event="select" update=":form:roleList changeFuns"
+										listener="#{funManageBean.onDeptSelect}" />
+									<p:treeNode>
+										<h:outputText value="#{depts.deptName}" />
+									</p:treeNode>
+								</p:tree></td>
+							<td valign="top"><h:outputLabel>角色：</h:outputLabel> <p:selectOneListbox
+									id="roleList" value="#{funManageBean.selectedRoleId}"
+									valueChangeListener="#{funManageBean.onRoleSelect}"
+									style="width:170px;height:312px;max-height:312px;overflow-y:auto;">
+									<f:selectItems value="#{funManageBean.roles}"></f:selectItems>
+									<p:ajax event="change" update="changeFuns"></p:ajax>
+								</p:selectOneListbox></td>
+						</tr>
+					</table>
+					<table align="left">
+						<tr>
+							<td valign="top"><h:outputLabel>授权功能：</h:outputLabel> <p:tree
+									id="changeFuns" value="#{funManageBean.allFuns}" var="funs"
+									style="width:250px;height:300px;overflow-y: auto;overflow-x: hidden;"
+									selectionMode="checkbox"
+									selection="#{funManageBean.selectedFuns}">
+									<p:treeNode>
+										<h:outputText value="#{funs.funName}" />
+									</p:treeNode>
+								</p:tree></td>
+							<td valign="middle" align="center"><p:commandButton styleClass="scbtn"
+									value="保存" action="#{funManageBean.addFuns}"
+									update="changeFuns info"></p:commandButton>
+								<p /> <p:commandButton ajax="true" value="全选" styleClass="scbtn"
+									action="#{funManageBean.selectedAllFuns}" update="changeFuns"></p:commandButton>
+								<p /> <p:commandButton ajax="true" value="清空" styleClass="scbtn"
+									action="#{funManageBean.removedAllFuns}" update="changeFuns"></p:commandButton>
+								<p /></td>
+						</tr>
+
+					</table>
+					<h:panelGrid id="info">
+						<q:alert></q:alert>
+					</h:panelGrid>
+				</h:form>
+			</fieldset>
+		</div>
+	</ui:define>
+</ui:composition>
+
+</html>

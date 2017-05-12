@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<script type="text/javascript">
+			$(document).ready(function(e) {
+				$(".select1").uedSelect({
+					width : 150
+				});
+			});
+			
+			function chooseProductType() {
+				var businessType = $('#form\\:businessType').val();
+				if (businessType == 2 || businessType == 3) {// 业务类别为 
+					$("#productType").css("display","block");
+				} else if (businessType == 1) {
+					$("#productType").css("display","none");
+				}
+			}
+		</script>
+		<div class="formbody">
+			<div class="formtitle">
+				<span>业务类型选择</span>
+			</div>
+			<h:form id="form">
+				<p:growl globalOnly="true"></p:growl>
+				<h:inputHidden value="#{custInfoManageBean.custIdHidden}" />
+				<ul class="forminfo">
+					<li style="clear: both;"><label>业务类型</label>
+						<div class="vocation">
+							<h:selectOneMenu styleClass="select1" onchange="chooseProductType();" id="businessType"
+								value="#{custInfoManageBean.businessType}">
+								<f:selectItems value="#{fn:getSelectItems('businessType')}"></f:selectItems>
+							</h:selectOneMenu>
+						</div></li>
+					<li style="display:none" id="productType"><label>产品</label>
+						<div class="vocation">
+							<h:selectOneMenu styleClass="select1"
+								value="#{custInfoManageBean.productId}">
+								<f:selectItems value="#{custInfoManageBean.productItems}"></f:selectItems>
+							</h:selectOneMenu>
+						</div></li>
+					<li><label>&nbsp;</label>
+						<h:commandButton styleClass="btn"
+							value="下一步" action="#{custInfoManageBean.chooseBusinessType}"></h:commandButton>&nbsp;&nbsp;
+						<h:commandButton styleClass="btn" value="关闭" type="button"
+							onclick="closeParMainDialog();"></h:commandButton></li>	
+				</ul>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

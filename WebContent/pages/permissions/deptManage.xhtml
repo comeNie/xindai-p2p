@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<div class="place">
+		<script language="javascript">
+		function pard(){
+			//var id="dsad";
+			//alert("meico ");
+			//id=$("#parDept").text();
+			document.getElementById("search:parDept").value="";
+			document.getElementById("search:parCode").value="";
+			document.getElementById("search:parName").value="";
+			//document.getElementById('par').value="dsdsd";
+			//alert(id);
+		}
+		</script>
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">系统管理</a></li>
+				<li><a href="#">部门管理</a></li>
+			</ul>
+		</div>
+		<div class="rightinfo">
+			<h:form id="search">
+				<ul class="seachform">
+					<li><h:outputLabel value="部门：" /> <h:inputText id="parDept"
+							styleClass="scinput" required="true" readonly="true" onclick="deptTree.show();"
+							value="#{deptManageBean.deptVO.parentDeptName}" /> <h:inputHidden
+							id="parDeptId" value="#{deptManageBean.deptVO.parentDeptId}"></h:inputHidden>
+					</li>
+					<li><h:outputLabel value="部门代码：" /> <h:inputText id="parCode"
+							styleClass="scinput" value="#{deptManageBean.deptVO.deptCode}" /></li>
+					<li><h:outputLabel value="部门名称：" /> <h:inputText id="parName"
+							styleClass="scinput" value="#{deptManageBean.deptVO.deptName}" /></li>
+					<li><label>&nbsp;<p:commandButton id="refresh" styleClass="refresh" style="display: none;"
+								action="#{deptManageBean.refresh}" update="dataTable"></p:commandButton></label> <p:commandButton value="搜索"
+							action="#{deptManageBean.search}" styleClass="scbtn"  update="dataTable"></p:commandButton></li>
+					<li><label>&nbsp;</label> <p:commandButton value="重置"  onclick="pard()"
+							styleClass="scbtn" image="ui-icon ui-icon-search" update="dataTable"></p:commandButton></li>
+
+				</ul>
+				<p:growl globalOnly="true" autoUpdate="true"></p:growl>
+
+				<div class="tools">
+
+					<ul class="toolbar">
+						<li><p:commandLink id="addInfo" oncomplete="showWindow('#{request.contextPath}/pages/permissions/addDept.jsf?operateFlag=add','部门新增');" action="#{deptManageBean.operate}">
+						<f:param name="operateFlag" value="add" /><span><img src="#{request.contextPath}/images/t01.png" /></span>添加</p:commandLink></li>
+						<li><p:commandLink id="editInfo" oncomplete="showWindow('#{request.contextPath}/pages/permissions/addDept.jsf?operateFlag=edit','部门修改');" action="#{deptManageBean.operate}" onclick="if(!$('.ui-state-highlight').text()){alert('请选择一条记录');return false;}">
+						<f:param name="operateFlag" value="edit" /><span><img src="#{request.contextPath}/images/t02.png" /></span>修改</p:commandLink></li>
+						<li><p:commandLink id="delInfo" update="dataTable" action="#{deptManageBean.operate}" onclick="if(!$('.ui-state-highlight').text()){alert('请选择一条记录');return false;}else{if(!confirm('是否确定删除？')){return false;}}">
+						<f:param name="operateFlag" value="delete" /><span><img src="#{request.contextPath}/images/t03.png" /></span>删除</p:commandLink></li>
+						<li><p:commandLink id="viewInfo" oncomplete="showWindow('#{request.contextPath}/pages/permissions/addDept.jsf?operateFlag=view','部门查看');" action="#{deptManageBean.operate}" onclick="if(!$('.ui-state-highlight').text()){alert('请选择一条记录');return false;}">
+						<f:param name="operateFlag" value="view" /><span><img src="#{request.contextPath}/images/t06.png" /></span>查看</p:commandLink></li>
+					</ul>
+				</div>
+				<p:dataTable value="#{deptManageBean.lazyModel}" var="dept"
+					rows="10" paginatorAlwaysVisible="false" id="dataTable"
+					paginatorPosition="bottom" lazy="true" emptyMessage="暂无数据"
+					paginator="true" rowsPerPageTemplate="5,10,15,20"  binding="#{deptManageBean.dataTable}"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					selection="#{deptManageBean.selectDept}">
+					<p:column selectionMode="single" />
+					<p:column headerText="部门代号">
+						<h:outputText value="#{dept.deptCode}" />
+					</p:column>
+					<p:column headerText="部门名称">
+						<h:outputText value="#{dept.deptName}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+		<p:dialog widgetVar="mainDialog" width="670" height="300" modal="true">
+			<f:facet name="header">
+				<h:outputText id="mainDialogTitle" value="部门管理" />
+			</f:facet>
+			<iframe id="mainFrameHidden" name="mainFrameHidden" scrolling="no" width="100%" height="100%" 
+				src="" frameborder="0"> </iframe>
+		</p:dialog>
+		<p:dialog widgetVar="deptTree" width="250" height="210" modal="true">
+			<f:facet name="header">
+				<h:outputText value="部门信息" />
+			</f:facet>
+			<div style="width: 100%;text-align: center;">
+				<input type="button" value="确定" class="scbtn" onclick="deptTree.hide()"></input>
+			</div>
+			<h:form>
+				<p:tree value="#{deptManageBean.allDept}" var="node"
+					id="checkboxTree" style="width:170px;border:0px;"
+					selectionMode="single" selection="#{deptManageBean.selectedTree}">
+					<p:ajax event="select" update=":search:parDept :search:parDeptId"
+						listener="#{deptManageBean.onDeptSelect}" />
+					<p:treeNode>
+						<h:outputLabel value="#{node.deptName}"></h:outputLabel>
+					</p:treeNode>
+				</p:tree>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+
+</html>

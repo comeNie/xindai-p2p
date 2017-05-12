@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">批任务管理</a></li>
+				<li><a href="#">任务实例查看</a></li>
+			</ul>
+		</div>
+		<div class="rightinfo">
+			<h:form>
+				<ul class="seachform">
+					<li><h:outputLabel value="批次号：" /> <h:inputText
+							styleClass="scinput" value="#{batchInstanceManageBean.batchNo}" /></li>
+					<li><label>&nbsp;</label> <p:commandButton value="搜索"
+							action="#{batchInstanceManageBean.search}" styleClass="scbtn"
+							update="dataTable"></p:commandButton></li>
+					<li><label>&nbsp;</label> <p:commandButton value="重置" type="reset"
+							styleClass="scbtn" image="ui-icon ui-icon-search" update="dataTable"></p:commandButton></li>
+				</ul>
+			</h:form>
+
+			<h:form id="dataTable">
+				<p:growl globalOnly="true" autoUpdate="true"></p:growl>
+				<p:treeTable styleClass="treeTable" value="#{batchInstanceManageBean.jobInstanceRoot}"
+					var="jobInstance">
+					<p:column>
+						<f:facet name="header">
+							任务实例id
+					</f:facet>
+						<h:outputText value="#{jobInstance.jobInstanceId}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							任务批次号
+					</f:facet>
+						<h:outputText value="#{jobInstance.batchNo}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							任务名称
+					</f:facet>
+						<h:outputText value="#{jobInstance.name}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							任务别名
+					</f:facet>
+						<h:outputText value="#{jobInstance.aliasName}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							任务开始时间
+					</f:facet>
+						<h:outputText value="#{jobInstance.startTime}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							任务结束时间
+					</f:facet>
+						<h:outputText value="#{jobInstance.endTime}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							任务处理个数
+						</f:facet>
+						<h:outputText value="#{jobInstance.progress}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							任务处理总个数
+					</f:facet>
+						<h:outputText value="#{jobInstance.totalprogress}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							任务状态
+						</f:facet>
+						<h:outputText value="#{jobInstance.status}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							操作
+					</f:facet>
+						<p:commandLink value="重新启动"
+							onclick="if(!confirm('是否确定重启任务。')){return false;}"
+							style="margin-right: 5px"
+							action="#{batchInstanceManageBean.reStart}">
+							<f:param name="jobInstanceId"
+								value="#{jobInstance.jobInstanceId}"></f:param>
+						</p:commandLink>
+						<p:commandLink value="停止"
+							onclick="if(!confirm('是否确定停止任务。')){return false;}"
+							action="#{batchInstanceManageBean.stop}">
+							<f:param name="jobInstanceId"
+								value="#{jobInstance.jobInstanceId}"></f:param>
+						</p:commandLink>
+					</p:column>
+
+				</p:treeTable>
+			</h:form>
+		</div>
+		<h:form>
+			<p:poll interval="5" listener="#{batchInstanceManageBean.refresh}"
+				update="dataTable"></p:poll>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

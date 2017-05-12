@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<display-name>cxf</display-name>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.qfw.common.listener.SessionBinder</listener-class>
+	</listener>
+	
+	<!-- Spring MVC  -->
+	<servlet>
+		<servlet-name>springmvc</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>springmvc</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+	
+	 <servlet>  
+        <servlet-name>CXFServlet</servlet-name>  
+        <servlet-class>  
+               org.apache.cxf.transport.servlet.CXFServlet  
+        </servlet-class>  
+        <load-on-startup>1</load-on-startup>  
+    </servlet>  
+  
+    <servlet-mapping>  
+         <servlet-name>CXFServlet</servlet-name>  
+         <url-pattern>/webservice/*</url-pattern>  
+    </servlet-mapping> 
+
+	<!-- -->
+	<context-param>
+		<param-name>javax.faces.LIFECYCLE_ID</param-name>
+		<param-value>SessionLifecycle</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>javax.faces.FACELETS_LIBRARIES</param-name>
+		<param-value>/WEB-INF/fn.taglib.xml;/WEB-INF/qfw-q.taglib.xml</param-value>
+	</context-param>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+            /WEB-INF/applicationContext*.xml
+        </param-value>
+	</context-param>
+	<context-param>
+		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+		<!-- <param-value>client</param-value> -->
+		<param-value>server</param-value>
+
+	</context-param>
+	<context-param>
+		<param-name>primefaces.THEME</param-name>
+		<param-value>#{guestPreferences.theme}</param-value>
+	</context-param>
+	<context-param>
+		<param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		<param-name>exceptionMessageDir</param-name>
+		<param-value>messages</param-value>
+	</context-param>
+	<filter>
+		<filter-name>PrimeFaces FileUpload Filter</filter-name>
+		<filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
+		<init-param>
+			<param-name>thresholdSize</param-name>
+			<param-value>20971520</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>PrimeFaces FileUpload Filter</filter-name>
+		<servlet-name>Faces Servlet</servlet-name>
+	</filter-mapping>
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.jsf</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>/member/*</url-pattern>
+	</servlet-mapping>
+	<filter>
+		<filter-name>EncodingFilter</filter-name>
+		<filter-class>com.qfw.common.filter.EncodingFilter</filter-class>
+	</filter>
+	<filter>
+		<filter-name>IsLogin</filter-name>
+		<filter-class>com.qfw.common.filter.IsLogin</filter-class>
+	</filter>
+	<filter>
+		<filter-name>fileFilter</filter-name>
+		<filter-class>com.qfw.common.filter.FileFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>EncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>IsLogin</filter-name>
+		<url-pattern>/pages/*</url-pattern>
+	</filter-mapping>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	
+	<!-- 验证码图片生成 -->
+	<filter>
+		<filter-name>jCaptchaFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	
+	<!-- 验证码图片 -->
+	<filter-mapping>
+		<filter-name>jCaptchaFilter</filter-name>
+		<url-pattern>/captcha.jpg</url-pattern>
+	</filter-mapping>
+	
+	<servlet>
+		<description></description>
+		<display-name>imageCode</display-name>
+		<servlet-name>imageCode</servlet-name>
+		<servlet-class>com.qfw.common.servlet.ImageCode</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>imageCode</servlet-name>
+		<url-pattern>/imageCode</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>paymentReturn</servlet-name>
+		<servlet-class>com.qfw.servlet.PaymentReturn</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>paymentReturn</servlet-name>
+		<url-pattern>/paymentReturn.do</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>androidServlet</servlet-name>
+		<servlet-class>com.qfw.servlet.AndroidServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>androidServlet</servlet-name>
+		<url-pattern>/android/*</url-pattern>
+	</servlet-mapping>
+	
+	<error-page>
+		<error-code>500</error-code>
+		<location>/loginAction/login.do</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/404.html</location>
+	</error-page>
+	<error-page>
+		<exception-type>javax.faces.application.ViewExpiredException</exception-type>
+		<location>/login.jsf</location>
+	</error-page>
+	<error-page>
+		<exception-type>javax.faces.FacesException</exception-type>
+		<location>/login.jsf</location>
+	</error-page>
+	<session-config>
+		<session-timeout>10</session-timeout>
+	</session-config>
+</web-app>

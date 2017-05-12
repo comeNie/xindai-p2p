@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:q="http://www.qfw.com/jsf/ui" xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">代办事项</a></li>
+				<li><a href="#">提现申请</a></li>
+			</ul>
+		</div>
+		<h:form id="form">
+			<h:inputHidden id="his" value="#{approvalWithdrawalsBean.his}"/>
+			<div class="rightinfo">
+
+				<h:inputHidden id="taskid" value="#{approvalWithdrawalsBean.taskid}"></h:inputHidden>
+				<ul class="forminfo">
+					<li><h:outputLabel value="账户余额" /> <h:inputText readonly="true"
+							value="#{approvalWithdrawalsBean.infoVO.accountBalAmt}"
+							class="dfinput" /></li>
+					<li><h:outputLabel value="提现金额" /> <h:inputText readonly="true"
+							value="#{approvalWithdrawalsBean.infoVO.dealAmt}" class="dfinput" />
+					</li>
+					<li><h:outputLabel value="费用" /> <h:inputText readonly="true"
+							value="#{approvalWithdrawalsBean.infoVO.feeAmt}" class="dfinput" />
+					</li>
+					<q:auditOpinion showInputAudit="true"  auditOpinionList="#{approvalWithdrawalsBean.auditOpinionList}" 
+						comment="#{approvalWithdrawalsBean.infoVO.comment}"></q:auditOpinion>
+					<h:inputHidden  value = "#{approvalWithdrawalsBean.infoVO.outAccount}"/>
+					<h:inputHidden  value = "#{approvalWithdrawalsBean.infoVO.intputAccount}"/>
+					<h:inputHidden  value = "#{approvalWithdrawalsBean.infoVO.workItemId}"/>
+				</ul>
+
+			</div>
+			<p:growl autoUpdate="true"></p:growl>
+			<ul class="forminfo" id="submitButton">
+				<li><h:commandButton action="#{approvalWithdrawalsBean.submit}" styleClass="scbtn"
+					onclick="getHtml();statusDialog.show();"  value="同意"></h:commandButton></li>
+				<li><h:commandButton action="#{approvalWithdrawalsBean.reject}" onclick="statusDialog.show();" styleClass="scbtn"
+					value="拒绝"></h:commandButton></li>
+			</ul>
+		</h:form>
+		<script type="text/javascript">
+			$(document).ready(function(e) {
+				var his = $("#form\\:his").val();
+				if(his=="true"){
+					$("#submitButton").hide();
+				}else{
+					$("#submitButton").show();
+				}
+			});
+			function getHtml(){
+				var html = $("html").clone();
+				html.find("#submitButton").remove();
+				$("#form\\:hiddenHtml").val(html.html());
+			}
+		</script>
+	</ui:define>
+</ui:composition>
+
+</html>

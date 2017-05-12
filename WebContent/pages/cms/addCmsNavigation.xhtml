@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:q="http://www.qfw.com/jsf/ui" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+	<script type="text/javascript">
+			$(document).ready(function(e) {
+				$(".select1").uedSelect({
+					width : 152
+				});
+			});
+		</script>
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">网站管理</a></li>
+				<li><a href="#">导航管理</a></li>
+			</ul>
+		</div>
+
+		<div class="formbody">
+
+			<h:form id="navForm">
+				<ul class="forminfo">
+					<p:growl autoUpdate="true"></p:growl>
+					<li>
+						<label>名称</label> 
+						<h:inputText id="name"
+							value="#{addCmsNavigationBean.cmsNavigation.name}" immediate="false"
+							required="true" label="导航名称" requiredMessage="导航名称不能为空"
+							styleClass="dfinput">
+							<p:ajax event="blur" update="deptCodeMsg" />
+						</h:inputText></li>
+					<li><label>链接地址</label> <h:inputText id="url"
+							value="#{addCmsNavigationBean.cmsNavigation.url}" immediate="false"
+							required="true" label="链接地址" requiredMessage="链接地址不能为空"
+							styleClass="dfinput">
+							<p:ajax event="blur" update="deptCodeMsg" />
+						</h:inputText></li>
+					<li><label>排序</label> <h:inputText id="sort"
+						value="#{addCmsNavigationBean.cmsNavigation.sort}" immediate="false"
+						required="true" label="排序" requiredMessage="排序值不能为空"
+						styleClass="scinput">
+						<p:ajax event="blur" update="deptCodeMsg" />
+					</h:inputText></li>
+					<li><label>位置</label> 
+						<div class="vocation">
+							<h:selectOneMenu value="#{addCmsNavigationBean.cmsNavigation.position}"
+								styleClass="select1">
+								<f:selectItems value="#{addCmsNavigationBean.selectPositionItems}"></f:selectItems>
+							</h:selectOneMenu>
+						</div>
+					</li>
+					<li><label>是否显示</label>
+						<div class="vocation">
+							<h:selectOneMenu styleClass="select1"
+								value="#{addCmsNavigationBean.cmsNavigation.isvisible}">
+								<f:selectItems value="#{addCmsNavigationBean.selectWhetherItems}"></f:selectItems>
+							</h:selectOneMenu>
+						</div>
+					</li>
+					<li><label>是否新窗口打开</label>
+						<div class="vocation">
+							<h:selectOneMenu styleClass="select1"
+								value="#{addCmsNavigationBean.cmsNavigation.isblanktarget}">
+								<f:selectItems value="#{addCmsNavigationBean.selectWhetherItems}"></f:selectItems>
+							</h:selectOneMenu>
+						</div>
+					</li>
+					<li><label>&nbsp;</label> <p:commandButton styleClass="btn"
+							value="保存" action="#{addCmsNavigationBean.operate}" oncomplete="refreshParent();"
+							rendered="#{addCmsNavigationBean.operateFlag != 'view'}"></p:commandButton>&nbsp;&nbsp;
+						<p:commandButton styleClass="btn" value="关闭" type="button" onclick="closeParMainDialog();"></p:commandButton></li>
+				</ul>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

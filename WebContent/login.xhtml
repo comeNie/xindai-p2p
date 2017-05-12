@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:q="http://www.qfw.com/jsf/ui" xmlns:p="http://primefaces.org/ui">
+<f:view contentType="text/html">
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Cache-Control" content="no-cache" />
+		<title>世纪创投后台管理系统</title>
+		<link href="#{request.contextPath}/css/style.css" rel="stylesheet" type="text/css" />
+		<script language="JavaScript" src="#{request.contextPath}/js/jquery.js"></script>
+		<script src="#{request.contextPath}/js/cloud.js" type="text/javascript"></script>
+
+		<script language="javascript">
+			$(function() {
+				$('.loginbox').css({
+					'position' : 'absolute',
+					'left' : ($(window).width() - 692) / 2
+				});
+				$(window).resize(function() {
+					$('.loginbox').css({
+						'position' : 'absolute',
+						'left' : ($(window).width() - 692) / 2
+					});
+				})
+			});
+			function refresh() {
+				document.getElementById("authImg").src = "imageCode?now="
+						+ new Date();
+			}
+		</script>
+	</h:head>
+	<h:body
+		style="background-color:#1c77ac; background-image:url(images/light.png); background-repeat:no-repeat; background-position:center top; overflow:hidden;">
+		<div id="mainBody">
+			<div id="cloud1" class="cloud"></div>
+			<div id="cloud2" class="cloud"></div>
+		</div>
+		<div class="logintop">
+			<span>欢迎登录世纪创投后台管理系统</span>
+		</div>
+<h:form>
+	<q:alert globalOnly="true"></q:alert>
+		<div class="loginbody">
+			<span class="systemlogo"></span>
+			<div class="loginbox">
+				<ul>
+					<li>
+					<h:inputText  styleClass="loginuser" value="#{loginBean.user.userCode}" required="true" requiredMessage="用户不能为空"></h:inputText>
+					</li>
+					<li>
+					<h:inputSecret styleClass="loginpwd"
+									value="#{loginBean.user.password}"></h:inputSecret>
+					</li>
+					<li>
+					<h:commandButton action="#{loginBean.login}" value="登 录"
+									styleClass="loginbtn"></h:commandButton>
+					<label><input
+							name="" type="checkbox" value="" checked="checked" />记住密码</label>
+					</li>
+				</ul>
+			</div>
+		</div>
+</h:form>
+		<div class="loginbm">
+			版权所有 2015 <a href="http://www.sjct188.com/">sjct188.com</a> 世纪创投
+		</div>
+
+	</h:body>
+</f:view>
+</html>

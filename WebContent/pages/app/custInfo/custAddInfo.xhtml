@@ -1,0 +1,376 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:q="http://www.qfw.com/jsf/ui" xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="head">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="#{request.contextPath}/js/jquery.idTabs.min.js"></script>
+		<style type="text/css">
+			.dfinput {width: 200px;}
+		</style>
+	</ui:define>
+	<ui:define name="body">
+		<ui:param name="queryProvince"
+			value="SELECT NAME AS LABEL,ID AS VALUE FROM XX_AREA WHERE PARENT IS NULL">
+			</ui:param>
+		<ui:param name="queryCity"
+			value="SELECT NAME AS LABEL,ID AS VALUE FROM XX_AREA WHERE PARENT = '#{custInfoAddBean.creditLimitApplyVO.cust.provinceCd}'"></ui:param>
+		<ui:param name="queryArea"
+			value="SELECT NAME AS LABEL,ID AS VALUE FROM XX_AREA WHERE PARENT = '#{custInfoAddBean.creditLimitApplyVO.cust.cityCd}'"></ui:param>
+		<ui:param name="queryLiveCity"
+			value="SELECT NAME AS LABEL,ID AS VALUE FROM XX_AREA WHERE PARENT = '#{custInfoAddBean.creditLimitApplyVO.cust.liveProvinceCd}'"></ui:param>
+		<ui:param name="queryLiveArea"
+			value="SELECT NAME AS LABEL,ID AS VALUE FROM XX_AREA WHERE PARENT = '#{custInfoAddBean.creditLimitApplyVO.cust.liveCityCd}'"></ui:param>
+		
+		<div class="formbody">
+			<div class="formtitle">
+				<span>基本信息</span>
+			</div>
+			<h:form id="loanForm">
+				<p:growl globalOnly="true"></p:growl>
+				<p:growl autoUpdate="true"></p:growl>
+				<ul class="forminfo">
+						<li style="clear: both; float: left;"><h:outputLabel
+								value="真实姓名：*" /> <h:inputText styleClass="dfinput"
+								value="#{custInfoAddBean.creditLimitApplyVO.cust.custName}"></h:inputText></li>
+						<li style="clear: right;"><h:outputLabel value="身份证：*" /> <h:inputText
+								styleClass="dfinput"
+								value="#{custInfoAddBean.creditLimitApplyVO.cust.certificateNum}"></h:inputText></li>
+								
+						<li style="clear: both; float: left;"><h:outputLabel value="固定电话：" /> <h:inputText styleClass="dfinput"
+						onkeyup="if(!/^\d+$/.test(this.value)) {alert('只能输入数字 !'); this.value=this.value.replace(/[^\d]+/g,'');}" 
+								value="#{custInfoAddBean.creditLimitApplyVO.cust.telephone}"></h:inputText></li>
+								
+						<li style="clear: right;"><h:outputLabel value="移动电话：*" /> <h:inputText
+								styleClass="dfinput" onkeyup="if(!/^\d+$/.test(this.value)) {alert('只能输入数字 !'); this.value=this.value.replace(/[^\d]+/g,'');}" 
+								value="#{custInfoAddBean.creditLimitApplyVO.cust.mobileTelephone}"></h:inputText></li>
+						<li style="clear: both;float: left"><label>出生日期：*</label> <h:inputText
+							value="#{custInfoAddBean.creditLimitApplyVO.cust.birthDate}" onclick="WdatePicker();"
+							styleClass="dfinput">
+							<f:convertDateTime pattern="yyyy-MM-dd"></f:convertDateTime>
+						</h:inputText></li>	
+						<li style="clear: right; "><h:outputLabel
+								value="年龄：" /> <h:inputText styleClass="dfinput"
+								value="#{custInfoAddBean.creditLimitApplyVO.cust.age}"></h:inputText></li>
+						<li style="clear: both;"><h:outputLabel value="性别：*" />
+							<div class="vocation">
+								<h:selectOneMenu styleClass="select"
+									value="#{custInfoAddBean.creditLimitApplyVO.cust.sex}">
+									<f:selectItems value="#{fn:getSelectItems('sex')}"></f:selectItems>
+								</h:selectOneMenu>
+							</div></li>
+						<li style="clear: right; float:right;margin-right:15%"><h:outputLabel
+								value="是否vip：" />
+								
+							<div class="vocation" style="width:201px;">
+								<h:selectOneMenu styleClass="select"
+									value="#{custInfoAddBean.creditLimitApplyVO.cust.isVip}" >
+									<f:selectItems value="#{fn:getSelectItems('whether')}" ></f:selectItems>
+								</h:selectOneMenu> 
+							</div></li>
+						<li style="clear: both;"><h:outputLabel value="学历：*" />
+							<div class="vocation" style="width:200px;">
+								<h:selectOneMenu styleClass="select"
+									value="#{custInfoAddBean.creditLimitApplyVO.cust.educationCd}">
+									<f:selectItems value="#{fn:getSelectItems('educationCd')}"></f:selectItems>
+								</h:selectOneMenu>
+							</div></li>
+							
+						<li style="clear: right; float:right;margin-right:15%"><h:outputLabel
+								value="婚姻状况：*" />
+							<div class="vocation" style="width:201px;">
+								<h:selectOneMenu styleClass="select"
+									value="#{custInfoAddBean.creditLimitApplyVO.cust.maritalStatusCd}">
+									<f:selectItems value="#{fn:getSelectItems('maritalStatusCd')}"></f:selectItems>
+								</h:selectOneMenu>
+							</div></li>
+											
+						<li><h:outputLabel value="户籍地址：*" /> <h:panelGroup
+								style="margin-right: 10px;" styleClass="vocation">
+								<h:selectOneMenu styleClass="select6"
+									value="#{custInfoAddBean.creditLimitApplyVO.cust.provinceCd}">
+									<f:selectItem itemLabel="请选择" itemValue=""></f:selectItem>
+									<f:selectItems
+										value="#{fn:findSelectItemsNotCache(queryProvince)}"></f:selectItems>
+									<p:ajax event="change" update="selectCity,selectArea"
+										oncomplete="$('#loanForm\\:selectCity1').uedSelect({width : 140});$('#loanForm\\:selectArea1').uedSelect({width : 140});"></p:ajax>
+								</h:selectOneMenu>
+							</h:panelGroup> <h:panelGroup styleClass="vocation" id="selectCity"
+								style="margin-right: 10px;">
+								<h:selectOneMenu styleClass="select6" id="selectCity1"
+									value="#{custInfoAddBean.creditLimitApplyVO.cust.cityCd}">
+									<f:selectItem itemLabel="请选择" itemValue=""></f:selectItem>
+									<f:selectItems value="#{fn:findSelectItemsNotCache(queryCity)}"></f:selectItems>
+									<p:ajax event="change" update="selectArea"
+										oncomplete="$('#loanForm\\:selectArea1').uedSelect({width : 140});"></p:ajax>
+								</h:selectOneMenu>
+							</h:panelGroup> <h:panelGroup styleClass="vocation" id="selectArea">
+								<h:selectOneMenu styleClass="select6" id="selectArea1"
+									value="#{custInfoAddBean.creditLimitApplyVO.cust.nationalityCd}">
+									<f:selectItem itemLabel="请选择" itemValue=""></f:selectItem>
+									<f:selectItems value="#{fn:findSelectItemsNotCache(queryArea)}"></f:selectItems>
+								</h:selectOneMenu>
+							</h:panelGroup></li>
+						<li><h:outputLabel value="街道地址：*"></h:outputLabel> <h:inputText
+								styleClass="dfinput" style="width:525px"
+								value="#{custInfoAddBean.creditLimitApplyVO.cust.streetAddress}"></h:inputText>
+						</li>
+						<li><h:outputLabel value="现居住地址：*" /> <h:panelGroup
+								style="margin-right: 10px;" styleClass="vocation">
+								<h:selectOneMenu styleClass="select6"
+									value="#{custInfoAddBean.creditLimitApplyVO.cust.liveProvinceCd}">
+									<f:selectItem itemLabel="请选择" itemValue=""></f:selectItem>
+									<f:selectItems
+										value="#{fn:findSelectItemsNotCache(queryProvince)}"></f:selectItems>
+									<p:ajax event="change" update="selectLiveCity,selectLiveArea"
+										oncomplete="$('#loanForm\\:selectLiveCity1').uedSelect({width : 140});$('#loanForm\\:selectLiveArea1').uedSelect({width : 140});"></p:ajax>
+								</h:selectOneMenu>
+							</h:panelGroup> <h:panelGroup styleClass="vocation" id="selectLiveCity"
+								style="margin-right: 10px;">
+								<h:selectOneMenu styleClass="select6" id="selectLiveCity1"
+									value="#{custInfoAddBean.creditLimitApplyVO.cust.liveCityCd}">
+									<f:selectItem itemLabel="请选择" itemValue=""></f:selectItem>
+									<f:selectItems
+										value="#{fn:findSelectItemsNotCache(queryLiveCity)}"></f:selectItems>
+									<p:ajax event="change" update="selectLiveArea"
+										oncomplete="$('#loanForm\\:selectLiveArea1').uedSelect({width : 140});"></p:ajax>
+								</h:selectOneMenu>
+							</h:panelGroup> <h:panelGroup styleClass="vocation" id="selectLiveArea">
+								<h:selectOneMenu styleClass="select6" id="selectLiveArea1"
+									value="#{custInfoAddBean.creditLimitApplyVO.cust.liveNationalityCd}">
+									<f:selectItem itemLabel="请选择" itemValue=""></f:selectItem>
+									<f:selectItems
+										value="#{fn:findSelectItemsNotCache(queryLiveArea)}"></f:selectItems>
+								</h:selectOneMenu>
+							</h:panelGroup></li>
+						<li><h:outputLabel value="居住街道地址：*"></h:outputLabel> <h:inputText
+								styleClass="dfinput" style="width:525px"
+								value="#{custInfoAddBean.creditLimitApplyVO.cust.liveStreetAddress}"></h:inputText>
+						</li>
+					</ul>
+			    <br/>
+			    <div style="clear: both" id="usual1" class="usual">
+					<div class="itab">
+						<ul>
+							<li><a href="#tab1" class="selected">个人资料</a></li>
+							<li><a href="#tab2">单位及收入情况</a></li>
+						</ul>
+					</div>
+				</div>
+				<div id="tab1" class="tabson" title="个人资料">
+					<div style="clear: both" class="formtitle">
+						<span>联系人信息</span>
+					</div>
+
+						<div class="tools">
+							<ul class="toolbar">
+								<li><p:commandLink onclick="addContact.show();"
+									update="loanForm:contactTable,contactForm" oncomplete="updateContactForm();">
+								<span><img src="#{request.contextPath}/images/iadd.png" /></span>添加联系人</p:commandLink></li>
+							</ul>
+						</div>
+		
+
+					<h:panelGroup id="contactTable">
+						<p:dataTable var="data" emptyMessage="暂无信息" rowIndexVar="index"
+							value="#{custInfoAddBean.creditLimitApplyVO.contacts}"
+							style="width:100%" cellpadding="0" cellspacing="0">
+							<p:column headerText="联系人姓名">
+								<h:outputText value="#{data.contactsName}" />
+							</p:column>
+							<p:column headerText="联系人类型">
+								<h:outputText value="#{data.contactsTypeCd}"
+									converter="#{fn:getSelectItemConverter('contactsTypeCd')}" />
+							</p:column>
+							<p:column headerText="联系人手机">
+								<h:outputText value="#{data.mobileTelephone}" />
+							</p:column>
+							<p:column headerText="联系人电话">
+								<h:outputText value="#{data.telephone}" />
+							</p:column>
+							<p:column headerText="证件类型">
+								<h:outputText value="#{data.certificateTypeCd}"
+									converter="#{fn:getSelectItemConverter('certificateTypeCd')}" />
+							</p:column>
+							<p:column headerText="证件号码">
+								<h:outputText value="#{data.certificateNum}" />
+							</p:column>
+							<p:column headerText="操作">
+								<p:commandLink update="loanForm:contactTable" immediate="true"
+									action="#{custInfoAddBean.deleteContact}" value="删除">
+									<f:param name="index" value="#{index}"></f:param>
+								</p:commandLink>
+							</p:column>
+						</p:dataTable>
+					</h:panelGroup>
+				</div>
+
+
+				<!-- tab2 -->
+				<div id="tab2" class="tabson">
+					<ul class="forminfo">
+						<li style="clear: both;"><h:outputLabel
+								value="单位名称" /> <h:inputText styleClass="dfinput"
+								value="#{custInfoAddBean.creditLimitApplyVO.job.jobCompanyName}" /></li>
+						<li style="clear: both; float: left;"><h:outputLabel value="单位性质" />
+							<div class="vocation" style="width:200px;">
+								<h:selectOneMenu styleClass="select5"
+									value="#{custInfoAddBean.creditLimitApplyVO.job.companyTypeCd}">
+									<f:selectItems value="#{fn:getSelectItems('companyTypeCd')}"></f:selectItems>
+								</h:selectOneMenu>
+							</div></li>
+						<li style="clear: right;"><h:outputLabel value="行业性质" />
+							<div class="vocation" >
+								<h:selectOneMenu styleClass="select"
+									value="#{custInfoAddBean.creditLimitApplyVO.job.companyIndustryCd}">
+									<f:selectItems value="#{fn:getSelectItems('companyIndustryCd')}"></f:selectItems>
+								</h:selectOneMenu>
+							</div></li>
+						<li style="clear: both; float: left;"><h:outputLabel
+								value="单位电话" /> <h:inputText styleClass="dfinput"
+								value="#{custInfoAddBean.creditLimitApplyVO.job.companyPhone}" /></li>
+						<li style="clear: right;"><h:outputLabel value="月收入" />
+							<div class="vocation">
+								<h:selectOneMenu styleClass="select"
+									value="#{custInfoAddBean.creditLimitApplyVO.job.jobIncomeCd}">
+									<f:selectItems value="#{fn:getSelectItems('jobIncomeCd')}"></f:selectItems>
+								</h:selectOneMenu>
+							</div></li>
+						<li style="clear: both; float: left;"><h:outputLabel
+								value="职务" />
+							<div class="vocation" style="width:200px;">
+								<h:selectOneMenu styleClass="select"
+									value="#{custInfoAddBean.creditLimitApplyVO.job.jobPosition}">
+									<f:selectItems value="#{fn:getSelectItems('jobPositionCd')}"></f:selectItems>
+								</h:selectOneMenu>
+							</div></li>
+						<li style="clear: right;"><h:outputLabel value="工作年限" />
+							<div class="vocation">
+								<h:selectOneMenu styleClass="select"
+									value="#{custInfoAddBean.creditLimitApplyVO.job.jobYearCd}">
+									<f:selectItems value="#{fn:getSelectItems('jobYearCd')}"></f:selectItems>
+								</h:selectOneMenu>
+							</div></li>
+						<li style="clear: both; float: left;"><h:outputLabel
+								value="所在部门" /> <h:inputText styleClass="dfinput"
+								value="#{custInfoAddBean.creditLimitApplyVO.job.jobDeptName}" /></li>
+						<li style="clear: right; float: left;"><h:outputLabel
+								value="单位地址" /> <h:inputText styleClass="dfinput"
+								value="#{custInfoAddBean.creditLimitApplyVO.job.companyAddress}"></h:inputText>
+						</li>
+					</ul>
+				</div>
+
+				<div style="clear: both;">
+					<ul class="forminfo" id="submitButton">
+						<li><label>&nbsp;</label> <p:commandButton styleClass="btn"
+							value="保存" action="#{custInfoAddBean.save}" oncomplete="refreshParent();"
+							rendered="#{custInfoAddBean.operateFlag != 'view'}"></p:commandButton>&nbsp;&nbsp;
+						<p:commandButton styleClass="btn" value="关闭" type="button" onclick="closeParMainDialog();"></p:commandButton></li>
+					</ul>
+					<br /> <br />
+				</div>
+			</h:form>
+		</div>
+		
+		<!-- 添加联系人 -->
+			<p:dialog widgetVar="addContact" width="800" height="300">
+				<f:facet name="header">
+					<h:outputText value="添加联系人" />
+				</f:facet>
+				<h:form id="contactForm">
+					<ul class="forminfo">
+						<li style="clear: both; float: left;"><h:outputLabel
+								value="联系人姓名" /> <h:inputText styleClass="dfinput"
+								value="#{custInfoAddBean.creditLimitApplyVO.contact.contactsName}" /></li>
+						<li style="clear: right;"><h:outputLabel value="联系人类型" />
+							<div class="vocation">
+								<h:selectOneMenu styleClass="select select4"
+									value="#{custInfoAddBean.creditLimitApplyVO.contact.contactsTypeCd}">
+									<f:selectItems value="#{fn:getSelectItems('contactsTypeCd')}"></f:selectItems>
+								</h:selectOneMenu>
+							</div></li>
+	
+						<li style="clear: both; float: left;"><h:outputLabel
+								value="联系人手机" /> <h:inputText styleClass="dfinput"
+								value="#{custInfoAddBean.creditLimitApplyVO.contact.mobileTelephone}" />
+						</li>
+	
+						<li style="clear: right;"><h:outputLabel value="联系人电话" /> 
+							<div class="vocation"><h:inputText styleClass="dfinput"
+								value="#{custInfoAddBean.creditLimitApplyVO.contact.telephone}" />
+							</div>
+						</li>
+						<li style="clear: both; float: left;"><h:outputLabel value="证件类型" />
+							<div class="vocation">
+								<h:selectOneMenu styleClass="select select4"
+									value="#{custInfoAddBean.creditLimitApplyVO.contact.certificateTypeCd}">
+									<f:selectItems value="#{fn:getSelectItems('certificateTypeCd')}"></f:selectItems>
+								</h:selectOneMenu>
+							</div></li>
+	
+						<li style="clear: right;"><h:outputLabel value="证件号码" /> 
+							<div class="vocation"><h:inputText styleClass="dfinput"
+								value="#{custInfoAddBean.creditLimitApplyVO.contact.certificateNum}" />
+							</div></li>
+						<li><label>&nbsp;</label> <p:commandButton value="保存"
+								update="loanForm:contactTable,contactForm"
+								action="#{custInfoAddBean.addContact}"
+								oncomplete="updateContactForm();addContact.hide();"
+								styleClass="scbtn"></p:commandButton></li>
+					</ul>
+				</h:form>
+			</p:dialog>
+		<script type="text/javascript">
+			$("#usual1 ul").idTabs();
+			$(document).ready(function(e) {
+				$(".select").uedSelect({
+					width : 120
+				});
+				$(".select1").uedSelect({
+					width : 120
+				});
+				$(".select5").uedSelect({
+					width : 130
+				});
+				$(".select6").uedSelect({
+					width : 140
+				});
+
+			});
+			function updateGuarantorForm() {
+				$(".select2").uedSelect({
+					width : 166
+				});
+			}
+			function updateCollateralForm() {
+				$(".select3").uedSelect({
+					width : 166
+				});
+			}
+			function updateContactForm() {
+				$(".select4").uedSelect({
+					width : 200
+				});
+			}
+			function changeValue(a) {
+// 				var ja = $(a);
+// 				var class1 = ja.attr("class")
+// 				if ("checkoff" == class1) {
+// 					ja.next().val("2");
+// 					ja.removeClass("checkoff");
+// 					ja.addClass("checkon");
+// 				} else {
+// 					ja.next().val("3");
+// 					ja.removeClass("checkon");
+// 					ja.addClass("checkoff");
+// 				}
+			}
+		</script>
+	</ui:define>
+</ui:composition>
+</html>

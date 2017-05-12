@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:q="http://www.qfw.com/jsf/ui" xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="head">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>分配客户经理</title>
+	</ui:define>
+	<ui:define name="body">
+		<div class="formbody">
+			<h:form id="loanForm">
+				<p:growl autoUpdate="true"></p:growl>
+				<ul class="forminfo">
+					<li><label>贷款金额</label>
+					<h:inputText value="#{preLoanApplyBean.data['APPLY_AMT']}"
+							readonly="true" disabled="true" styleClass="dfinput" /></li>
+
+					<li><label>贷款期限</label> <h:inputText
+							value="#{preLoanApplyBean.data['LOAN_TERM']}" readonly="true"
+							disabled="true" styleClass="dfinput" style="width:200px;" /> <h:outputText
+							value="#{preLoanApplyBean.data['TERM_UNIT_CD']}"
+							converter="#{fn:getSelectItemConverter('DATE_UNIT_CD')}" /></li>
+					<li><label>职业身份</label>
+						<div class="vocation">
+							<h:selectOneMenu styleClass="select" disabled="true"
+								readonly="true"
+								value="#{preLoanApplyBean.data['JOB_STATUS_CD']}">
+								<f:selectItems value="#{fn:getSelectItems('jobStatusCd')}"></f:selectItems>
+							</h:selectOneMenu>
+						</div></li>
+					<li><label>贷款人姓名</label> <h:inputText
+							value="#{preLoanApplyBean.data['CUST_NAME']}" readonly="true"
+							disabled="true" styleClass="dfinput" /></li>
+					<li><label>性别</label>
+						<div class="vocation">
+							<h:selectOneMenu value="#{preLoanApplyBean.data['SEX']}"
+								readonly="true" disabled="true" styleClass="select">
+								<f:selectItem itemLabel="请选择" itemValue="" />
+								<f:selectItems value="#{fn:getSelectItems('sex')}"></f:selectItems>
+							</h:selectOneMenu>
+						</div></li>
+					<li><label>产品</label>
+					<h:inputText readonly="true" disabled="true" styleClass="dfinput"
+							value="#{preLoanApplyBean.data['PRODUCT_NAME']}" /></li>
+					<li><label>期望年利率(%)</label> <h:inputText
+							converter="percentConverter"
+							value="#{preLoanApplyBean.data['EXPECT_LOAN_RATE']}"
+							readonly="true" disabled="true" styleClass="dfinput" /></li>
+					<li><label>借款用途</label> <h:inputText
+							value="#{preLoanApplyBean.data['LOAN_PURPOSE']}" readonly="true"
+							disabled="true" styleClass="dfinput" /></li>
+					<li><label>联系电话</label> <h:inputText
+							value="#{preLoanApplyBean.data['TEL']}" readonly="true"
+							disabled="true" styleClass="dfinput" /></li>
+					<li><label>联系邮箱</label> <h:inputText styleClass="dfinput"
+							value="#{preLoanApplyBean.data['EMAIL']}" readonly="true"
+							disabled="true" /></li>
+					<li><label>通讯地址</label> <h:inputText styleClass="dfinput"
+							value="#{preLoanApplyBean.data['ADDR']}" readonly="true"
+							disabled="true" /></li>
+					<li><label>客户经理</label><h:inputText styleClass="dfinput" onclick="selectUserDialog.show();" 
+								id="userNameHidden" value="#{preLoanApplyBean.selectUser.userName}" readonly="true" /></li>
+				    <li><label>&nbsp;</label> <p:commandButton styleClass="btn" oncomplete="refreshParent();"
+							value="提交" action="#{preLoanApplyBean.save}" ></p:commandButton>&nbsp;&nbsp;
+						<p:commandButton styleClass="btn" value="关闭" type="button"
+							onclick="closeParMainDialog();"></p:commandButton></li>
+
+				</ul>
+			</h:form>
+			<q:selectUser backingBean="#{preLoanApplyBean}"
+					update="loanForm:userNameHidden" widgetVar="selectUserDialog"></q:selectUser>
+		</div>
+
+		<script type="text/javascript">
+			$(document).ready(function(e) {
+				$(".select").uedSelect({
+					width : 345
+				});
+				
+				$(".select1").uedSelect({
+					width : 80
+				});
+			});
+			function completeSelectUser() {
+				
+			}
+		</script>
+	</ui:define>
+</ui:composition>
+</html>
+

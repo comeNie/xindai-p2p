@@ -1,0 +1,278 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="/templates/index.xhtml">
+	<ui:define name="headContents">
+		<title>饭饭首页</title>
+		<link href="#{request.contextPath}/css/style.css" rel="stylesheet"
+			type="text/css" />
+		<script type="text/javascript" src="#{request.contextPath}/js/drop.js"></script>
+		<script src="#{request.contextPath}/js/focus.js"></script>
+	</ui:define>
+	<ui:define name="header">
+		<!-- city -->
+		<div class="city">
+			<div class="current">福州</div>
+			<div>
+				<!-- changecity -->
+				<div class="changecity" id="changecity">
+					<div class="t"></div>
+					<div class="c">
+						<ul class="citytit">
+							<li class="on" id="one1" onmouseover="setTab('one',1,5)">热门城市</li>
+							<li id="one2" onmouseover="setTab('one',2,5)">A - F</li>
+							<li id="one3" onmouseover="setTab('one',3,5)">H - M</li>
+							<li id="one4" onmouseover="setTab('one',4,5)">O - T</li>
+							<li id="one5" onmouseover="setTab('one',5,5)">U - Z</li>
+						</ul>
+						<dl class="citylist clearfix" id="con_one_1">
+							<dt></dt>
+							<dd>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span> <span><a href="#">内蒙古</a></span>
+							</dd>
+						</dl>
+						<dl class="citylist clearfix" id="con_one_2" style="display: none">
+							<dt>A</dt>
+							<dd>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">内蒙古</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span>
+							</dd>
+							<dt>B</dt>
+							<dd>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+							</dd>
+						</dl>
+						<dl class="citylist clearfix" id="con_one_3" style="display: none">
+							<dt>H</dt>
+							<dd>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span>
+							</dd>
+							<dt>I</dt>
+							<dd>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+							</dd>
+						</dl>
+						<dl class="citylist clearfix" id="con_one_4" style="display: none">
+							<dt>O</dt>
+							<dd>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span>
+							</dd>
+							<dt>P</dt>
+							<dd>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+							</dd>
+						</dl>
+						<dl class="citylist clearfix" id="con_one_5" style="display: none">
+							<dt>U</dt>
+							<dd>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span>
+							</dd>
+							<dt>V</dt>
+							<dd>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+								<span><a href="#">北京</a></span> <span><a href="#">北京</a></span>
+							</dd>
+						</dl>
+					</div>
+					<div class="b"></div>
+				</div>
+				<!-- changecity end -->
+				<span class="change" onmouseover="showSelect(this,'changecity')">[切换城市]</span>
+			</div>
+		</div>
+		<!-- city end -->
+	</ui:define>
+	<ui:define name="main">
+		<div class="main">
+			<!-- left -->
+			<div class="left">
+				<!-- focus -->
+				<div id="focus">
+					<ul>
+						<li>
+							<div style="left: 0; top: 0; width: 440px; height: 250px;">
+								<a href="#" target="_blank"><img src="img/a01.jpg"
+									alt="懒人图库" /></a>
+							</div>
+							<div style="right: 0; top: 0; width: 220px; height: 140px;">
+								<a href="#" target="_blank"><img src="img/a02.jpg"
+									alt="懒人图库" /></a>
+							</div>
+							<div style="right: 0; top: 140px; width: 220px; height: 110px;">
+								<a href="#" target="_blank"><img src="img/a03.jpg"
+									alt="懒人图库" /></a>
+							</div>
+						</li>
+
+						<li>
+							<div style="left: 0; top: 0; width: 660px; height: 250px;">
+								<a href="#" target="_blank"><img src="img/b01.jpg"
+									alt="懒人图库" /></a>
+							</div>
+						</li>
+
+						<li>
+							<div style="left: 0; top: 0; width: 200px; height: 250px;">
+								<a href="#" target="_blank"><img src="img/c01.jpg"
+									alt="懒人图库" /></a>
+							</div>
+
+							<div style="left: 200px; top: 0; width: 200px; height: 250px;">
+								<a href="#" target="_blank"><img src="img/c02.jpg"
+									alt="懒人图库" /></a>
+							</div>
+							<div style="right: 0; top: 0; width: 260px; height: 250px;">
+								<a href="#" target="_blank"><img src="img/c03.jpg"
+									alt="懒人图库" /></a>
+							</div>
+						</li>
+
+						<li>
+							<div style="left: 0; top: 0; width: 440px; height: 250px;">
+								<a href="#" target="_blank"><img src="img/d01.jpg"
+									alt="懒人图库" /></a>
+							</div>
+							<div style="right: 0; top: 0; width: 220px; height: 120px;">
+								<a href="#" target="_blank"><img src="img/d02.jpg"
+									alt="懒人图库" /></a>
+							</div>
+							<div style="right: 0; top: 120px; width: 220px; height: 130px;">
+								<a href="#" target="_blank"><img src="img/d03.jpg"
+									alt="懒人图库" /></a>
+							</div>
+
+						</li>
+
+						<li>
+							<div style="left: 0; top: 0; width: 660px; height: 250px;">
+								<a href="#" target="_blank"><img src="img/e01.jpg"
+									alt="懒人图库" /></a>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<!-- focus end -->
+				<div class="chosetitle">
+					<span>选择餐厅</span>您喜欢的店如果不在饭饭网？请给我们留言，我们会尽快加入。
+				</div>
+				<ul class="piclist">
+					<li><a href="#"><img src="pic/ad1.jpg" /></a></li>
+					<li><a href="#"><img src="pic/ad1.jpg" /></a></li>
+					<li><a href="#"><img src="pic/ad1.jpg" /></a></li>
+					<li><a href="#"><img src="pic/ad1.jpg" /></a></li>
+					<li><a href="#"><img src="pic/ad1.jpg" /></a></li>
+					<li><a href="#"><img src="pic/ad1.jpg" /></a></li>
+					<li><a href="#"><img src="pic/ad1.jpg" /></a></li>
+					<li><a href="#"><img src="pic/ad1.jpg" /></a></li>
+					<li><a href="#"><img src="pic/ad1.jpg" /></a></li>
+					<li><a href="#"><img src="pic/ad1.jpg" /></a></li>
+					<li><a href="#"><img src="pic/ad1.jpg" /></a></li>
+					<li><a href="#"><img src="pic/ad1.jpg" /></a></li>
+					<li><a href="#"><img src="pic/ad1.jpg" /></a></li>
+					<li><a href="#"><img src="pic/ad1.jpg" /></a></li>
+					<li><a href="#"><img src="pic/ad1.jpg" /></a></li>
+					<li><a href="#"><img src="pic/ad1.jpg" /></a></li>
+					<li><a href="#"><img src="pic/ad1.jpg" /></a></li>
+					<li><a href="#"><img src="pic/ad1.jpg" /></a></li>
+					<li><a href="#"><img src="pic/ad1.jpg" /></a></li>
+					<li><a href="#"><img src="pic/ad1.jpg" /></a></li>
+				</ul>
+			</div>
+			<!-- left end -->
+			<!-- right -->
+			<div class="right">
+				<div class="login">
+					<h4>登陆饭饭网，发现更多好吃的</h4>
+					<table>
+						<tr>
+							<td>Email</td>
+							<td><input type="text" class="intxt" /></td>
+						</tr>
+						<tr>
+							<td>密码</td>
+							<td><input type="text" class="intxt" /></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><label><input type="checkbox" /> 记住我</label> <a
+								href="#" class="color_orange">忘记密码</a></td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center"><input type="submit"
+								class="inbtn1" value="快速登陆" /></td>
+						</tr>
+					</table>
+				</div>
+				<div class="regbox">
+					<p>
+						<a href="#">没有帐号？马上注册</a>
+					</p>
+					<span>或使用其他帐号登录：</span> <span class="reg_share"> <a href="#">新浪</a>
+						<a href="#">QQ</a> <a href="#">豆瓣</a> <a href="#">人人</a> <a
+						href="#">开心</a>
+					</span>
+				</div>
+				<div class="phone">
+					<a href="#" class="a1">QQ1</a> <a href="#" class="a2">QQ1</a>
+					<p>
+						电话订餐：<span>0591-1234897</span>
+					</p>
+				</div>
+				<div class="suggest">
+					<a href="#">提意见</a>
+					<p>帮助我们做的更好</p>
+				</div>
+				<div class="share">
+					<span class="ico_share"> <a href="#">电台</a> <a href="#">新浪</a>
+						<a href="#">QQ空间</a> <a href="#">腾讯微博</a>
+					</span>
+					<p>分享给你的朋友</p>
+				</div>
+				<ul class="list">
+					<li>
+						<h4>我们的使命</h4>
+						<p>集合专业的在线生活信息平台和线下即时配送服务，为用户创造便捷、安心的生活，为合作伙伴拓展业务和影响力半径。</p>
+					</li>
+					<li>
+						<h4>收费标准</h4>
+						<p>收费标准 无论风雨、无论份额：每单5元。</p>
+					</li>
+					<li>
+						<h4>注意事项</h4>
+						<p>若您同时订购了N家商家的餐品，本次配送将计为N单；
+							为确保餐品安全，商家可能需要使用特别的容器，我们将按实收取相应的打包费用。。</p>
+					</li>
+				</ul>
+			</div>
+			<!-- right end -->
+		</div>
+	</ui:define>
+</ui:composition>
+
+</html>

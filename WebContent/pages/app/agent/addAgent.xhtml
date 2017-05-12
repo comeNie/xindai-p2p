@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:fn="http://www.qfw.com/jsf/fn">
+	<ui:composition template="/templates/main.xhtml">
+		<ui:define name="body">
+			<div class="formbody">
+				<div class="formtitle">
+					<span>基本信息</span>
+				</div>
+				<h:form id="form">
+					<p:growl globalOnly="true"></p:growl>
+					<ul class="forminfo">
+						<li>
+							<label>
+								用户
+							</label>
+							<h:inputText id="userStrs"
+								value="#{agentInfoBean.selectUserStr}" readonly="true"
+								styleClass="scinput" required="true" label="用户">
+								<p:ajax event="blur" update="userStrsMsg" />
+							</h:inputText>
+							<h:inputHidden id="userIdStrs"
+								value="#{agentInfoBean.selectUserId}"></h:inputHidden>
+							<h:commandButton style="margin-left: 10px;" type="button"
+								class="scbtn" value="选择用户" onclick="userDialog.show()" />
+							<p:message id="userStrsMsg" for="userStrs" showDetail="false"
+								display="icon" showSummary="false"></p:message>
+						</li>
+						<li>
+							<label>
+								经济人名称
+							</label>
+							<h:panelGrid columns="2">
+								<h:inputText id="agentName"
+									value="#{agentInfoBean.agentName}" styleClass="scinput"
+									label="团队长名称">
+								</h:inputText>
+							</h:panelGrid>
+						</li>
+
+						<li>
+							<label>
+								&nbsp;
+							</label>
+							<p:commandButton styleClass="btn" value="保存"
+								action="#{agentInfoBean.addAgent}" oncomplete="refreshParent();"></p:commandButton>
+							&nbsp;&nbsp;
+							<p:commandButton styleClass="btn" value="关闭" type="button"
+								onclick="closeParMainDialog();"></p:commandButton>
+						</li>
+
+					</ul>
+				</h:form>
+
+				<p:dialog widgetVar="userDialog" width="600" height="300" modal="true">
+					<f:facet name="header">
+						<h:outputText value="用户信息" />
+					</f:facet>
+					<h:form id="userForm">
+						<p:growl autoUpdate="true"></p:growl>
+						<div style="width: 100%; text-align: center;margin-top: 10px;">
+							<div class="rightinfo">
+								<ul class="seachform">
+									<li>
+										<h:outputLabel value="用户名：" />
+										<h:inputText styleClass="scinput" style="width:100px"
+											value="#{userManageBean.userVO.userName}" />
+									</li>
+									<li>
+										<h:outputLabel value="登陆名：" />
+										<h:inputText styleClass="scinput" style="width:100px"
+											value="#{userManageBean.userVO.userCode}" />
+									</li>
+									<li>
+										<label>
+											&nbsp;
+										</label>
+										<p:commandButton value="搜索" action="#{userManageBean.search}"
+											styleClass="scbtn" image="ui-icon ui-icon-search"
+											update="usertable"></p:commandButton>
+									</li>
+								</ul>
+								<p:dataTable rowClasses="r,odd"
+									value="#{userManageBean.lazyModel}" var="user" rows="10"
+									paginatorAlwaysVisible="false"
+									binding="#{userManageBean.dataTable}"
+									paginatorPosition="bottom" lazy="true" emptyMessage="暂无数据"
+									paginator="true" rowsPerPageTemplate="5,10,15,20"
+									id="usertable"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+									selection="#{agentInfoBean.selectUser}">
+									<p:column selectionMode="single" />
+									<p:column headerText="用户名">
+										<h:outputText value="#{user.userName}" />
+									</p:column>
+									<p:column headerText="登陆名">
+										<h:outputText value="#{user.userCode}" />
+									</p:column>
+									<p:column headerText="所属部门">
+										<h:outputText value="#{user.deptNames}" />
+									</p:column>
+								</p:dataTable>
+							</div>
+							<p:commandButton styleClass="scbtn"
+								oncomplete="userDialog.hide();"  action="#{agentInfoBean.selectUserAction}"
+								update=":form:userStrs :form:userIdStrs" value="确认"></p:commandButton>
+							<p:commandButton styleClass="scbtn" onclick="userDialog.hide();"
+								value="关闭"></p:commandButton>
+						</div>
+					</h:form>
+				</p:dialog>
+			</div>
+		</ui:define>
+	</ui:composition>
+</html>

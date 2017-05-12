@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">日常查询</a></li>
+				<li><a href="#">提现查询</a></li>
+			</ul>
+		</div>
+		<div class="rightinfo">
+			<h:form id="search">
+				<ul class="seachform">
+					<li><h:outputLabel value="账号：" /> <h:inputText
+							styleClass="scinput" value="#{withdrawalsViewBean.draVO.outAccount}" /></li>
+					<li><label>&nbsp;</label> <p:commandButton value="搜索"
+							action="#{withdrawalsViewBean.search}" styleClass="scbtn"  update="dataTable"></p:commandButton></li>
+
+				</ul>
+				<p:growl globalOnly="true" autoUpdate="true"></p:growl>
+
+				<div class="tools">
+					<ul class="toolbar">
+						<li><p:commandLink id="addInfo" oncomplete="showWindow('#{request.contextPath}/pages/app/payout/submitWithdrawals.jsf?operateFlag=add','提现');" action="#{withdrawalsViewBean.operate}">
+						<f:param name="operateFlag" value="add" /><span><img src="#{request.contextPath}/images/t01.png" /></span>添加</p:commandLink></li>
+					</ul>
+				</div>
+				<p:dataTable value="#{withdrawalsViewBean.tradeModel}" var="data"
+					rows="10" paginatorAlwaysVisible="false" id="dataTable"
+					paginatorPosition="bottom" lazy="true" emptyMessage="暂无数据"
+					paginator="true" rowsPerPageTemplate="5,10,15,20"  binding="#{withdrawalsViewBean.dataTable}"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					selection="#{withdrawalsViewBean.draBO}">
+					<p:column selectionMode="single" />
+					<p:column headerText="金额">
+						<h:outputText value="#{data.txAmt}" />
+					</p:column>
+					<p:column headerText="提现时间">
+						<h:outputText value="#{data.txDate}" />
+					</p:column>
+					<p:column headerText="提现账号">
+						<h:outputText value="#{data.outAccount}" />
+					</p:column>
+					<p:column headerText="状态">
+						<h:outputText value="#{data.ctrStateCd}" />
+					</p:column>
+					<p:column headerText="工作流">
+						<h:outputText value="#{data.workItemId}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+			<p:dialog widgetVar="mainDialog" width="700" height="400">
+				<f:facet name="header">
+					<h:outputText id="mainDialogTitle" value="提现" />
+				</f:facet>
+				<iframe id="mainFrameHidden" name="mainFrameHidden" scrolling="auto"
+					width="100%" height="100%" src="" frameborder="0"> </iframe>
+			</p:dialog>
+		</div>
+	</ui:define>
+</ui:composition>
+
+</html>

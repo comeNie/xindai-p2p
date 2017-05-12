@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<script type="text/javascript">
+			$(document).ready(function(e) {
+				$(".select1").uedSelect({
+					width : 150
+				});
+			});
+		</script>
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">日常管理</a></li>
+				<li><a href="#">借款意向列表</a></li>
+			</ul>
+		</div>
+		<div class="rightinfo">
+			<h:form id="search">
+				<ul class="seachform">
+					<li><h:outputLabel value="客户ID：" /> <h:inputText
+							styleClass="scinput" value="#{loanIntentionManage.filter['custName']}" /></li>
+					<li><h:outputLabel value="状态：" /> 
+						<div class="vocation">
+							<h:selectOneMenu styleClass="select1" value="#{loanIntentionManage.filter['processStatus']}">
+								<f:selectItem  itemLabel="请选择" itemValue="" />
+								<f:selectItems value="#{fn:getSelectItems('processStatusCd')}"></f:selectItems>
+							</h:selectOneMenu>
+						</div></li>
+					<li><label>&nbsp;<p:commandButton id="refresh" styleClass="refresh" style="display: none;"
+								action="#{loanIntentionManage.refresh}" update="dataTable"></p:commandButton></label> 
+							<p:commandButton value="搜索" image="ui-icon ui-icon-search"
+							action="#{loanIntentionManage.search}" styleClass="scbtn" update="dataTable"></p:commandButton></li>
+				</ul> 
+				<p:growl globalOnly="true" autoUpdate="true"></p:growl>
+				<div class="tools">
+					<ul class="toolbar">
+						<li><p:commandLink id="detailInfo" action="#{loanIntentionManage.operate}" oncomplete="showWindow('#{request.contextPath}/pages/app/merge/preLoanApply.jsf','分配客户经理',800,600);" 
+							onclick="if(!$('.ui-state-highlight').text()){alert('请选择一条记录');return false;};if(checkStatus()){return false;}">
+						<span><img src="#{request.contextPath}/images/client manager.png" /></span>分配客户经理</p:commandLink></li>
+						<li><p:commandLink 
+							onclick="if(!$('.ui-state-highlight').text()){alert('请选择一条记录');return false;};if(checkStatus()){return false;};disValidDialog.show();">
+						<span><img src="#{request.contextPath}/images/Cancel.png" /></span>拒绝</p:commandLink></li>
+					</ul>
+				</div>
+				<p:dataTable value="#{loanIntentionManage.dataModel}" var="data"
+					rows="10" paginatorAlwaysVisible="false" id="dataTable"
+					paginatorPosition="bottom" lazy="true" emptyMessage="暂无数据" rowKey="#{data['ID']}"
+					paginator="true" rowsPerPageTemplate="5,10,15,20" binding="#{loanIntentionManage.dataTable}"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					selection="#{loanIntentionManage.data}">
+					<p:column selectionMode="single" />
+					<p:column headerText="申请人">
+						<h:outputText value="#{data['CUST_NAME']}" />
+					</p:column>
+					<p:column headerText="申请借款金额">
+						<h:outputText value="#{data['APPLY_AMT']}" converter="amtConverter"/>
+					</p:column>
+					<p:column headerText="产品">
+						<h:outputText value="#{data['PRODUCT_NAME']}"/>
+					</p:column>
+					<p:column headerText="期望年利率(%)">
+						<h:outputText value="#{data['EXPECT_LOAN_RATE']}" converter="percentConverter"/>
+					</p:column>
+					<p:column headerText="借款申请期限">
+						<h:outputText value="#{data['LOAN_TERM']}" />
+					</p:column>
+					<p:column headerText="期限单位">
+						<h:outputText value="#{data['TERM_UNIT_CD']}" converter="#{fn:getSelectItemConverter('DATE_UNIT_CD')}" />
+					</p:column>
+					<p:column headerText="申请时间">
+						<h:outputText value="#{data['APPLY_DATE']}" />
+					</p:column>    
+					<p:column headerText="拒绝原因">
+						<h:outputText value="#{data['REFUSE_REASON']}" />
+					</p:column>  
+					<p:column headerText="处理状态">
+						<h:outputText value="#{data['PROCESS_STATUS_CD']}" converter="#{fn:getSelectItemConverter('processStatusCd')}"/>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+		<p:dialog widgetVar="disValidDialog" width="400" height="200" modal="true">
+			<f:facet name="header">
+				<h:outputText value="请输入拒绝原因..." />
+			</f:facet>
+			<div class="formbody">
+			<h:form id="form">
+				<p:growl globalOnly="true"></p:growl>
+				<ul class="forminfo">  
+					<li><label>拒绝原因</label>
+					  <h:inputTextarea value="#{loanIntentionManage.refuseReason}" styleClass="dfinput" style="width:300px;height:50px;" cols="3"  onblur="if(this.value.replace(/^ +| +$/g,'')=='')alert('不能为空!')"></h:inputTextarea>
+					</li>
+					<li><label>&nbsp;</label>
+					<p:commandButton styleClass="scbtn" onsuccess="disValidDialog.hide();"
+							value="确定" action="#{loanIntentionManage.setDisValid}" update=":search:dataTable" ></p:commandButton>&nbsp;&nbsp;
+					<p:commandButton styleClass="scbtn" value="关闭" type="button"
+							onclick="disValidDialog.hide();"></p:commandButton>
+							
+					</li>
+			</ul>
+			</h:form>
+			</div>
+		</p:dialog>
+		
+		<p:dialog widgetVar="mainDialog" width="870" height="400" modal="true">
+			<f:facet name="header">
+				<h:outputText id="mainDialogTitle" value="借款管理" />
+			</f:facet>
+			<iframe id="mainFrameHidden" name="mainFrameHidden" scrolling="auto"
+					width="100%" height="100%" src="" frameborder="0"> </iframe>
+		</p:dialog>
+		
+		<script type="text/javascript">
+			function checkStatus(){
+				var flag = ("未处理" == $('.ui-state-highlight td').last().text());
+				if(!flag){
+					alert("该笔记录已经处理");
+				}
+				return !flag;
+			}
+			
+		</script>
+	</ui:define>
+</ui:composition>
+
+</html>

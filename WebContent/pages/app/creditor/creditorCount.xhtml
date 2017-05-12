@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">日常查询</a></li>
+				<li><a href="#">推荐投资统计</a></li>
+			</ul>
+		</div>
+		<div class="rightinfo">
+			<h:form id="search">
+				<ul class="seachform">
+					<li><h:outputLabel value="姓名：" /> <h:inputText
+							styleClass="scinput" value="#{creditorCountManageBackingBean.searchVO.custName}" /></li>
+					
+					<li><h:outputLabel value="时间：" /><h:inputText styleClass="scinput"
+							value="#{creditorCountManageBackingBean.searchVO.date}" onclick="WdatePicker();" >
+							<f:convertDateTime pattern="yyyy-MM-dd"></f:convertDateTime>
+						</h:inputText></li>
+					<li><label>&nbsp;</label> <p:commandButton value="搜索"
+							action="#{creditorCountManageBackingBean.search}" styleClass="scbtn"  update="dataTable"></p:commandButton></li>
+					<li><label>&nbsp;</label> <p:commandButton value="重置" type="reset"
+							styleClass="scbtn" image="ui-icon ui-icon-search" update="dataTable"></p:commandButton></li>
+				</ul>
+				<p:growl globalOnly="true" autoUpdate="true"></p:growl>
+
+				<p:dataTable value="#{creditorCountManageBackingBean.dataModel}" var="data"
+					rows="10" paginatorAlwaysVisible="false" id="dataTable"
+					paginatorPosition="bottom" lazy="true" emptyMessage="暂无数据"
+					paginator="true" rowsPerPageTemplate="5,10,15,20" 
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					selection="#{creditorCountManageBackingBean.creditorCountVO}">
+					<p:column headerText="姓名">
+						<h:outputText value="#{data.custName}" />
+					</p:column>
+					<p:column headerText="推荐投资总额">
+						<h:outputText value="#{data.investAmt}" converter="amtConverter" />
+					</p:column>
+					<p:column headerText="时间">
+						<h:outputText value="#{data.date}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+
+</html>

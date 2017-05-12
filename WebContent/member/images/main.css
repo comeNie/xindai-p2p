@@ -1,0 +1,57 @@
+@charset "utf-8";
+/* CSS Document */
+body{ background:#fff ; font-family:"微软雅黑"; padding:0px; margin:0px; font-size:13px;  }
+ul,li{ padding:0px; margin:0px; list-style:none;}
+a{ text-decoration:none; color:#333} 
+p{ padding:0px; margin:0px; line-height:20px;}
+img{ padding:0px; margin:0px; border:0px;}
+.main{ width:1003px; margin:0 auto}
+.right{ float:right}
+.clear{ clear:both}
+.ft14{ font-size:14px}
+.top{ height:27px; line-height:27px; background:#666; color:#FFF; width:100%; font-size:12px}
+.top span{ padding:10px 12px;}
+.top span a{ color:#FFF; text-decoration:none}
+.aright{ text-align:right;}
+.logo{ float:left; width:260px; padding-top:9px}
+.top1{ width:100%; height:93px; background:url(topbg.jpg) left bottom repeat-x;}
+.nav{ font-size:18px; color:#333333; width:410px; float:left; display:inline;}
+.nav ul li{ padding:30px; float:left; padding-top:38px; line-height:25px}
+.account { float:right; padding-top:25px; line-height:25px; color:#6d6d6d; font-size:18px;}
+.account a{ color:#6d6d6d}
+.left{ width:194px; float:left; margin-top:15px}
+.title{ height:36px; color:#FFF; font-size:14px; text-align:center; background:#59bbf2; line-height:35px;}
+.sub{ background:#f1f1f1 url(iconbg1.jpg) 30px 0px no-repeat; font-size:13px; text-align:center; line-height:28px; padding:5px 0px}
+.sub1{ background:#f1f1f1 url(iconbg2.jpg) 30px 0px no-repeat; font-size:13px; text-align:center; line-height:28px; padding:5px 0px}
+.sub2{ background:#f1f1f1 url(iconbg3.jpg) 30px 0px no-repeat; font-size:13px; text-align:center; line-height:28px; padding:5px 0px}
+.sub3{ background:#f1f1f1 url(iconbg4.jpg) 30px 0px no-repeat; font-size:13px; text-align:center; line-height:28px; padding:5px 0px}
+.sub4{ background:#f1f1f1 url(iconbg5.jpg) 30px 0px no-repeat; font-size:13px; text-align:center; line-height:28px; padding:5px 0px}
+.cont{ width:792px; padding-top:15px }
+.content{width:792px; height:176px; background:url(cbg.jpg) no-repeat; padding-top:20px;}
+.avt{ width:70px; padding:20px 30px; float:left;}
+.avt p{ color:#333; font-size:13px; padding-top:10px}
+.avt p a{ color:#333;}
+.middle{ float:left; width:225px;color:#666; font-size:13px; line-height:28px }
+.left1{ width:65px; float:left;padding-top:15px }
+.right1{ float:left; width:160px;padding-top:15px}
+.right1 p{ height:23px; padding-top:5px}
+.right1 p img{ padding-right:10px}
+.right2{ float:left; background:url(center.jpg) no-repeat; width:370px; height:160px; margin-left:15px; display:inline; padding-left:10px; }
+
+.means{ width:680px; margin:25px auto; font-size:13px; color:#555555 }
+.btn{ text-align:center; padding-top:15px;}
+.btn img{ padding:5px}
+.lczh{ width:792px; height:104px; background:url(lczhbg.jpg) right top no-repeat;}
+.detail{ width:618px; height:100px; border:1px solid #CCC; padding-left:40px; color:#666 }
+.jkzh{ width:792px; height:104px; background:url(jkzhbg.jpg) right top no-repeat; margin-top:10px}
+
+.ad{ margin-top:10px;}
+
+.footer{ background:#555; width:100%; height:255px; margin-top:10px}
+.footer p{ text-align:center; padding-top:10px; font-size:14px; color:#808080}
+.footer p img{ padding:0 10px;}
+.btnav{ color:#808080; font-size:15px; border-bottom:1px solid #808080; height:43px; width:983px; padding-top:10px; padding-left:20px }
+.btnav ul li{ float:left; display:inline; padding:12px; }
+.btkefu{ color:#808080;font-size:15px; border-bottom:1px solid #808080; height:83px; width:983px; padding-top:10px; padding-left:20px }
+.btkefu ul li{ float:left; padding: 25px 12px 12px;}
+.k400{ float:right; padding-top:5px; text-align:right; font-size:14px; padding-right:20px }

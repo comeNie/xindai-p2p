@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf13660862855540" configfile="/frame/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="*" x="122" y="3634" id="pf13681021501680" referenceLink="//@navigationRule.18/@fromViewId|" outlinks="pf13681021501681 pf13681021501682 pf13681021501683 pf13681021501684 pf13681021501685 pf13681021501686 pf13681021501687 pf13681021501688 pf13681021501689 pf136810215016810 pf136810215016811 pf136810215016812 pf136810215016813 pf136810215016814 pf136810215016815 pf136810215016816 pf136810215016817 pf136810215016818 pf136810215016819" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/grmainpage/myPicImageDetail.xhtml" x="338" y="178" id="pf136810215016820" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf13681021501681" path="/pages/grmainpage/myPicImageDetail.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/app/auditPic.xhtml" x="338" y="562" id="pf136810215016821" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" inlinks="pf13681021501682" path="/pages/app/auditPic.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/grmainpage/createPhoto.xhtml" x="338" y="946" id="pf136810215018422" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" inlinks="pf13681021501683" path="/pages/grmainpage/createPhoto.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="proscenium/showPhotosImage.xhtml" x="338" y="1330" id="pf136810215018423" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" inlinks="pf13681021501684" path="/proscenium/showPhotosImage.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="proscenium/newUploadPhotos.xhtml" x="338" y="1714" id="pf136810215018424" referenceLink="//@navigationRule.4/@navigationCase.0/@toViewId|" inlinks="pf13681021501685" path="/proscenium/newUploadPhotos.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="proscenium/index_commentTop.xhtml" x="338" y="2098" id="pf136810215018425" referenceLink="//@navigationRule.5/@navigationCase.0/@toViewId|" inlinks="pf13681021501686" path="/proscenium/index_commentTop.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="proscenium/index_photosSort.xhtml" x="338" y="2482" id="pf136810215018426" referenceLink="//@navigationRule.6/@navigationCase.0/@toViewId|" inlinks="pf13681021501687" path="/proscenium/index_photosSort.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="proscenium/showphotoList.xhtml" x="338" y="2866" id="pf136810215018427" referenceLink="//@navigationRule.7/@navigationCase.0/@toViewId|" inlinks="pf13681021501688" path="/proscenium/showphotoList.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="proscenium/SearchphotoList.xhtml" x="338" y="3250" id="pf136810215018428" referenceLink="//@navigationRule.8/@navigationCase.0/@toViewId|" inlinks="pf13681021501689" path="/proscenium/SearchphotoList.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="proscenium/user_register.xhtml" x="338" y="3634" id="pf136810215018429" referenceLink="//@navigationRule.9/@navigationCase.0/@toViewId|" inlinks="pf136810215016810" path="/proscenium/user_register.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="proscenium/index.xhtml" x="338" y="4018" id="pf136810215018430" referenceLink="//@navigationRule.10/@navigationCase.0/@toViewId|" inlinks="pf136810215016811" path="/proscenium/index.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="proscenium/voteTopPhotos.xhtml" x="338" y="4402" id="pf136810215018431" referenceLink="//@navigationRule.11/@navigationCase.0/@toViewId|" inlinks="pf136810215016812" path="/proscenium/voteTopPhotos.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="proscenium/sortPhotos.xhtml" x="338" y="4786" id="pf136810215018432" referenceLink="//@navigationRule.12/@navigationCase.0/@toViewId|" inlinks="pf136810215016813" path="/proscenium/sortPhotos.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="proscenium/index_clickph.xhtml" x="338" y="5170" id="pf136810215018433" referenceLink="//@navigationRule.13/@navigationCase.0/@toViewId|" inlinks="pf136810215016814" path="/proscenium/index_clickph.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/grmainpage/myPicImage.xhtml" x="338" y="5554" id="pf136810215018434" referenceLink="//@navigationRule.14/@navigationCase.0/@toViewId|" inlinks="pf136810215016815" path="/pages/grmainpage/myPicImage.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/grmainpage/sharingPicImage.xhtml" x="338" y="5938" id="pf136810215018435" referenceLink="//@navigationRule.15/@navigationCase.0/@toViewId|" inlinks="pf136810215016816" path="/pages/grmainpage/sharingPicImage.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/grmainpage/inputPhotoPassWord.xhtml" x="338" y="6322" id="pf136810215018436" referenceLink="//@navigationRule.16/@navigationCase.0/@toViewId|" inlinks="pf136810215016817" path="/pages/grmainpage/inputPhotoPassWord.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/grmainpage/updatePicImage.xhtml" x="338" y="6706" id="pf136810215018437" referenceLink="//@navigationRule.17/@navigationCase.0/@toViewId|" inlinks="pf136810215016818" path="/pages/grmainpage/updatePicImage.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/grmainpage/batchUpdatePhoto.xhtml" x="338" y="7090" id="pf136810215018438" referenceLink="//@navigationRule.18/@navigationCase.0/@toViewId|" inlinks="pf136810215016819" path="/pages/grmainpage/batchUpdatePhoto.xhtml"/>
+  <links id="pf13681021501681" target="pf136810215016820" source="pf13681021501680" outcome="imageDetail"/>
+  <links id="pf13681021501682" target="pf136810215016821" source="pf13681021501680" outcome="setIndexShow"/>
+  <links id="pf13681021501683" target="pf136810215018422" source="pf13681021501680" outcome="updatePhoto"/>
+  <links id="pf13681021501684" target="pf136810215018423" source="pf13681021501680" outcome="showPhotosImage"/>
+  <links id="pf13681021501685" target="pf136810215018424" source="pf13681021501680" outcome="newUploadPhotos"/>
+  <links id="pf13681021501686" target="pf136810215018425" source="pf13681021501680" outcome="commentPhotos"/>
+  <links id="pf13681021501687" target="pf136810215018426" source="pf13681021501680" outcome="voteTopPhotos"/>
+  <links id="pf13681021501688" target="pf136810215018427" source="pf13681021501680" outcome="showphotoList"/>
+  <links id="pf13681021501689" target="pf136810215018428" source="pf13681021501680" outcome="searchphotoList"/>
+  <links id="pf136810215016810" target="pf136810215018429" source="pf13681021501680" outcome="userRegister"/>
+  <links id="pf136810215016811" target="pf136810215018430" source="pf13681021501680" outcome="photoIndex"/>
+  <links id="pf136810215016812" target="pf136810215018431" source="pf13681021501680" outcome="voteTopPhotos"/>
+  <links id="pf136810215016813" target="pf136810215018432" source="pf13681021501680" outcome="sortPhotos"/>
+  <links id="pf136810215016814" target="pf136810215018433" source="pf13681021501680" outcome="indexClickph"/>
+  <links id="pf136810215016815" target="pf136810215018434" source="pf13681021501680" outcome="myPicImage"/>
+  <links id="pf136810215016816" target="pf136810215018435" source="pf13681021501680" outcome="sharingPicImage"/>
+  <links id="pf136810215016817" target="pf136810215018436" source="pf13681021501680" outcome="inPutPassWord"/>
+  <links id="pf136810215016818" target="pf136810215018437" source="pf13681021501680" outcome="updatePicImge"/>
+  <links id="pf136810215016819" target="pf136810215018438" source="pf13681021501680" outcome="bathUpdatePhoto"/>
+</pageflow:Pageflow>

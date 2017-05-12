@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:fn="http://www.qfw.com/jsf/fn" xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+	<p:dialog widgetVar="#{widgetVar}" width="650" height="300" onShow="$('.searchPartyUser').click();">
+		<f:facet name="header">
+			<h:outputText value="选择第三方用户" />
+		</f:facet>
+		<h:form>
+			<div style="width: 100%; text-align: center;">
+				<p:commandButton value="确认" action="#{backingBean.selectPartyUser}"
+					styleClass="scbtn" update="#{update}" oncomplete="#{widgetVar}.hide();"></p:commandButton>
+				<p:commandButton value="取消" onclick="#{widgetVar}.hide();"
+					styleClass="scbtn"></p:commandButton>
+			</div>
+			<div class="rightinfo">
+				<ul class="seachform">
+					<li><h:outputLabel value="用户名：" /> <h:inputText id="username"
+							styleClass="scinput" value="#{backingBean.filterPartyUser.userName}" /></li>
+					<li><h:outputLabel value="用户代号：" /> <h:inputText id="usercode"
+							styleClass="scinput" value="#{backingBean.filterPartyUser.userCode}" /></li>
+					<li><label>&nbsp;</label> <p:commandButton value="搜索" process="@this,username,usercode"
+							action="#{backingBean.searchPartyUser}" styleClass="scbtn searchPartyUser"
+							image="ui-icon ui-icon-search" update="userDataTable">
+						</p:commandButton></li>
+				</ul>
+				<p:dataTable rowClasses="r,odd" value="#{backingBean.userPartyList}"
+					var="user" rows="5" paginatorAlwaysVisible="false" binding="#{backingBean.userPartyTable}"
+					rowKey="#{user.userId}" paginatorPosition="bottom" lazy="true"
+					emptyMessage="暂无数据" paginator="true"
+					rowsPerPageTemplate="5,10,15,20" id="userDataTable"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					selection="#{backingBean.selectPartyUser}">
+					<p:column selectionMode="single" />
+					<p:column headerText="用户名">
+						<h:outputText value="#{user.userName}" />
+					</p:column>
+					<p:column headerText="用户代号">
+						<h:outputText value="#{user.userCode}" />
+					</p:column>
+					<p:column headerText="所属部门">
+						<h:outputText value="#{user.deptNames}" />
+					</p:column>
+				</p:dataTable>
+			</div>
+		</h:form>
+	</p:dialog>
+</ui:composition>
+
+</html>

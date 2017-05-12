@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+<ui:define name="head">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</ui:define>
+	<ui:define name="body">
+		<script type="text/javascript">
+			$(document).ready(function(e) {
+				$(".select1").uedSelect({
+					width : 100
+				});
+			});
+		</script>
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">网站管理</a></li>
+				<li><a href="#">友情链接管理</a></li>
+			</ul>
+		</div>
+
+		<div class="formbody">
+
+			<h:form id="friendlinkForm" enctype="multipart/form-data">
+				<ul class="forminfo">
+					<p:growl autoUpdate="true"></p:growl>
+					<li><label>名称</label> <h:inputText id="name"
+							value="#{addCmsFriendlinkBean.cmsFriendlink.name}"
+							immediate="false" required="true" label="友情链接名称"
+							requiredMessage="友情链接名称不能为空" styleClass="dfinput">
+							<p:ajax event="blur" update="deptCodeMsg" />
+							<f:converter converterId="encodingConverter"/>
+						</h:inputText>
+						</li>
+					<li><label>链接地址</label> <h:inputText id="url"
+							value="#{addCmsFriendlinkBean.cmsFriendlink.url}"
+							immediate="false" required="true" label="链接地址"
+							requiredMessage="链接地址不能为空" styleClass="dfinput">
+							<p:ajax event="blur" update="deptCodeMsg" />
+						</h:inputText></li>
+					<li><label>LOGO</label>
+					<p:fileUpload value="#{addCmsFriendlinkBean.logoFile}" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" mode="simple" />
+					</li>
+					<li><label>排序</label> <h:inputText id="sort"
+							value="#{addCmsFriendlinkBean.cmsFriendlink.sort}"
+							immediate="false" required="true" label="排序"
+							requiredMessage="排序值不能为空" styleClass="scinput">
+							<p:ajax event="blur" update="deptCodeMsg" />
+						</h:inputText></li>
+						
+							
+					<li><label>&nbsp;</label> <p:commandButton styleClass="btn"
+							value="保存" action="#{addCmsFriendlinkBean.operate}"
+							oncomplete="refreshParent();" ajax="false"
+							rendered="#{addCmsFriendlinkBean.operateFlag != 'view'}"></p:commandButton>&nbsp;&nbsp;
+						<p:commandButton styleClass="btn" value="关闭" type="button"
+							onclick="closeParMainDialog();"></p:commandButton></li>
+				</ul>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">资金管理</a></li>
+				<li><a href="#">充值</a></li>
+			</ul>
+		</div>
+		<div  class="rightinfo">
+			<h:form>
+			<p:growl autoUpdate="true"></p:growl>
+			<div>
+				<ul class="forminfo">
+					<li>
+						<h:selectOneRadio value="#{addRechargeViewBean.vo.accountID}">
+							<f:selectItems value="#{addRechargeViewBean.accountList}"></f:selectItems>
+						</h:selectOneRadio>
+					</li>
+				</ul>
+			</div>
+			<div class = "seachUL">
+				<table>
+					<tr><td colspan="2"> <h:outputLabel value="国付宝线上充值" /> </td></tr>
+					<tr>
+						<td><h:outputLabel value="账号"/> </td>
+						<td><h:inputText styleClass="scinput" value="#{addRechargeViewBean.vo.account}"></h:inputText></td>
+					</tr>
+					<tr>
+						<td><h:outputLabel value="充值金额"/> </td>
+						<td><h:inputText styleClass="scinput" value="#{addRechargeViewBean.vo.dealAmt}"></h:inputText></td>
+					</tr>
+					<tr>
+						<td>
+							<p:commandButton value="充值" action="#{addRechargeViewBean.rechargeONline}" styleClass="scbtn"  />
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class = "seachUL">
+				<table>
+					<tr><td colspan="2"> <h:outputLabel value="理财卡充值" /> </td></tr>
+					<tr>
+						<td><h:outputLabel value="账号"/> </td>
+						<td><h:inputText styleClass="scinput" value="#{addRechargeViewBean.vo.account}"></h:inputText></td>
+					</tr>
+					<tr>
+						<td><h:outputLabel value="卡号"/> </td>
+						<td><h:inputText  styleClass="scinput" value="#{addRechargeViewBean.vo.cardCD}"></h:inputText></td>
+					</tr>
+					<tr>
+						<td><h:outputLabel value="密码"/> </td>
+						<td><h:inputText styleClass="scinput" value="#{addRechargeViewBean.vo.password}"></h:inputText></td>
+					</tr>
+					<tr>
+						<td>
+							<p:commandButton value="充值" action="#{addRechargeViewBean.rechargeCard}" styleClass="scbtn"/>
+						</td>
+					</tr>
+				</table>
+			</div>
+			</h:form>
+		</div>
+	</ui:define>
+<script type="text/javascript">
+$(document).ready(function(e) {
+    $(".select1").uedSelect({
+		width : 150	
+	});
+	$(".select2").uedSelect({
+		width : 167  
+	});
+	$(".select3").uedSelect({
+		width : 100
+	});
+});
+</script>
+<style type="text/css">
+.seachUL{ height: 80px;}
+.seachUL li{width:25%;float:left;}
+.seachUL li label{padding-right:10px; float:left; line-height:30px;}
+
+.divType {padding:10px 18px;}
+.divpanelGrid {width:100%}
+.divpanelGrid label {margin-left:12px;float:left; line-height:40px; padding-left:7px; padding-right:12px; }
+</style>
+</ui:composition>
+
+</html>

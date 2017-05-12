@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+  
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/' >
+  
+	<appender name="myConsole" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+		 	<param name="ConversionPattern"  
+		  		value="[%d{dd HH:mm:ss,SSS\} %-5p] [%t] %c{2\} - %m%n" />
+		</layout>
+		<!--过滤器设置输出的级别-->
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="levelMin" value="debug" />
+			<param name="levelMax" value="warn" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>
+
+	<appender name="file" class="org.apache.log4j.RollingFileAppender">  
+		<!-- 配置文件名称 -->
+		<param name="File" value="C:/temp/output.log" />
+		<!-- 配置文件最大大小 -->
+		<param name="MaxFileSize" value="10MB"/> 
+		
+		<!-- 设置是否在重新启动服务时，在原有日志的基础添加新日志 -->
+		<param name="Append" value="true" />
+		<!-- 配置最大文件个数-->
+		<param name="MaxBackupIndex" value="10000" />
+		 
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%p (%c:%L)- %m%n" />
+		</layout>
+	</appender>
+	
+	<appender name="busFile" class="org.apache.log4j.DailyRollingFileAppender">  
+		<!-- 配置文件名称 -->
+		<param name="File" value="C:/temp/busFile.log" />
+		<!-- 配置文件最大大小 -->
+		<!-- 设置是否在重新启动服务时，在原有日志的基础添加新日志 -->
+		<param name="Append" value="true" />
+		<!-- 配置最大文件个数-->
+		<param name="DatePattern" value="'.'yyyy-MM-dd"/> 
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss,SSS\} %-5p] [%t] %c{2\} - %m%n" />
+		</layout>
+	</appender>
+	
+	<appender name="platFile" class="org.apache.log4j.DailyRollingFileAppender">  
+		<!-- 配置文件名称 -->
+		<param name="File" value="C:/temp/platFile.log" />
+		<!-- 配置文件最大大小 -->
+		<!-- 设置是否在重新启动服务时，在原有日志的基础添加新日志 -->
+		<param name="Append" value="true" />
+		<!-- 配置最大文件个数-->
+		<param name="DatePattern" value="'.'yyyy-MM-dd"/> 
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss,SSS\} %-5p] [%t] %c{2\} - %m%n" />
+		</layout>
+	</appender>
+	
+	<!-- 使用数据库配置-->
+	<appender name="JDBCAppender" class="org.apache.log4j.jdbc.JDBCAppender">
+		<param name="URL" value="jdbc:mysql://localhost:3306/photo?useUnicode=true&amp;characterEncoding=utf-8" />
+		<param name="user" value="root" />
+		<param name="password" value="password" />
+		<param name="driver" value="com.mysql.jdbc.Driver" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="insert into log4j(createdate,thread,level,class,message) values(\'%d\',\'%t\',\'%-5p\',\'%c\',\'%m\')" />
+		</layout>
+		<!-- 建表语句 create table log4j(createdate varchar2(32),thread varchar2(32),level varchar2(32),class varchar2(32),message varchar2(320)); -->
+	</appender>
+	  
+ 	  	
+	<logger name="business" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="myConsole" /> 
+		<appender-ref ref="busFile"/>
+	</logger>
+	
+	<logger name="platform" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="myConsole" /> 
+		<appender-ref ref="platFile"/>
+	</logger>
+
+  <category name="com.qfw" additivity="false">     
+       <priority value ="DEBUG"/> 
+		<appender-ref ref="myConsole"/>
+  </category> 
+  
+	<!-- 根logger的设置-->
+	<root>
+		<priority value ="INFO"/>
+		<appender-ref ref="myConsole"/>	
+	</root>
+	
+</log4j:configuration>

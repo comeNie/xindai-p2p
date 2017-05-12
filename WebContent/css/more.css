@@ -1,0 +1,17 @@
+/* always visible */
+#outer .holder {padding:1em; border:1px solid #ddd; margin:0 20px 10px 0;}
+#outer .holder p {padding:5px 0 0 0; margin:0;}
+#outer .holder p.bold {font-weight:bold;}
+#outer .holder h2 {margin:0; padding:0;}
+
+/* unclicked style div.more */
+#outer div.more i {float:right; margin-right:-10px 10px 0 0; cursor:pointer; color:#c00; font-weight:bold;}
+#outer div.more i.hide {display:none;}
+#outer div.more p {display:none;}
+#outer div.more img {display:none;}
+
+/* clicked style div.click */
+#outer div.click i.show {display:none;}
+#outer div.click i.hide {display:block;}
+#outer div.click p {display:block;}
+#outer div.click img {display:block; float:left; padding-right:10px;}

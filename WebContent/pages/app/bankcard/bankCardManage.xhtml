@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">资金管理</a></li>
+				<li><a href="#">我的银行卡</a></li>
+			</ul>
+		</div>
+		<div class="rightinfo">
+			<h:form id="search">
+				<ul class="seachform">
+					<li><h:outputLabel value="卡号：" /> <h:inputText id="cardCd"
+							styleClass="scinput"
+							value="#{rechargeCardBean.vo.cardCd}" /></li>
+					<li><h:outputLabel value="账号：" /> <h:inputText
+							styleClass="scinput" value="#{rechargeCardBean.vo.account}" /></li>
+					<li><h:outputLabel value="状态：" /> <h:inputText
+							styleClass="scinput" value="#{rechargeCardBean.vo.status}" /></li>
+					<li><label>&nbsp;<p:commandButton id="refresh" styleClass="refresh" style="display: none;"
+								action="#{rechargeCardBean.refresh}" update="dataTable"></p:commandButton></label> <p:commandButton value="搜索"
+							action="#{rechargeCardBean.search}" styleClass="scbtn"  update="dataTable"></p:commandButton></li>
+
+				</ul>
+				<p:growl globalOnly="true" autoUpdate="true"></p:growl>
+
+				<div class="tools">
+					<ul class="toolbar">
+						<li><p:commandLink id="addInfo" oncomplete="showWindow('#{request.contextPath}/pages/app/payout/card/addRechargeCard.jsf?operateFlag=add','新增理财卡');" action="#{rechargeCardBean.operate}">
+						<f:param name="operateFlag" value="add" /><span><img src="#{request.contextPath}/images/t01.png" /></span>添加</p:commandLink></li>
+					</ul>
+				</div>
+				<p:dataTable value="#{rechargeCardBean.cardModel}" var="card"
+					rows="10" paginatorAlwaysVisible="false" id="dataTable"
+					paginatorPosition="bottom" lazy="true" emptyMessage="暂无数据"
+					paginator="true" rowsPerPageTemplate="5,10,15,20" binding="#{rechargeCardBean.dataTable}"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					selection="#{rechargeCardBean.cardBO}">
+					<p:column selectionMode="single" />
+					<p:column headerText="卡号">
+						<h:outputText value="#{card.cardCd}" />
+					</p:column>
+					<p:column headerText="金额">
+						<h:outputText value="#{card.amt}" converter="amtConverter"/>
+					</p:column>
+					<p:column headerText="有效起始时间">
+						<h:outputText value="#{card.startDate}" />
+					</p:column>
+					<p:column headerText="有效截止时间">
+						<h:outputText value="#{card.endDate}" />
+					</p:column>
+					<p:column headerText="充值时间">
+						<h:outputText value="#{card.rechargeDate}" />
+					</p:column>
+					<p:column headerText="充值账号">
+						<h:outputText value="#{card.account}" />
+					</p:column>
+					<p:column headerText="状态">
+						<h:outputText value="#{card.status}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+			<p:dialog widgetVar="mainDialog" width="670" height="400" modal="true">
+				<f:facet name="header">
+					<h:outputText id="mainDialogTitle" value="理财卡管理" />
+				</f:facet>
+				<iframe id="mainFrameHidden" name="mainFrameHidden" scrolling="no"
+					width="100%" height="100%" src="" frameborder="0"> </iframe>
+			</p:dialog>
+		</div>
+	</ui:define>
+</ui:composition>
+
+</html>

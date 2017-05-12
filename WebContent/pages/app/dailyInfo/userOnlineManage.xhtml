@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">日常查询</a></li>
+				<li><a href="#">登陆查询</a></li>
+			</ul>
+		</div>
+		<div class="rightinfo">
+			<h:form id="search">
+				<ul class="seachform">
+					<li><h:outputLabel value="登陆人姓名：" /> <h:inputText
+							styleClass="scinput" value="#{userOnlineBackingBean.searchVO.loginUserName}" /></li>
+					<li><label>&nbsp;</label> <p:commandButton value="搜索"
+							action="#{userOnlineBackingBean.search}" styleClass="scbtn"  update="dataTable"></p:commandButton></li>
+					<li><label>&nbsp;</label> <p:commandButton value="重置" type="reset"
+							styleClass="scbtn" image="ui-icon ui-icon-search" update="dataTable"></p:commandButton></li>
+				</ul>
+				<p:growl globalOnly="true" autoUpdate="true"></p:growl>
+
+				<p:dataTable value="#{userOnlineBackingBean.userOnlineModel}" var="data"
+					rows="10" paginatorAlwaysVisible="false" id="dataTable"
+					paginatorPosition="bottom" lazy="true" emptyMessage="暂无数据"
+					paginator="true" rowsPerPageTemplate="5,10,15,20"  binding="#{userOnlineBackingBean.dataTable}"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					selection="#{userOnlineBackingBean.userOnlineBO}">
+					<p:column headerText="登陆用户ID">
+						<h:outputText value="#{data.loginUserId}" />
+					</p:column>
+					<p:column headerText="登陆用户姓名">
+						<h:outputText value="#{data.loginUserName}" />
+					</p:column>
+					<p:column headerText="登陆方式">
+						<h:outputText value="#{data.loginTypeCd}" converter="#{fn:getSelectItemConverter('loginTypeCd')}" />
+					</p:column>
+					<p:column headerText="登陆IP">
+						<h:outputText value="#{data.loginIp}" />
+					</p:column>
+					<p:column headerText="登陆时间">
+						<h:outputText value="#{data.loginTime}" />
+					</p:column>
+					<p:column headerText="登出时间">
+						<h:outputText value="#{data.logoutTime}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+			<p:dialog widgetVar="mainDialog" width="670" height="400" modal="true">
+				<f:facet name="header">
+					<h:outputText id="mainDialogTitle" value="日常管理" />
+				</f:facet>
+				<iframe id="mainFrameHidden" name="mainFrameHidden" scrolling="no"
+					width="100%" height="100%" src="" frameborder="0"> </iframe>
+			</p:dialog>
+		</div>
+	</ui:define>
+</ui:composition>
+
+</html>

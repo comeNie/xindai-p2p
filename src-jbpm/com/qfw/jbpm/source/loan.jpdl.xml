@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="loan" xmlns="http://jbpm.org/4.4/jpdl">
+	<start g="223,21,48,48" name="start">
+		<transition to="财务管理审核"/>
+	</start>
+	<task candidate-groups="#{auditRole}" form="/pages/app/loan/loanApproval.jsf" g="200,123,92,52" name="财务管理审核">
+      <transition g="-30,-9" name="通过" to="end"/>
+      <transition g="356,149:-57,-22" name="不通过" to="cancel"/>
+	</task>
+	<end g="223,251,48,48" name="end"/>
+	<end-cancel g="333,252,48,48" name="cancel"/>
+</process>

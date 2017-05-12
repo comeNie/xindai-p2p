@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:fn="http://www.qfw.com/jsf/fn">
+	<ui:composition template="/templates/main.xhtml">
+		<ui:define name="body">
+			<h:form id="userForm">
+				<p:growl autoUpdate="true"></p:growl>
+				<div style="width: 100%; text-align: center;margin-top: 10px;">
+					<div class="rightinfo">
+						<ul class="seachform">
+							<li>
+								<h:outputLabel value="用户名：" />
+								<h:inputText styleClass="scinput" style="width:100px"
+									value="#{agentInfoBean.searchAgentInfoVO.userName}" />
+							</li>
+							<li>
+								<h:outputLabel value="团队长名称：" />
+								<h:inputText styleClass="scinput" style="width:100px"
+									value="#{agentInfoBean.searchAgentInfoVO.agentName}" />
+							</li>
+							<li>
+								<p:commandButton value="搜索" action="#{agentInfoBean.search}"
+									styleClass="scbtn" image="ui-icon ui-icon-search"
+									update="leaderTable,:agentForm:agentTable"></p:commandButton>
+							</li>
+						</ul>
+						<p:dataTable rowClasses="r,odd"
+							value="#{agentInfoBean.leaderDataModel}" var="leader" rows="5"
+							paginatorAlwaysVisible="false" paginatorPosition="bottom"
+							lazy="true" emptyMessage="暂无数据" paginator="true"
+							binding="#{agentInfoBean.dataTable}" rowsPerPageTemplate="5,10"
+							id="leaderTable" selection="#{agentInfoBean.newLeader}"
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+							<p:column selectionMode="single">
+							</p:column>
+							<p:column headerText="用户名">
+								<h:outputText value="#{leader.userName}" />
+							</p:column>
+							<p:column headerText="身份证">
+								<h:outputText value="#{leader.cardId}" />
+							</p:column>
+							<p:column headerText="手机号">
+								<h:outputText value="#{leader.tel}" />
+							</p:column>
+							<p:column headerText="团队长名称">
+								<h:outputText value="#{leader.agentName}" />
+							</p:column>
+							<p:column headerText="状态">
+								<h:outputText value="#{leader.state == '0' ? '停用'  : '启用'}" />
+							</p:column>
+						</p:dataTable>
+					</div>
+					<p:commandButton styleClass="scbtn" oncomplete="refreshParent();"
+						action="#{agentInfoBean.transferLeader}"
+						value="确认"></p:commandButton>
+						&nbsp;&nbsp;
+					<p:commandButton styleClass="scbtn" value="关闭" type="button"
+								onclick="closeParMainDialog();"></p:commandButton>
+				</div>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

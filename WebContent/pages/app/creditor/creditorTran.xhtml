@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">债权管理</a></li>
+				<li><a href="#">债权转让</a></li>
+			</ul>
+		</div>
+		<div class="formbody">
+			<h:form id="form">
+				<p:growl autoUpdate="true"></p:growl>
+				<ul class="forminfo">
+					<li><h:outputLabel value="标题：" /> <h:inputText
+							styleClass="dfinput"
+							value="#{creditorInfoBean.loanApplyVO.loanName}" readonly="true"></h:inputText></li>
+					<li><h:outputLabel value="标的总额：" /> <h:inputText
+							styleClass="dfinput" converter="amtConverter"
+							value="#{creditorInfoBean.loanApplyVO.applyAmt}" readonly="true"></h:inputText></li>
+					<li><h:outputLabel value="标的类型" /> <h:selectOneRadio
+							value="#{creditorInfoBean.loanApplyVO.loanTypeCd}"
+							readonly="true">
+							<f:selectItems value="#{fn:getSelectItems('tenderTypeCd')}"
+								readonly="true"></f:selectItems>
+						</h:selectOneRadio></li>
+					<li><h:outputLabel value="年利率(%)" /> <h:inputText
+							styleClass="dfinput" converter="percentConverter"
+							value="#{creditorInfoBean.loanApplyVO.expectLoanRate}"
+							readonly="true"></h:inputText></li>
+					<li><h:outputLabel value="还款方式" /> <h:inputText
+							styleClass="dfinput"
+							value="#{creditorInfoBean.loanApplyVO.repayTypeCd}"
+							converter="#{fn:getSelectItemConverter('repayTypeCd')}"
+							readonly="true"></h:inputText></li>
+					<li><h:outputLabel value="剩余份数" /> <h:inputText
+							id="surplusCount" readonly="true"
+							value="#{creditorInfoBean.bcr.surplusCount}" styleClass="dfinput"></h:inputText></li>
+					<li><h:outputLabel value="债权金额" /> <h:inputText  converter="amtConverter"
+							readonly="true" value="#{creditorInfoBean.bcr.crAmt}"
+							styleClass="dfinput"></h:inputText></li>
+					<li><h:outputLabel value="可转让份数" /> <h:inputText
+							id="canUseCount" readonly="true"
+							value="#{creditorInfoBean.bcr.surplusCount - creditorInfoBean.ttlUseCont}" styleClass="dfinput"></h:inputText></li>
+					<li><h:outputLabel value="可转让金额" /> <h:inputText id="crAmt" converter="amtConverter"
+							readonly="true" value="#{creditorInfoBean.bcr.crAmt - creditorInfoBean.ttlUseAmt}"
+							styleClass="dfinput"></h:inputText></li>
+					<li><h:outputLabel value="转让份数" /> <h:inputText
+							id="tranTtlCount" onchange="changeInputCount();" required="true"
+							requiredMessage="请输入转让份数"
+							value="#{creditorInfoBean.crt.tranTtlCount}" styleClass="dfinput"></h:inputText></li>
+					<li><h:outputLabel value="转让金额" /> <h:inputText
+							styleClass="dfinput" id="tranTtlAmt" converter="amtConverter"
+							value="#{creditorInfoBean.crt.tranTtlAmt}" readonly="true"></h:inputText></li>
+					<li><h:outputLabel value="转让开始日期" /> <h:inputText styleClass="dfinput" 
+							value="#{creditorInfoBean.crt.tranDate}" readonly="true">
+							<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"></f:convertDateTime>
+						</h:inputText></li>	
+					<li><h:outputLabel value="转让期限(天)" /> <h:inputText
+							styleClass="dfinput" value="#{creditorInfoBean.crt.tranTerm}"></h:inputText></li>
+					<li><h:outputLabel value="接手奖金" /> <h:inputText 
+							styleClass="dfinput" id="takeAmt" onchange="checkAmt()"
+							value="#{creditorInfoBean.crt.takeAmt}"></h:inputText></li>
+
+					<li><h:outputLabel value="还款期限 " /> <h:inputText
+							styleClass="dfinput"
+							value="#{creditorInfoBean.loanApplyVO.loanTerm}" readonly="true"></h:inputText></li>
+
+					<li><h:outputLabel value="最小投标金额" />
+						<h:inputText id="minTenderAmt" styleClass="dfinput" converter="amtConverter"
+							value="#{creditorInfoBean.loanApplyVO.temderCountAmt}"
+							readonly="true"></h:inputText></li>
+
+					<li><h:outputLabel value="债权转让费率(%)" /> <h:inputText converter="percentConverter"
+							value="#{creditorInfoBean.feeRate}" styleClass="dfinput"
+							readonly="true" id="feeRate"></h:inputText></li>
+					<li><h:outputLabel value="债权转让管理费" /> <h:inputText converter="amtConverter"
+							styleClass="dfinput" readonly="true" id="tranFee"></h:inputText></li>
+
+					<li><label>&nbsp;</label> <p:commandButton update="form"
+							action="#{creditorInfoBean.submitCreditorRight}"
+							styleClass="scbtn" value="债权转让"></p:commandButton></li>
+				</ul>
+
+			</h:form>
+			<br></br>
+		</div>
+		<script type="text/javascript">
+				function changeInputCount() {
+					var ttlCount = $("#form\\:tranTtlCount");
+					if (isNaN(ttlCount.val())) {
+						alert("请输入整数份数");
+						ttlCount.val(0);
+						initAmt();
+						return false;
+					}
+					//alert($("#form\\:canUseCount").val());
+					var sCount = $("#form\\:canUseCount");
+					
+					if (parseInt(sCount.val()) &lt; parseInt(ttlCount.val())) {
+						alert("输入的份数不能大于剩余份数");
+						ttlCount.val(0);
+						initAmt();
+						return;
+					}
+					if (ttlCount.val() &lt;= 0) {
+						alert("输入的份数必须大于0");
+						ttlCount.val(0);
+						initAmt();
+						return false;
+					}
+					initAmt();
+					return true;
+				}
+				
+				function initAmt(){
+					$("#form\\:tranTtlAmt").val($("#form\\:minTenderAmt").val() * $("#form\\:tranTtlCount").val());
+					$("#form\\:tranFee").val(Math.round($("#form\\:tranTtlAmt").val()* $("#form\\:feeRate").val()*100)/100);
+				}
+				function checkAmt() {
+					var s = $("#form\\:takeAmt").val();
+					var patrn = /^-?\d+\.{0,}\d{0,2}$/;
+					if (!patrn.exec(s)) {
+						alert("请输入小数位小于2位金额");
+						$("#form\\:takeAmt").val(0);
+						return false;
+					} else {
+						return true;
+					}
+				}
+			</script>
+	</ui:define>
+</ui:composition>
+</html>

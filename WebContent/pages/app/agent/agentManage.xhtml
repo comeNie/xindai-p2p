@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:fn="http://www.qfw.com/jsf/fn">
+	<ui:composition template="/templates/main.xhtml">
+		<ui:define name="body">
+			<div class="formbody">
+				<div class="formtitle">
+					<span>团队长信息管理</span>
+				</div>
+				<h:form id="form">
+					<p:growl globalOnly="true" autoUpdate="true"></p:growl>
+					<ul class="seachform">
+						<li>
+							<h:outputLabel value="用户名：" />
+							<h:inputText styleClass="scinput"
+								value="#{agentInfoBean.searchAgentInfoVO.userName}" />
+						</li>
+						<li>
+							<h:outputLabel value="团队长名称：" />
+							<h:inputText styleClass="scinput"
+								value="#{agentInfoBean.searchAgentInfoVO.agentName}" />
+						</li>
+						<li>
+							<label>
+								&nbsp;
+								<p:commandButton id="refresh" styleClass="refresh"
+									style="display: none;" action="#{agentInfoBean.refresh}"
+									update="leaderTable,:agentForm:agentTable"></p:commandButton>
+							</label>
+							<p:commandButton value="搜索" action="#{agentInfoBean.search}"
+								styleClass="scbtn" image="ui-icon ui-icon-search"
+								update="leaderTable,:agentForm:agentTable"></p:commandButton>
+						</li>
+						<li>
+							<label>
+								&nbsp;
+							</label>
+							<p:commandButton value="重置" action="#{agentInfoBean.reset}"
+								styleClass="scbtn" image="ui-icon ui-icon-search"
+								update="leaderTable"></p:commandButton>
+
+							<p:commandButton id="loadAgentsBtn" style="display: none;"
+								action="#{agentInfoBean.getAgentListByLeaderId}"
+								update=":agentForm:agentTable"></p:commandButton>
+						</li>
+					</ul>
+					<div class="tools">
+						<ul class="toolbar">
+							<li>
+								<p:commandLink id="addInfo"
+									oncomplete="showWindow('#{request.contextPath}/pages/app/agent/addLeader.jsf','添加团队长',630,400);">
+									<span><img src="#{request.contextPath}/images/t01.png" />
+									</span>添加</p:commandLink>
+							</li>
+							<li>
+								<p:commandLink id="editInfo"
+									onclick="if(!$('.ui-state-highlight').text()){alert('请选择一条记录');return false;}"
+									image="ui-icon ui-icon-pencil"
+									action="#{agentInfoBean.modifyLeader}"
+									oncomplete="showWindow('#{request.contextPath}/pages/app/agent/addLeader.jsf?operateFlag=update','修改团队长信息',630,400);">
+									<span><img src="#{request.contextPath}/images/t02.png" />
+									</span>修改
+					</p:commandLink>
+							</li>
+							<li>
+								<p:commandLink id="addAgent"
+									action="#{agentInfoBean.modifyLeader}"
+									onclick="if(!$('.ui-state-highlight').text()){alert('请选择一条记录');return false;}"
+									oncomplete="showWindow('#{request.contextPath}/pages/app/agent/addAgent.jsf?operateFlag=addAgent','添加经纪人',630,400);">
+									<span><img src="#{request.contextPath}/images/t01.png" />
+									</span>添加经纪人</p:commandLink>
+							</li>
+							<li>
+								<p:commandLink action="#{agentInfoBean.modifyLeader}"
+									onclick="if(!$('.ui-state-highlight').text()){alert('请选择一条记录');return false;}"
+									oncomplete="showWindow('#{request.contextPath}/pages/app/agent/chooseLeader.jsf','选择团队长',630,400);">
+									<span><img src="#{request.contextPath}/images/t01.png" />
+									</span>移交所有经纪人</p:commandLink>
+							</li>
+							<li>
+								<p:commandLink id="delInfo"
+									onclick="if(!$('.ui-state-highlight').text()){alert('请选择一条记录');return false;}"
+									image="ui-icon ui-icon-close" update="leaderTable"
+									action="#{agentInfoBean.changeState}">
+									<f:param name="target" value="leader" />
+									<span><img src="#{request.contextPath}/images/t03.png" />
+									</span>启用/禁用</p:commandLink>
+							</li>
+						</ul>
+					</div>
+
+					<p:dataTable rowClasses="r,odd"
+						value="#{agentInfoBean.leaderDataModel}" var="leader" rows="5"
+						paginatorAlwaysVisible="false" paginatorPosition="bottom"
+						lazy="true" emptyMessage="暂无数据" paginator="true"
+						binding="#{agentInfoBean.dataTable}" rowsPerPageTemplate="5,10"
+						id="leaderTable" selection="#{agentInfoBean.selectLeader}"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
+						<p:ajax event="rowSelect" update="agentTable"
+							onstart="$('[name=\'form:loadAgentsBtn\']').click();" />
+						<p:column selectionMode="single">
+						</p:column>
+						<p:column headerText="用户名">
+							<h:outputText value="#{leader.userName}" />
+						</p:column>
+						<p:column headerText="身份证">
+							<h:outputText value="#{leader.cardId}" />
+						</p:column>
+						<p:column headerText="手机号">
+							<h:outputText value="#{leader.tel}" />
+						</p:column>
+						<p:column headerText="团队长名称">
+							<h:outputText value="#{leader.agentName}" />
+						</p:column>
+						<p:column headerText="启用时间">
+							<h:outputText value="#{leader.enableDate}" />
+						</p:column>
+						<p:column headerText="状态">
+							<h:outputText value="#{leader.state == '0' ? '停用'  : '启用'}" />
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</div>
+			<p:dialog widgetVar="mainDialog" width="650" height="430" modal="true">
+				<f:facet name="header">
+					<h:outputText id="mainDialogTitle" value="用户管理" />
+				</f:facet>
+				<iframe id="mainFrameHidden" width="100%" height="100%"
+					name="mainFrameHidden" scrolling="no" src="" frameborder="0">
+				</iframe>
+			</p:dialog>
+			<div style="margin-bottom: 20px" class="formbody">
+				<div class="formtitle">
+					<span>经纪人信息</span>
+				</div>
+				<h:form id="agentForm">
+					<div class="tools">
+						<ul class="toolbar">
+							<li>
+								<p:commandLink action="#{agentInfoBean.selectAgent}"
+									onclick="if(!$('#agentForm .ui-state-highlight').text()){alert('请选择一条记录');return false;}"
+									oncomplete="showWindow('#{request.contextPath}/pages/app/agent/chooseLeader.jsf','选择团队长',630,400);">
+									<span><img src="#{request.contextPath}/images/t01.png" />
+									</span>移交</p:commandLink>
+							</li>
+							<li>
+								<p:commandLink
+									onclick="if(!$('#agentForm .ui-state-highlight').text()){alert('请选择一条记录');return false;}"
+									image="ui-icon ui-icon-close" update="agentTable"
+									action="#{agentInfoBean.changeState}">
+									<f:param name="target" value="agent" />
+									<span><img src="#{request.contextPath}/images/t03.png" />
+									</span>启用/禁用</p:commandLink>
+							</li>
+						</ul>
+					</div>
+					<p:dataTable rowClasses="r,odd"
+						value="#{agentInfoBean.agentDataModel}" var="agent" rows="5"
+						selection="#{agentInfoBean.selectAgent}" lazy="true"
+						emptyMessage="暂无数据" id="agentTable">
+						<p:column selectionMode="single">
+						</p:column>
+						<p:column headerText="用户名">
+							<h:outputText value="#{agent.userName}" />
+						</p:column>
+						<p:column headerText="身份证">
+							<h:outputText value="#{agent.cardId}" />
+						</p:column>
+						<p:column headerText="手机号">
+							<h:outputText value="#{agent.tel}" />
+						</p:column>
+						<p:column headerText="启用时间">
+							<h:outputText value="#{agent.enableDate}" />
+						</p:column>
+						<p:column headerText="状态">
+							<h:outputText value="#{agent.state == '0' ? '停用'  : '启用'}" />
+						</p:column>
+
+					</p:dataTable>
+				</h:form>
+			</div>
+
+			<script>
+				$("input[name='form:leaderTable_selection_radio']").change(function(){
+					//$("[name='form:loadAgentsBtn']").click();
+				})
+			</script>
+		</ui:define>
+	</ui:composition>
+</html>

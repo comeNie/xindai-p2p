@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:fn="http://www.qfw.com/jsf/fn">
+	<ui:composition template="/templates/main.xhtml">
+		<ui:define name="body">
+			<script type="text/javascript">
+				$(document).ready(function(e) {
+					$(".select1").uedSelect({
+						width : 150
+					});
+				});
+			</script>
+			<div class="place">
+				<span>位置：</span>
+				<ul class="placeul">
+					<li><a href="#">我的工作台</a></li>
+				</ul>
+			</div>
+			<div class="formtitle">
+				<span>待办事宜</span>
+			</div>
+			<div class="rightinfo">
+				<h:form id="dataTable">
+					<p:growl globalOnly="true" autoUpdate="true"></p:growl>
+					<p:dataTable value="#{myTaskBean.taskModel}" var="task"
+						emptyMessage="暂无信息" rows="10" binding="#{myTaskBean.dataTable}"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						paginatorAlwaysVisible="false" paginatorPosition="bottom"
+						lazy="true" paginator="true" rowsPerPageTemplate="5">
+						<p:column headerText="任务名称">
+							<h:outputText value="#{task.txName}" />
+						</p:column>
+						<p:column headerText="申请人">
+							<h:outputText value="#{task.applyUserName}" />
+						</p:column>
+						<p:column headerText="提交时间">
+							<h:outputText value="#{task.applyTime}">
+								<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"></f:convertDateTime>
+							</h:outputText>
+						</p:column>
+						<p:column headerText="最近处理时间">
+							<h:outputText value="#{task.processDate}">
+								<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"></f:convertDateTime>
+							</h:outputText>
+						</p:column>
+						<p:column headerText="当前环节">
+							<h:outputText value="#{task.curTaskName}" />
+						</p:column>
+						<p:column headerText="机构">
+							<h:outputText value="#{task.deptName}" />
+						</p:column>
+						<p:column headerText="操作员">
+							<h:outputText value="#{task.curProcessUser}" />
+						</p:column>
+						<p:column headerText="任务描述">
+							<h:outputText value="#{task.remark}" />
+						</p:column>
+						<p:column headerText="操作">
+							<a href="#{request.contextPath}#{task.urlPath}?taskid=#{task.taskId}&amp;workItemId=#{task.executionId}">详细信息</a>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</div>
+			<div class="formtitle">
+				<span>已办事宜</span>
+			</div>
+			<div class="rightinfo">
+				<h:form id="dataTableHis">
+					<p:growl globalOnly="true" autoUpdate="true"></p:growl>
+					<p:dataTable value="#{myHistoryTaskBean.taskModel}" var="task" emptyMessage="暂无信息" rows="10"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						paginatorAlwaysVisible="false" paginatorPosition="bottom" binding="#{myHistoryTaskBean.dataTable}"
+						lazy="true" paginator="true" rowsPerPageTemplate="5" >
+						<p:column headerText="任务名称">
+								<h:outputText value="#{task.txName}" />
+							</p:column>
+							<p:column headerText="申请人">
+								<h:outputText value="#{task.applyUserName}" />
+							</p:column>
+							<p:column headerText="提交时间">
+								<h:outputText value="#{task.applyTime}">
+									<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"></f:convertDateTime>
+								</h:outputText>
+							</p:column>
+							<p:column headerText="最近处理时间">
+								<h:outputText value="#{task.processDate}">
+									<f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"></f:convertDateTime>
+								</h:outputText>
+							</p:column>
+							<p:column headerText="当前环节">
+								<h:outputText value="#{task.curTaskName}" />
+							</p:column>
+							<p:column headerText="机构">
+								<h:outputText value="#{task.deptName}" />
+							</p:column>
+							<p:column headerText="操作员">
+								<h:outputText value="#{task.curProcessUser}" />
+							</p:column>
+							<p:column headerText="任务描述">
+								<h:outputText value="#{task.remark}" />
+							</p:column>
+							<p:column headerText="操作">
+								<a href="#{request.contextPath}#{task.urlPath == '' ? '/pages/jbpm/endFolw.jsf' : task.urlPath}?taskid=#{task.taskId}&amp;workItemId=#{task.executionId}&amp;his=true">详细信息</a>
+							</p:column>
+					</p:dataTable>
+				</h:form>
+			</div>
+		</ui:define>
+	</ui:composition>
+</html>

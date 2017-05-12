@@ -1,0 +1,60 @@
+﻿<html>
+<head><title>支付</title></head>
+
+<body onload="E_FORM.submit();">
+
+<form action="https://pay.ecpss.cn/sslpayment" method="post" name="E_FORM" >
+  <table>
+    <tr>
+      <td></td>
+      <td><input type="hidden" name="MerNo" value="19464"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type="text" name="BillNo" value="T00100d0101"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type="text" name="Amount" value="10.00"></td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td><input type="text" name="ReturnURL" value="http://qiangfanwan.f3322.org:8080/p2p/paymentReturn.do" ></td>
+    </tr>
+    
+	 <tr>
+      <td></td>
+      <td><input type="text" name="AdviceURL" value="http://qiangfanwan.f3322.org:8080/p2p/paymentReturn.do" ></td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td><input type="text" name="SignInfo" value="17A4B1CEAFAE86602B216DA9B5D5EEE4"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type="text" name="Remark" value="可乐2L"></td>
+    </tr>
+	 <tr>
+      <td></td>
+      <td><input type="text" name="defaultBankNumber" value="CCB"></td>
+    </tr>
+	 <tr>
+      <td></td>
+      <td><input type="text" name="orderTime" value="20140414100000"/></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input type="text" name="products" value="可乐2L"/><td>
+    </tr>
+  </table>
+  <p align="center">
+    <input type="submit" name="b1"  value="Payment">
+  </p>
+</form>
+
+
+
+</body>
+</html>

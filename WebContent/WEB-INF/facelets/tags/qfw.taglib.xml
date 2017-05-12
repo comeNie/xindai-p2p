@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!DOCTYPE facelet-taglib PUBLIC "-//Sun Microsystems, Inc.//DTD Facelet Taglib 1.0//EN"
+                                "facelet-taglib_1_0.dtd">
+<facelet-taglib>
+ <namespace>http://www.qingfanwan.com/jsf</namespace>
+ <tag>
+  <tag-name>selectUser</tag-name>
+  <source>selectUser.xhtml</source>
+ </tag>
+ <tag>
+  <tag-name>selectPartyUser</tag-name>
+  <source>selectPartyUser.xhtml</source>
+ </tag>
+</facelet-taglib>

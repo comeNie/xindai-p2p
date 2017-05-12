@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+	<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">批任务管理</a></li>
+				<li><a href="#">批任务查看</a></li>
+			</ul>
+		</div>
+		<div class="rightinfo">
+		
+		<h:form id="dataTable">
+			<p:growl globalOnly="true" autoUpdate="true"></p:growl>
+			<p:treeTable value="#{batchMainManageBean.jobRoot}" var="job">
+				<f:facet name="header">
+					<div style="width: 100%; text-align: left; padding: 0; margin: 0px;">
+						<p:commandButton value="启动框架" image="ui-icon ui-icon-search" action="#{batchMainManageBean.mainStart}">
+						</p:commandButton>
+					</div>
+				</f:facet>
+				<p:column>
+					<f:facet name="header">
+							任务id
+					</f:facet>
+					<h:outputText value="#{job.jobId}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+							任务名称
+					</f:facet>
+					<h:outputText value="#{job.jobAliasName}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+							启动时间
+					</f:facet>
+					<h:outputText value="#{job.sedulerdate}"
+						rendered="#{job.parentJobId == '0'}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+							操作
+					</f:facet>
+					<p:commandLink value="手动启动" onclick="if(!confirm('是否确定启动任务，已经执行过的任务请在任务实例查看下重新启动。')){return false;}" action="#{batchMainManageBean.startJob}" rendered="#{job.parentJobId == '0'}">
+						<f:param name="job_id" value="#{job.jobId}"></f:param>
+					</p:commandLink>
+				</p:column>
+
+			</p:treeTable>
+		</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+
+</html>

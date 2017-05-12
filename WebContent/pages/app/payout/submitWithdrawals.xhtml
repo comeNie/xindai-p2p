@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:q="http://www.qfw.com/jsf/ui" xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+		<div class="formbody">
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">资金管理</a></li>
+				<li><a href="#">提现申请</a></li>
+			</ul>
+		</div>
+			<div class="formtitle">
+				<span>提现信息</span>
+			</div>
+			<h:form id="form">
+				<h:inputHidden id="his" value="#{submitWithdrawalsBean.his}"/>
+				<ul class="imglist">
+					<li><h:inputTextarea>
+							<span><img src="images/img01.png" /></span>
+							<h2>招商银行</h2>
+							<h2>4585</h2>
+							<h2>金榜支行</h2>
+						</h:inputTextarea></li>
+					<li><h:inputTextarea>
+							<span><img src="images/img01.png" /></span>
+							<h2>招商银行</h2>
+							<h2>4591</h2>
+							<h2>金榜支行</h2>
+						</h:inputTextarea></li>
+					<li><h:inputTextarea>
+							<span><img src="images/img01.png" /></span>
+							<h2>招商银行</h2>
+							<h2>2222</h2>
+							<h2>金榜支行</h2>
+						</h:inputTextarea></li>
+				</ul>
+				<ul class="forminfo">
+					<li>
+						<h:selectOneRadio value="#{submitWithdrawalsBean.accountId}">
+							<f:selectItems value="#{submitWithdrawalsBean.accountList}"></f:selectItems>
+						</h:selectOneRadio>
+					</li>
+					<li><h:outputLabel value="账户余额" /> <h:inputText readonly="true"
+							value="#{submitWithdrawalsBean.infoVO.accountBalAmt}"
+							class="dfinput" /></li>
+					<li><h:outputLabel value="可提现金额" /> <h:inputText readonly="true"
+							value="#{submitWithdrawalsBean.infoVO.usableBalAmt}"
+							class="dfinput" /></li>
+					<li><h:outputLabel value="提现金额" /> <h:inputText readonly="#{submitWithdrawalsBean.workItemId != null}"
+							value="#{submitWithdrawalsBean.infoVO.dealAmt}" class="dfinput" />
+					</li>
+					<li><h:outputLabel value="费用" /> <h:inputText readonly="#{submitWithdrawalsBean.workItemId != null}"
+							value="#{submitWithdrawalsBean.infoVO.feeAmt}" class="dfinput" />
+					</li>
+					<q:auditOpinion showInputAudit="false"  rendered="#{submitWithdrawalsBean.workItemId != null}"
+					 auditOpinionList="#{submitWithdrawalsBean.auditOpinionList}" comment="#{submitWithdrawalsBean.infoVO.comment}"></q:auditOpinion>
+				</ul>
+				<p:growl autoUpdate="true"></p:growl>
+				<ul class="forminfo" id="submitButton">
+					<li><h:commandButton value="提交" styleClass="scbtn"  rendered="#{submitWithdrawalsBean.workItemId == null}"
+						action="#{submitWithdrawalsBean.addWithdraWals}" onclick="statusDialog.show();" /></li>
+					<li><h:commandButton value="提交" styleClass="scbtn"  rendered="#{submitWithdrawalsBean.workItemId != null}"
+						action="#{submitWithdrawalsBean.submit}" onclick="statusDialog.show();" /></li>
+					<li><h:commandButton value="撤销" styleClass="scbtn" rendered="#{submitWithdrawalsBean.workItemId != null}"
+						action="#{submitWithdrawalsBean.reject}" onclick="getHtml();statusDialog.show();" /></li>
+				</ul>
+				<h:inputHidden id="hiddenHtml" value="#{submitWithdrawalsBean.html}"></h:inputHidden>
+			</h:form>
+		</div>
+		
+		<script type="text/javascript">
+			$(document).ready(function(e) {
+				var his = $("#form\\:his").val();
+				if(his=="true"){
+					$("#submitButton").hide();
+				}else{
+					$("#submitButton").show();
+				}
+			});
+			function getHtml(){
+				var html = $("html").clone();
+				html.find("#submitButton").remove();
+				$("#form\\:hiddenHtml").val(html.html());
+			}
+		</script>
+	</ui:define>
+</ui:composition>
+
+</html>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="loan_apply" xmlns="http://jbpm.org/4.4/jpdl">
+	<start g="224,17,48,48" name="start">
+		<transition to="客户经理岗"/>
+	</start>
+	<task assignee="#{applyUser}" g="200,100,92,52" name="客户经理岗">
+		<transition g="126,125:29,-17" name="撤销" to="cancel"/>
+		<transition g="-31,-14" name="提交" to="风控岗审核"/>
+	</task>
+	<task assignee="#{auditUser}" g="200,200,92,52" name="风控岗审核">
+		<transition g="367,227;367,125:-28,-8" name="退回" to="客户经理岗"/>
+		<transition g="-32,-12" name="通过" to="合规岗审核"/>
+	</task>
+	<task assignee="#{auditUser}" g="203,291,92,52" name="合规岗审核">
+		<transition g="366,317;367,226:-28,-11" name="退回" to="风控岗审核"/>
+		<transition to="end"/>
+	</task>
+	<end g="226,379,48,48" name="end"/>
+	<end-cancel g="105,265,48,48" name="cancel"/>
+</process>

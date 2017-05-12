@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:fn="http://www.qfw.com/jsf/fn">
+<ui:composition template="/templates/main.xhtml">
+	<ui:define name="body">
+	
+		<div class="place">
+			<span>位置：</span>
+			<ul class="placeul">
+				<li><a href="#">PM我的工作台</a></li>
+				<li><a href="#">理财产品管理</a></li>
+			</ul>
+		</div>
+		
+		<div class="rightinfo">
+			<h:form id="search">
+				<ul class="seachform">
+					<li><h:outputLabel value="理财类型" /> <h:inputText
+							styleClass="scinput" value="#{financialProductBean.searchFinancialProductVO.financialProductCd}" /></li>
+					<li><h:outputLabel value="标题" /> <h:inputText
+							styleClass="scinput" value="#{financialProductBean.searchFinancialProductVO.title}" /></li>
+					<li><label>&nbsp;</label> <p:commandButton value="搜索"
+							action="#{financialProductBean.searchFinancialProduct}" styleClass="scbtn"
+							image="ui-icon ui-icon-search" update="dataTable"></p:commandButton></li>
+				</ul>
+				
+				<p:growl globalOnly="true" autoUpdate="true"></p:growl>
+				<div class="tools">
+					<ul class="toolbar">
+						<li><p:commandLink id="addInfo" oncomplete="showWindow('#{request.contextPath}/test/financialProductAdd.jsf?operateFlag=add','理财产品新增');" action="#{financialProductBean.operate}">
+						<f:param name="operateFlag" value="add" /><span><img src="#{request.contextPath}/images/t01.png" /></span>添加</p:commandLink></li>
+						<li><p:commandLink id="editInfo" oncomplete="showWindow('#{request.contextPath}/test/financialProductAdd.jsf?operateFlag=edit','理财产品修改');" action="#{financialProductBean.operate}" onclick="if(!$('.ui-state-highlight').text()){alert('请选择一条记录');return false;}">
+						<f:param name="operateFlag" value="edit" /><span><img src="#{request.contextPath}/images/t02.png" /></span>修改</p:commandLink></li>
+						<li><p:commandLink id="delInfo" update="dataTable" action="#{productInfoManageBean.operate}" onclick="if(!$('.ui-state-highlight').text()){alert('请选择一条记录');return false;}else{if(!confirm('是否确定删除？')){return false;}}">
+						<f:param name="operateFlag" value="delete" /><span><img src="#{request.contextPath}/images/t03.png" /></span>删除</p:commandLink></li>
+						<li><p:commandLink id="viewInfo" oncomplete="showWindow('#{request.contextPath}/test/financialProductAdd.jsf?operateFlag=view','理财产品查看');" action="#{financialProductBean.operate}" onclick="if(!$('.ui-state-highlight').text()){alert('请选择一条记录');return false;}">
+						<f:param name="operateFlag" value="view" /><span><img src="#{request.contextPath}/images/t06.png" /></span>查看</p:commandLink></li>
+					</ul>
+				</div>
+				
+				<p:dataTable value="#{financialProductBean.financialProductList}" var="product"
+					rows="10" paginatorAlwaysVisible="false" id="dataTable"
+					paginatorPosition="bottom" lazy="true" emptyMessage="暂无数据"
+					paginator="true" rowsPerPageTemplate="5,10,15,20"  
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					selection="#{financialProductBean.selectProduct}">
+					<p:column selectionMode="single" />
+					<p:column headerText="理财类型">
+						<h:outputText value="#{product.financialProductCd}" />
+					</p:column>
+					<p:column headerText="理财产品标题">
+						<h:outputText value="#{product.title}" />
+					</p:column>
+					<p:column headerText="理财产品描述">
+						<h:outputText value="#{product.financialProductDesc}" />
+					</p:column>
+					<p:column headerText="借款者">
+						<h:outputText value="#{product.applyUserId}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+		
+		<p:dialog widgetVar="mainDialog" width="650" height="430">
+			<f:facet name="header">
+				<h:outputText id="mainDialogTitle" value="理财产品管理" />
+			</f:facet>
+			<iframe id="mainFrameHidden" width="100%" height="100%"
+				name="mainFrameHidden" scrolling="no" src="" frameborder="0">
+			</iframe>
+		</p:dialog>
+		
+	</ui:define>
+</ui:composition>
+
+</html>
